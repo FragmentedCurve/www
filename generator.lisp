@@ -61,20 +61,19 @@ is replaced with replacement."
 	  (loop for article in *articles* collect
 		(create-article article :tiny t))))
 
-; produce index.html
-(defun generate-file-index()
-  (save-file "index.html"
-	     (generate-layout (generate-mainpage))))
-
-; produce html files for articles
-(defun generate-file-article(article)
-  (save-file (format nil "article-~d.html" (getf article :id))
-	     (generate-layout (create-article article :tiny nil))))
 
 ; ENGINE START !
 (defun generate-site()
-  (generate-file-index)
-  (dolist (article *articles*) (generate-file-article article))
+
+  ; produce index.html
+  (generate "index.html"
+	    (generate-mainpage))
+
+  ; produce each article file
+  (dolist (article *articles*)
+    (generate (format nil "article-~d.html" (getf article :id))
+	      (create-article article :tiny nil)))
+
   ;;(generate-file-rss)
   )
 
