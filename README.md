@@ -1,18 +1,14 @@
 # Introduction
 
- 
-This blog is generated using cl-yag. It stands for Common Lisp Yet Another Generator and obviously it's written in Common Lisp.
+cl-yag stands for Common Lisp Yet Another Generator and obviously it's written in Common Lisp.
 
 It has only one dependency : a common lisp interpreter, I recommend both sbcl or clisp which are free, open-source and multi-platform.
 
  
 # The hierarchy
 
+Here are the files and folder of cl-yag :
  
-Here are the files and folder you can find in your project folder :
-
- 
-
 + **Makefile** : exists to simplify your life (updating, cleaning) 
 + **generator.lisp** : contains all the code of the generator 
 + **templates/** : contains .tpl files which are used as template for the html structure 
@@ -20,7 +16,7 @@ Here are the files and folder you can find in your project folder :
 + **data/** : contains what will make the content of your website different from another website (or not) 
   + **articles.lisp** : contains metadata about the website and the list of the articles with their id/title/date/(author/short description) (aren't mandatory) 
   + **${id}.txt** : contains the html text of the article ${id} that will be used when displayed 
-+ **output** : this is where the websites goes when your run *make*, and where it's cleaned when you run *make clean*; 
++ **output** : this is where the websites goes when your run *make*, and where it's cleaned when you run *make clean*; You can make it a symbolic link to the web server folder.
 
  
 # How to add an article
@@ -34,18 +30,37 @@ The _:short_ field is used on the homepage. It it is defined, this is the text t
 
 The _:author_ field is used to display who wrote the article. You can omitt it, the generator will take the name from the *config* variable
 
+# How to hack it
+
+I tried to make it "hacking friendly" so it's very extensible. 
+
+## Include a template page in the layout
+
+Here is an example code if you want to add something like a panel on the layout.
+
++ Add a string for the replacement to occure, like %%Panel%% in **template/layout.tpl** (because we want the panel on every page)
++ In **generator.lisp** modify the function *generate-layout* to add "**(template "%%Panel%%" (slurp-file "template/panel.tpl"))**" after one template function call
++ Create **template/panel.tpl** with the html
+
+## Add a new specific page
+
+You may want to have some dedicated page for some reason, reusing the website layout, which is not the index nor an article.
+
+In **generate-site** function we can load a file, apply the template and save it in the output. It may look like this
+
+    (generate "somepage.html" (slurp-file "data/mypage.html"))
+  
+This will produce the file somepage.html in the output folder
+
  
 # How to use markdown for articles
 
  
 Here is a tip to produce html files from markdown using emacs
 
- 
-
-
-1. edit the article file with emacs using ham-mode (which is html) 
+1. edit the article file with emacs using ham-mode which will convert the html to markdown
 2. write your text with markdown syntax 
-3. save your file (ham-mode will convert it to html inside) 
-4. *make* to update your site 
+3. save your file, ham-mode will convert it back to html
+4. run *make* to update your site
 
-The generator do not do it natively because I do not want it to have dependencies. You can use what you want to produces the html files.
+The generator don't do it natively because I didn't want it to have dependencies. You can use what you want to produces the html files.
