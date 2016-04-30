@@ -42,6 +42,8 @@ Here is an example code if you want to add something like a panel on the layout.
 + In **generator.lisp** modify the function *generate-layout* to add "**(template "%%Panel%%" (slurp-file "template/panel.tpl"))**" after one template function call
 + Create **template/panel.tpl** with the html
 
+(note : you can also directly add your text inside the layout template file instead of including another file)
+
 ## Add a new specific page
 
 You may want to have some dedicated page for some reason, reusing the website layout, which is not the index nor an article.
