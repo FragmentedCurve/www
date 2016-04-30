@@ -39,7 +39,7 @@ I tried to make it "hacking friendly" so it's very extensible.
 Here is an example code if you want to add something like a panel on the layout.
 
 + Add a string for the replacement to occure, like %%Panel%% in **template/layout.tpl** (because we want the panel on every page)
-+ In **generator.lisp** modify the function *generate-layout* to add "**(template "%%Panel%%" (slurp-file "template/panel.tpl"))**" after one template function call
++ In **generator.lisp** modify the function *generate-layout* to add "**(template "%%Panel%%" (load-file "template/panel.tpl"))**" after one template function call
 + Create **template/panel.tpl** with the html
 
 (note : you can also directly add your text inside the layout template file instead of including another file)
@@ -50,7 +50,7 @@ You may want to have some dedicated page for some reason, reusing the website la
 
 In **generate-site** function we can load a file, apply the template and save it in the output. It may look like this
 
-    (generate "somepage.html" (slurp-file "data/mypage.html"))
+    (generate "somepage.html" (load-file "data/mypage.html"))
   
 This will produce the file somepage.html in the output folder
 
@@ -66,3 +66,7 @@ Here is a tip to produce html files from markdown using emacs
 4. run *make* to update your site
 
 The generator don't do it natively because I didn't want it to have dependencies. You can use what you want to produces the html files.
+
+# Known limitation
+
+The application will crash if you use a single "**~**" caracter inside one data structure in **articles.lisp** files. This is due to the format function trying to interpret the ~ symbol while we just one a ~ symbol. This symbol in the others files are automatically replaced by ~~ which produce a single ~. So, if you want to have a "~" as a title/url/author/description/short/date you have to double it. It may be interestind to sanitize it in the tool maybe.

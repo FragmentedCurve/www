@@ -13,12 +13,16 @@
 						:end (or pos (length string)))
 			       when pos do (write-string replacement out)
 			       while pos)))
-;; load a file and return it as a string
-(defun slurp-file(path)
-  (with-open-file (stream path)
-		  (let ((data (make-string (file-length stream))))
-		    (read-sequence data stream)
-		    data)))
+
+;; load a file as a string
+;; we escape ~ to avoid failures with format
+(defun load-file(path)
+  (replace-all 
+   (with-open-file (stream path)
+		   (let ((data (make-string (file-length stream))))
+		     (read-sequence data stream)
+		     data))
+   "~" "~~"))
 
 ;; save a string in a file
 (defun save-file(path data)
@@ -33,54 +37,84 @@
 ;; simplify the declaration of a new page type
 (defmacro prepare(template &body code)
   `(progn
-     (let ((output (slurp-file ,template)))
+     (let ((output (load-file ,template)))
        ,@code
        output)))
+
+;; simplify the file saving by using the layout
+(defmacro generate(name &body data)
+  `(progn
+     (save-file ,name
+		(generate-layout ,@data))))
+
 
 ;; generates the html of one only article
 ;; this is called in a loop to produce the homepage
 (defun create-article(article &optional &key (tiny t))
   (prepare "template/article.tpl"
-	   (template "%%Author%%" (if (member :author article) (getf article :author) (getf *config* :webmaster)))
+	   (template "%%Author%%" (getf article :author (getf *config* :webmaster)))
 	   (template "%%Date%%" (getf article :date))
 	   (template "%%Title%%" (getf article :title))
 	   (template "%%Id%%" (getf article :id))
 	   (template "%%Text%%" (if (and tiny (member :tiny article))
-				    (getf article :tiny) (slurp-file (format nil "data/~d.txt" (getf article :id)))))))
+				    (getf article :tiny) (load-file (format nil "data/~d.txt" (getf article :id)))))))
 
 ;; return a html string
 ;; produce the code of a whole page with title+layout with the parameter as the content
 (defun generate-layout(body)
-  (let ((output (slurp-file "template/layout.tpl")))
-    (template "%%Title%%" (getf *config* :title))
-    (template "%%Body%%" body)
-    output))
+  (prepare "template/layout.tpl"
+	   (template "%%Title%%" (getf *config* :title))
+	   (template "%%Body%%" body)
+	   output))
 
 
 ;; Homepage generation
-;; generate each article and concatenate the whole
 (defun generate-mainpage()
+  (prepare "template/layout.tpl"
+	   (template "%%Body%%" 
+		     (format nil "~{~d~}"
+			     (loop for article in *articles* collect
+				   (create-article article :tiny t))))
+	   (template "%%Title%%" (getf *config* :title))))
+
+
+;; Generate the items for the xml
+(defun generate-rss-item()
   (format nil "~{~d~}"
 	  (loop for article in *articles* collect
-		(create-article article :tiny t))))
+		(prepare "template/rss-item.tpl"
+			 (template "%%Title%%" (getf article :title))
+			 (template "%%Description%%" (getf article :short ""))
+			 (template "%%Url%%"
+				   (format nil "~d/article-~d.html"
+					   (getf *config* :url)
+					   (getf article :id)))))))
+  
+;; Generate the rss xml data
+(defun generate-rss()
+  (prepare "template/rss.tpl"
+	   (template "%%Description%%" (getf *config* :description))
+	   (template "%%Title%%" (getf *config* :title))
+	   (template "%%Url%%" (getf *config* :url))
+	   (template "%%Items%%" (generate-rss-item))))
 
 
 ;; ENGINE START !
 ;; This is function called when running the tool
 (defun generate-site()
 
-  ; produce index.html
-  (generate "index.html"
-	    (generate-mainpage))
-
-  ; produce each article file
+  ;; produce index.html
+  (save-file "index.html"
+	     (generate-mainpage))
+  
+  ;; produce each article file
   (dolist (article *articles*)
     (generate (format nil "article-~d.html" (getf article :id))
 	      (create-article article :tiny nil)))
-
+  
   ;;(generate-file-rss)
-  ;;not done yet
+  (save-file "rss.xml"
+	     (generate-rss))
   )
-
 
 (generate-site)
