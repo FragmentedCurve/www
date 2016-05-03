@@ -30,7 +30,7 @@
 ;; we have to remove the quotes
 ;; when using collect in a loop
 (defun strip-quotes(input)
-  (format nil "~{~d~}" input))
+  (format nil "~{~d~%~}" input))
 
 ;; load a file as a string
 ;; we escape ~ to avoid failures with format
