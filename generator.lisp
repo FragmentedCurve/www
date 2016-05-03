@@ -27,20 +27,19 @@
 (defun split-str (string &optional (separator " "))
   (split-str-1 string separator))
 
-;; load a file as a string
-;; we escape ~ to avoid failures with format
-(defun load-file(path)
-  (replace-all 
-   (with-open-file (stream path)
-		   (let ((data (make-string (file-length stream))))
-		     (read-sequence data stream)
-		     data))
-   "~" "~~"))
-
 ;; we have to remove the quotes
 ;; when using collect in a loop
 (defun strip-quotes(input)
   (format nil "~{~d~}" input))
+
+;; load a file as a string
+;; we escape ~ to avoid failures with format
+(defun load-file(path)
+  (replace-all
+   (strip-quotes
+    (with-open-file (stream path)
+     (loop for line = (read-line stream nil) while line collect line)))
+   "~" "~~"))
 
 ;; save a string in a file
 (defun save-file(path data)
@@ -62,8 +61,7 @@
 ;; simplify the file saving by using the layout
 (defmacro generate(name &body data)
   `(progn
-     (save-file ,name
-		(generate-layout ,@data))))
+     (save-file ,name (generate-layout ,@data))))
 
 ;; generate the list of tags
 (defun articles-by-tag()
