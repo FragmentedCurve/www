@@ -16,8 +16,6 @@
 
 ;; common-lisp don't have a split string function natively
 ;; thanks https://gist.github.com/siguremon/1174988
-(defun split-str (string &optional (separator " "))
-  (split-str-1 string separator))
 (defun split-str-1 (string &optional (separator " ") (r nil))
   (let ((n (position separator string
 		     :from-end t
@@ -26,7 +24,8 @@
     (if n
 	(split-str-1 (subseq string 0 n) separator (cons (subseq string (1+ n)) r))
             (cons string r))))
-
+(defun split-str (string &optional (separator " "))
+  (split-str-1 string separator))
 
 ;; load a file as a string
 ;; we escape ~ to avoid failures with format
@@ -158,5 +157,4 @@
   )
 
 (generate-site)
-
-
+(exit)
