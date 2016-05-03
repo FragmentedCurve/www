@@ -14,6 +14,20 @@
 			       when pos do (write-string replacement out)
 			       while pos)))
 
+;; common-lisp don't have a split string function natively
+;; thanks https://gist.github.com/siguremon/1174988
+(defun split-str (string &optional (separator " "))
+  (split-str-1 string separator))
+(defun split-str-1 (string &optional (separator " ") (r nil))
+  (let ((n (position separator string
+		     :from-end t
+		     :test #'(lambda (x y)
+			       (find y x :test #'string=)))))
+    (if n
+	(split-str-1 (subseq string 0 n) separator (cons (subseq string (1+ n)) r))
+            (cons string r))))
+
+
 ;; load a file as a string
 ;; we escape ~ to avoid failures with format
 (defun load-file(path)
@@ -47,6 +61,21 @@
      (save-file ,name
 		(generate-layout ,@data))))
 
+;; generate the list of tags
+(defun the-tags()
+  (let ((tag-list))
+    (loop for article in *articles* do
+	  (if (getf article :tag nil) ;; we don't want an error if no tag
+	      (loop for tag in (split-str (getf article :tag)) do ;; for each word in tag keyword
+		    (setf (getf tag-list (intern tag "KEYWORD")) ;; we create the keyword is inexistent and add ID to :value
+			  (list
+			   :name tag
+			   :value (push (getf article :id) (getf (getf tag-list (intern tag "KEYWORD")) :value)))))))
+    (loop for i from 1 to (length tag-list) by 2 collect ;; removing the keywords
+	  (nth i tag-list))))
+    
+    
+
 
 ;; generates the html of one only article
 ;; this is called in a loop to produce the homepage
@@ -64,18 +93,28 @@
 (defun generate-layout(body)
   (prepare "template/layout.tpl"
 	   (template "%%Title%%" (getf *config* :title))
+	   (template "%%Tags%%"
+		     (format nil "~{~d~}" (loop for tag in (the-tags) collect
+						(prepare "template/one-tag.tpl"
+							 (template "%%Name%%" (getf tag :name))))))
 	   (template "%%Body%%" body)
 	   output))
 
 
-;; Homepage generation
+;; html generation of index homepage
 (defun generate-semi-mainpage()
   (format nil "~{~d~}"
 	  (loop for article in *articles* collect
 		(create-article article :tiny t))))
 
+;; html generation of a tag homepage
+(defun generate-tag-mainpage(articles-in-tag)
+  (format nil "~{~d~}" 
+	  (loop for article in *articles* 
+		when (member (getf article :id) articles-in-tag :test #'equal)
+		collect (create-article article :tiny t))))
 
-;; Generate the items for the xml
+;; xml generation of the items for the rss
 (defun generate-rss-item()
   (format nil "~{~d~}"
 	  (loop for article in *articles* collect
@@ -107,9 +146,17 @@
   (dolist (article *articles*)
     (generate (format nil "article-~d.html" (getf article :id))
 	      (create-article article :tiny nil)))
+
+  ;; produce index file for each tag
+  (loop for tag in (the-tags) do
+	(generate (format nil"tag-~d.html" (getf tag :NAME))
+		  (generate-tag-mainpage (getf tag :VALUE))))
   
   ;;(generate-file-rss)
   (save-file "rss.xml" (generate-rss))
+  
   )
 
 (generate-site)
+
+

@@ -9,6 +9,7 @@
 
     <div id="top">
       <a href="index.html">Home</a> <a href="rss.xml">Rss</a>
+      <p>Tags : %%Tags%%</p>
     </div>
 
     <div id="content">

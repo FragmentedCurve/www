@@ -18,7 +18,7 @@
 ;; :tiny can be omitted and will be replaced by the full article text
 (defvar *articles*
   (list
-   (list :id "2" :date "30 April 2016" :title "Another message" :short "New version available")   
-   (list :id "1" :date "29 April 2016" :title "My first message" :short "This is my first message" :author "Solène")
+   (list :id "2" :date "30 April 2016" :tag "lisp" :title "Another message" :short "New version available")   
+   (list :id "1" :date "29 April 2016":tag "pony code" :title "My first message" :short "This is my first message" :author "Solène")
    ))
 
