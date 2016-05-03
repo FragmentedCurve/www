@@ -37,6 +37,11 @@
 		     data))
    "~" "~~"))
 
+;; we have to remove the quotes
+;; when using collect in a loop
+(defun strip-quotes(input)
+  (format nil "~{~d~}" input))
+
 ;; save a string in a file
 (defun save-file(path data)
   (with-open-file (stream (concatenate 'string "output/" path) :direction :output :if-exists :supersede)
@@ -61,7 +66,7 @@
 		(generate-layout ,@data))))
 
 ;; generate the list of tags
-(defun the-tags()
+(defun articles-by-tag()
   (let ((tag-list))
     (loop for article in *articles* do
 	  (if (getf article :tag nil) ;; we don't want an error if no tag
@@ -73,8 +78,21 @@
     (loop for i from 1 to (length tag-list) by 2 collect ;; removing the keywords
 	  (nth i tag-list))))
     
-    
+;; generates the html of the list of tags for an article
+(defun get-tag-list-article(&optional article)
+  (strip-quotes
+   (mapcar #'(lambda (item)
+	       (prepare "template/one-tag.tpl" (template "%%Name%%" item)))
+	   (split-str (getf article :tag)))))
 
+;; generates the html of the whole list of tags
+(defun get-tag-list()
+  (strip-quotes
+   (mapcar #'(lambda (item)
+	       (prepare "template/one-tag.tpl"
+			(template "%%Name%%" (getf item :name))))
+	   (articles-by-tag))))
+  
 
 ;; generates the html of one only article
 ;; this is called in a loop to produce the homepage
@@ -84,6 +102,7 @@
 	   (template "%%Date%%" (getf article :date))
 	   (template "%%Title%%" (getf article :title))
 	   (template "%%Id%%" (getf article :id))
+	   (template "%%Tags%%" (get-tag-list-article article))
 	   (template "%%Text%%" (if (and tiny (member :tiny article))
 				    (getf article :tiny) (load-file (format nil "data/~d.txt" (getf article :id)))))))
 
@@ -92,38 +111,35 @@
 (defun generate-layout(body)
   (prepare "template/layout.tpl"
 	   (template "%%Title%%" (getf *config* :title))
-	   (template "%%Tags%%"
-		     (format nil "~{~d~}" (loop for tag in (the-tags) collect
-						(prepare "template/one-tag.tpl"
-							 (template "%%Name%%" (getf tag :name))))))
+	   (template "%%Tags%%" (get-tag-list))
 	   (template "%%Body%%" body)
 	   output))
 
 
 ;; html generation of index homepage
 (defun generate-semi-mainpage()
-  (format nil "~{~d~}"
-	  (loop for article in *articles* collect
-		(create-article article :tiny t))))
+  (strip-quotes
+   (loop for article in *articles* collect
+	 (create-article article :tiny t))))
 
 ;; html generation of a tag homepage
 (defun generate-tag-mainpage(articles-in-tag)
-  (format nil "~{~d~}" 
-	  (loop for article in *articles* 
-		when (member (getf article :id) articles-in-tag :test #'equal)
-		collect (create-article article :tiny t))))
+  (strip-quotes
+   (loop for article in *articles* 
+	 when (member (getf article :id) articles-in-tag :test #'equal)
+	 collect (create-article article :tiny t))))
 
 ;; xml generation of the items for the rss
 (defun generate-rss-item()
-  (format nil "~{~d~}"
-	  (loop for article in *articles* collect
-		(prepare "template/rss-item.tpl"
-			 (template "%%Title%%" (getf article :title))
-			 (template "%%Description%%" (getf article :short ""))
-			 (template "%%Url%%"
-				   (format nil "~d/article-~d.html"
-					   (getf *config* :url)
-					   (getf article :id)))))))
+  (strip-quotes
+   (loop for article in *articles* collect
+	 (prepare "template/rss-item.tpl"
+		  (template "%%Title%%" (getf article :title))
+		  (template "%%Description%%" (getf article :short ""))
+		  (template "%%Url%%"
+			    (format nil "~d/article-~d.html"
+				    (getf *config* :url)
+				    (getf article :id)))))))
   
 ;; Generate the rss xml data
 (defun generate-rss()
@@ -147,7 +163,7 @@
 	      (create-article article :tiny nil)))
 
   ;; produce index file for each tag
-  (loop for tag in (the-tags) do
+  (loop for tag in (articles-by-tag) do
 	(generate (format nil"tag-~d.html" (getf tag :NAME))
 		  (generate-tag-mainpage (getf tag :VALUE))))
   
