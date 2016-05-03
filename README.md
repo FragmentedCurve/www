@@ -23,20 +23,21 @@ Here are the files and folder of cl-yag :
  
 Edit data/articles.lisp and add a new line inside the *articles* variable like this
 
-    (list :id "2" :date "29 April 2016" :title "How do I use cl-yag" :author "Solène" :short "I will explain how to use the generator")
-
+    (list :id "2" :date "29 April 2016" :title "How do I use cl-yag" :author "Solène" :short "I will explain how to use the generator" :tag "example help code")
 
 The _:short_ field is used on the homepage. It it is defined, this is the text that will be shown on the homepage with all the others articles. If it's not defined, the whole article content will be used on the homepage. Sometimes when you have long articles, you may not want to display it entirely on the index so you can use _:short "view the article for the full text_.
 
 The _:author_ field is used to display who wrote the article. You can omitt it, the generator will take the name from the *config* variable
 
+The _:tag_ field is used to create a page with all the articles with the same tag. You can omitt it if you don't want it tagged. Tags can't contain spaces.
+
 # How to hack it
 
 I tried to make it "hacking friendly" so it's very extensible. 
 
-## Include a template page in the layout
+## Include some file in the template
 
-Here is an example code if you want to add something like a panel on the layout.
+Here is an example code if you want to include a page in the template
 
 + Add a string for the replacement to occure, like %%Panel%% in **template/layout.tpl** (because we want the panel on every page)
 + In **generator.lisp** modify the function *generate-layout* to add "**(template "%%Panel%%" (load-file "template/panel.tpl"))**" after one template function call
