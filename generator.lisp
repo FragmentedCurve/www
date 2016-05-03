@@ -101,8 +101,7 @@
 (defun generate-site()
 
   ;; produce index.html
-  (generate "index.html"
-	     (generate-semi-mainpage))
+  (generate "index.html" (generate-semi-mainpage))
   
   ;; produce each article file
   (dolist (article *articles*)
@@ -110,8 +109,7 @@
 	      (create-article article :tiny nil)))
   
   ;;(generate-file-rss)
-  (save-file "rss.xml"
-	     (generate-rss))
+  (save-file "rss.xml" (generate-rss))
   )
 
 (generate-site)
