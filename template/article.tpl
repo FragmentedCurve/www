@@ -2,6 +2,6 @@
   <div class="informations">
     <b><a href="article-%%Id%%.html"><em>%%Author%%</em> wrote "%%Title%%" on %%Date%%</a></b>Tags : %%Tags%%
   </div>
-  <p>%%Text%%</p>
+  %%Text%%
 </div>
 
