@@ -67,12 +67,12 @@
 (defun articles-by-tag()
   (let ((tag-list))
     (loop for article in *articles* do
-	  (if (getf article :tag nil) ;; we don't want an error if no tag
-	      (loop for tag in (split-str (getf article :tag)) do ;; for each word in tag keyword
-		    (setf (getf tag-list (intern tag "KEYWORD")) ;; we create the keyword is inexistent and add ID to :value
-			  (list
-			   :name tag
-			   :value (push (getf article :id) (getf (getf tag-list (intern tag "KEYWORD")) :value)))))))
+	  (when (getf article :tag nil) ;; we don't want an error if no tag
+	    (loop for tag in (split-str (getf article :tag)) do ;; for each word in tag keyword
+		  (setf (getf tag-list (intern tag "KEYWORD")) ;; we create the keyword is inexistent and add ID to :value
+			(list
+			 :name tag
+			 :value (push (getf article :id) (getf (getf tag-list (intern tag "KEYWORD")) :value)))))))
     (loop for i from 1 to (length tag-list) by 2 collect ;; removing the keywords
 	  (nth i tag-list))))
     
@@ -102,7 +102,8 @@
 	   (template "%%Id%%" (getf article :id))
 	   (template "%%Tags%%" (get-tag-list-article article))
 	   (template "%%Text%%" (if (and tiny (member :tiny article))
-				    (getf article :tiny) (load-file (format nil "data/~d.txt" (getf article :id)))))))
+				    (getf article :tiny)
+				  (load-file (format nil "data/~d.txt" (getf article :id)))))))
 
 ;; return a html string
 ;; produce the code of a whole page with title+layout with the parameter as the content
