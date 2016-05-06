@@ -135,7 +135,7 @@
 		  (template "%%Title%%" (getf article :title))
 		  (template "%%Description%%" (getf article :short ""))
 		  (template "%%Url%%"
-			    (format nil "~d/article-~d.html"
+			    (format nil "~darticle-~d.html"
 				    (getf *config* :url)
 				    (getf article :id)))))))
   

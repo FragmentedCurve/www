@@ -9,7 +9,7 @@
    :webmaster "Your author name here"
    :title "Your blog title here"
    :description "Yet another website on the net"
-   :url "https://my.website/~~user/"
+   :url "https://my.website/~~user/" ;; the trailing slash is mandatory, rss links will fails without it
    ))
 
 ;; describes articles (ordered on the website as they are displayed here, the first in list is the top of the website)
