@@ -1,5 +1,5 @@
-LISP=ecl
-PARAM=""
+LISP=clisp
+PARAM=
 
 .if "${LISP}" == "sbcl"
 PARAM=--dynamic-space-size 60 --script
@@ -12,7 +12,7 @@ PARAM=-shell
 all:
 	mkdir -p output/static
 	cp -fr static/* output/static/
-	$(LISP) $(PARAM) generator.lisp
+	LANG=POSIX.UTF-8 $(LISP) $(PARAM) generator.lisp
 
 clean:
 	rm -fr output/*
