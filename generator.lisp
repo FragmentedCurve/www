@@ -172,4 +172,3 @@
   )
 
 (generate-site)
-(exit)
