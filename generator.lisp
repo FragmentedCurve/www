@@ -81,7 +81,7 @@
   (strip-quotes
    (mapcar #'(lambda (item)
 	       (prepare "template/one-tag.tpl" (template "%%Name%%" item)))
-	   (split-str (getf article :tag)))))
+	   (split-str (getf article :tag "")))))
 
 ;; generates the html of the whole list of tags
 (defun get-tag-list()
