@@ -134,7 +134,7 @@
    (loop for article in *articles* collect
 	 (prepare "template/rss-item.tpl"
 		  (template "%%Title%%" (getf article :title))
-		  (template "%%Description%%" (getf article :short ""))
+		  (template "%%Description%%" (load-file (format nil "data/~d.txt" (getf article :id))))
 		  (template "%%Url%%"
 			    (format nil "~darticle-~d.html"
 				    (getf *config* :url)
