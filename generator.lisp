@@ -81,7 +81,7 @@
   (strip-quotes
    (mapcar #'(lambda (item)
 	       (prepare "template/one-tag.tpl" (template "%%Name%%" item)))
-	   (split-str (getf article :tag "")))))
+	   (split-str (getf article :tag)))))
 
 ;; generates the html of the whole list of tags
 (defun get-tag-list()
@@ -107,9 +107,9 @@
 
 ;; return a html string
 ;; produce the code of a whole page with title+layout with the parameter as the content
-(defun generate-layout(body)
+(defun generate-layout(body &optional &key (title nil))
   (prepare "template/layout.tpl"
-	   (template "%%Title%%" (getf *config* :title))
+	   (template "%%Title%%" (if title title (getf *config* :title)))
 	   (template "%%Tags%%" (get-tag-list))
 	   (template "%%Body%%" body)
 	   output))
@@ -159,7 +159,8 @@
   ;; produce each article file
   (dolist (article *articles*)
     (generate (format nil "article-~d.html" (getf article :id))
-	      (create-article article :tiny nil)))
+	      (create-article article :tiny nil)
+	      :title (concatenate 'string (getf *config* :title) " : " (getf article :title))))
 
   ;; produce index file for each tag
   (loop for tag in (articles-by-tag) do
