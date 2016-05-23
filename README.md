@@ -6,6 +6,8 @@ It has only one dependency : a common lisp interpreter. It is regularly tested w
 
 **This comes with a minimalistic template**, don't expect something good looking without work. You will have to write the CSS entirely and modify the html to fit your need.
 
+As a "demo", there is [my website](https://dataswamp.org/~solene/) using cl-yag.
+
 ## The hierarchy
 
 Here are the files and folder of cl-yag :
