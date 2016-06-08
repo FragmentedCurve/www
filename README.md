@@ -23,6 +23,16 @@ Here are the files and folder of cl-yag :
 
 # Usage
 
+## Configuration
+
+In data/articles.lisp there is a ***config*** variable with the following fields :
+
++ **:webmaster** : The name of the default author, this is the name used when **:author** is omitted
++ **:title** : The title of the webpage
++ **:description** : This text is used in the *description* field of the Atom RSS
++ **:url** : This is the full url of the blog with the final slash. If the url contains a ~ it should be doubled (e.g. : https://mydomain/~~user/ is a valid url)
++ **:rss-item-number** : This is the number of RSS items you want to published when you generate the files, it will publish the last N articles
+
 ## How to add an article
  
 Edit data/articles.lisp and add a new line inside the *articles* variable like this (you can do it in one line, as you prefer)

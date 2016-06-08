@@ -10,6 +10,7 @@
    :title "Your blog title here"
    :description "Yet another website on the net"
    :url "https://my.website/~~user/" ;; the trailing slash is mandatory, rss links will fails without it
+   :rss-item-number 10 ;; we want 10 items in our RSS feed
    ))
 
 ;; describes articles (ordered on the website as they are displayed here, the first in list is the top of the website)

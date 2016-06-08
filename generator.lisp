@@ -131,7 +131,9 @@
 ;; xml generation of the items for the rss
 (defun generate-rss-item()
   (strip-quotes
-   (loop for article in *articles* collect
+   (loop for article in *articles*
+	 for i from 1 to (if (> (length *articles*) (getf *config* :rss-item-number)) (getf *config* :rss-item-number) (length *articles*))
+	 collect
 	 (prepare "template/rss-item.tpl"
 		  (template "%%Title%%" (getf article :title))
 		  (template "%%Description%%" (load-file (format nil "data/~d.txt" (getf article :id))))
