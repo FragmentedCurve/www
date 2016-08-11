@@ -179,10 +179,10 @@
 	       (dolist (article *articles*)
 		 (setf output
 		       (concatenate 'string output
-				    (format nil "~a by ~a tagged (~a) ~%0~a	/article-~d.txt	~a	~a~%~%"
+				    (format nil "~a by ~a (~a) ~%0~a	/article-~d.txt	~a	~a~%~%"
 					    (getf article :date)
 					    (getf article :author (getf *config* :webmaster))
-					    (getf article :tag)
+					    (format nil "~{#~a ~}" (split-str (getf article :tag)))
 					    (getf article :title)
 					    (getf article :id)
 					    (getf *config* :gopher-server)
