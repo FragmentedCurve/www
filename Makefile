@@ -1,5 +1,9 @@
-LISP=clisp
-PARAM=
+LISP=          sbcl
+MD=            multimarkdown -o
+
+HTMLDIR=       temp/data
+ARTICLES!=     ls data/*.md
+HTML=          $(ARTICLES:.md=.html)
 
 .if "${LISP}" == "sbcl"
 PARAM=--dynamic-space-size 60 --script
@@ -9,14 +13,24 @@ PARAM=
 PARAM=-shell
 .endif
 
-all:
-	mkdir -p output/static
-	cp -fr static/* output/static/
-	LANG=POSIX.UTF-8 $(LISP) $(PARAM) generator.lisp
+all: clean dirs html
+
+html: $(HTML) css
+	LANG=en_US.UTF-8 $(LISP) $(PARAM) generator.lisp
+	rm -fr "temp"
+
+dirs:
+	mkdir -p "$(HTMLDIR)"
+	mkdir -p "output/html/static"
+	mkdir -p "output/gopher"
+
+.SUFFIXES: .md .html
+.md.html:
+	$(MD) "$(HTMLDIR)/$(@F)" "$<"
 
 clean:
-	rm -fr output/*
+	rm -fr output/html/* output/gopher/* "temp"
 
 css:
-	mkdir -p output/static
-	cp -fr static/* output/static/	
+	mkdir -p "output/html/static"
+	cp -fr static/* "output/html/static/"

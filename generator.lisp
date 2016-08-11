@@ -43,7 +43,7 @@
 
 ;; save a string in a file
 (defun save-file(path data)
-  (with-open-file (stream (concatenate 'string "output/" path) :direction :output :if-exists :supersede)
+  (with-open-file (stream path :direction :output :if-exists :supersede)
     (format stream data)))
 
 ;; simplify the str replace work
@@ -103,7 +103,7 @@
 	   (template "%%Tags%%" (get-tag-list-article article))
 	   (template "%%Text%%" (if (and tiny (member :tiny article))
 				    (getf article :tiny)
-				  (load-file (format nil "data/~d.txt" (getf article :id)))))))
+				  (load-file (format nil "temp/data/~d.html" (getf article :id)))))))
 
 ;; return a html string
 ;; produce the code of a whole page with title+layout with the parameter as the content
@@ -136,7 +136,7 @@
 	 collect
 	 (prepare "template/rss-item.tpl"
 		  (template "%%Title%%" (getf article :title))
-		  (template "%%Description%%" (load-file (format nil "data/~d.txt" (getf article :id))))
+		  (template "%%Description%%" (load-file (format nil "temp/data/~d.html" (getf article :id))))
 		  (template "%%Url%%"
 			    (format nil "~darticle-~d.html"
 				    (getf *config* :url)
@@ -151,27 +151,61 @@
 	   (template "%%Items%%" (generate-rss-item))))
 
 
-;; ENGINE START !
-;; This is function called when running the tool
-(defun generate-site()
-
+;; We do all the website
+(defun create-html-site()
   ;; produce index.html
-  (generate "index.html" (generate-semi-mainpage))
+  (generate "output/html/index.html" (generate-semi-mainpage))
   
   ;; produce each article file
   (dolist (article *articles*)
-    (generate (format nil "article-~d.html" (getf article :id))
+    (generate (format nil "output/html/article-~d.html" (getf article :id))
 	      (create-article article :tiny nil)
 	      :title (concatenate 'string (getf *config* :title) " : " (getf article :title))))
-
+  
   ;; produce index file for each tag
   (loop for tag in (articles-by-tag) do
-	(generate (format nil"tag-~d.html" (getf tag :NAME))
+	(generate (format nil "output/html/tag-~d.html" (getf tag :NAME))
 		  (generate-tag-mainpage (getf tag :VALUE))))
   
   ;;(generate-file-rss)
-  (save-file "rss.xml" (generate-rss))
+  (save-file "output/html/rss.xml" (generate-rss)))
+
+;; we do all the gopher hole
+(defun create-gopher-hole()
+
+  ;; produce the gophermap file
+  (save-file "output/gopher/gophermap"
+	     (let ((output (load-file "template/gopher_head.tpl")))
+	       (dolist (article *articles*)
+		 (setf output
+		       (concatenate 'string output
+				    (format nil "~a by ~a tagged (~a) ~%0~a	/article-~d.txt	~a	~a~%~%"
+					    (getf article :date)
+					    (getf article :author (getf *config* :webmaster))
+					    (getf article :tag)
+					    (getf article :title)
+					    (getf article :id)
+					    (getf *config* :gopher-server)
+					    (getf *config* :gopher-port)
+					    ))))
+	       output))
+  
+  ;; produce each article file (only a copy/paste in fact)
+  (dolist (article *articles*)
+    (let ((id (getf article :id)))
+      (save-file (format nil "output/gopher/article-~d.txt" id)
+		 (load-file (format nil "data/~d.md" id)))))
   
   )
 
+
+;; ENGINE START !
+;; This is function called when running the tool
+(defun generate-site()
+  (if (getf *config* :html)
+      (create-html-site))
+  (if (getf *config* :gopher)
+      (create-gopher-hole)))
+
 (generate-site)
+

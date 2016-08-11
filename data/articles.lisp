@@ -11,6 +11,10 @@
    :description "Yet another website on the net"
    :url "https://my.website/~~user/" ;; the trailing slash is mandatory, rss links will fails without it
    :rss-item-number 10 ;; we want 10 items in our RSS feed
+   :html t ;; t to export html website / nil to disable
+   :gopher t ;; t to export gopher website / nil to disable
+   :gopher-server "my.website" ;; hostname of the gopher server
+   :gopher-port "70" ;; tcp port of the gopher server, 70 usually
    ))
 
 ;; describes articles (ordered on the website as they are displayed here, the first in list is the top of the website)

@@ -1,12 +1,13 @@
 # Introduction
 
-cl-yag stands for Common Lisp Yet Another Generator and obviously it's written in Common Lisp.
+cl-yag stands for Common Lisp Yet Another Generator and obviously it's written in Common Lisp. Currently, cl-yag can generate **gopher** and **html** website.
 
-It has only one dependency : a common lisp interpreter. It is regularly tested with sbcl, clisp and ecl which are free, open-source and multi-platform. You don't need quicklisp library manager.
+**It needs a Common Lisp interpreter and a markdown-to-html export tool (like multimarkdown).**
+It is regularly tested with sbcl, clisp and ecl which are free, open-source and multi-platform. You don't need quicklisp library manager.
 
 **This comes with a minimalistic template**, don't expect something good looking without work. You will have to write the CSS entirely and modify the html to fit your need.
 
-As a "demo", there is [my website](https://dataswamp.org/~solene/) using cl-yag.
+As a "demo", there is [my website](https://dataswamp.org/~solene/) using cl-yag for html version, and [my gopher](gopher://perso.pw/) for gopher version.
 
 ## The hierarchy
 
@@ -18,8 +19,10 @@ Here are the files and folder of cl-yag :
 + **static/** : contains the static files like images, css, js etc... that will be published
 + **data/** : 
   + **articles.lisp** : contains metadata about the website and the list of the articles with their id/title/date/tag/*author*/*short description* (fields in *italic* are not mandatory)
-  + **${id}.txt** : contains the html text of the article ${id} that will be used when displayed
-+ **output** : folder where the website is generated when your run *make*. It is cleaned when you run *make clean*; You can make it a symbolic link to the web server folder.
+  + **${id}.md** : contains the article using markdown syntax that will be used when exported
++ **output/** :
+  + **gopher/** : contains the exported website for gopher
+  + **html/** : contains the exported website in html
 
 # Usage
 
@@ -32,6 +35,10 @@ In data/articles.lisp there is a ***config*** variable with the following fields
 + **:description** : This text is used in the *description* field of the Atom RSS
 + **:url** : This is the full url of the blog with the final slash. If the url contains a ~ it should be doubled (e.g. : https://mydomain/~~user/ is a valid url)
 + **:rss-item-number** : This is the number of RSS items you want to published when you generate the files, it will publish the last N articles
++ **html** : t to export html website / nil to disable
++ **gopher** : t to export gopher website / nil to disable
++ **gopher-server**: hostname of the gopher server because gopher doesn't have relative links like html, so you need to know where you put your files
++ **gopher-port** : tcp port of the gopher server, 70 is the default port, it's included in every link as explained in gopher-server
 
 ## How to add an article
  
@@ -53,7 +60,9 @@ The _:tag_ field is used to create a page with all the articles with the same ta
 
 ## How to publish
 
-There is a makefile, all you need to do is to type "make" in the folder, this will create the files in the **output/** location (which can be a symbolic link to somewhere else). If you want to use a different lisp interpreter (default is **sbcl**), you can set the variable LISP to the name of your binary. 
+There is a makefile, all you need to do is to type "make" in the folder, this will create the files in the **output/** location (which can be a symbolic link to somewhere else). The Gopher website will be generated inside **output/gopher** and the html will be generated in **output/html**.
+
+If you want to use a different lisp interpreter (default is **sbcl**), you can set the variable LISP to the name of your binary. 
 
 Example with clisp : 
 
@@ -84,19 +93,6 @@ In **generate-site** function we can load a file, apply the template and save it
     (generate "somepage.html" (load-file "data/mypage.html"))
   
 This will produce the file **somepage.html** in the output folder.
-
- 
-# How to use markdown for articles
-
- 
-Here is a tip to produce html files from markdown using emacs
-
-1. edit the article file with emacs using ham-mode which will convert the html to markdown
-2. write your text with markdown syntax 
-3. save your file, ham-mode will convert it back to html
-4. run *make* to update your site
-
-The generator don't do it natively because I didn't want it to have dependencies. You can use what you want to produces the html files.
 
 # Known limitations
 
