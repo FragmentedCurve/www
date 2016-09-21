@@ -62,6 +62,8 @@ The _:tag_ field is used to create a page with all the articles with the same ta
 
 There is a makefile, all you need to do is to type "make" in the folder, this will create the files in the **output/** location (which can be a symbolic link to somewhere else). The Gopher website will be generated inside **output/gopher** and the html will be generated in **output/html**.
 
+**/!\ Linux users /!\ **  you should use **bmake** (bsd make) because the Makefile isn't compatible with gmake (gnu make) which is the default in Linux.
+
 If you want to use a different lisp interpreter (default is **sbcl**), you can set the variable LISP to the name of your binary. 
 
 Example with clisp : 
