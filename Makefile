@@ -6,7 +6,7 @@ ARTICLES!=     ls data/*.md
 HTML=          $(ARTICLES:.md=.html)
 
 .if "${LISP}" == "sbcl"
-PARAM=--dynamic-space-size 60 --script
+PARAM=--dynamic-space-size 90 --script
 .elif "${LISP}" == "clisp"
 PARAM=
 .elif "${LISP}" == "ecl"
@@ -16,7 +16,7 @@ PARAM=-shell
 all: clean dirs html
 
 html: $(HTML) css
-	LANG=en_US.UTF-8 $(LISP) $(PARAM) generator.lisp
+	$(LISP) $(PARAM) generator.lisp
 	rm -fr "temp"
 
 dirs:
