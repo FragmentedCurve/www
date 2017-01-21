@@ -8,7 +8,7 @@
   <body>
 
     <div id="top">
-      <a href="index.html">Home</a> <a href="rss.xml">Rss</a>
+      <a href="index.html">Home</a> - <a href="index-titles.html">List of articles</a> - <a href="rss.xml">Rss</a> 
       <p>Tags : %%Tags%%</p>
     </div>
 

@@ -94,16 +94,18 @@
 
 ;; generates the html of one only article
 ;; this is called in a loop to produce the homepage
-(defun create-article(article &optional &key (tiny t))
+(defun create-article(article &optional &key (tiny t) (no-text nil))
   (prepare "template/article.tpl"
 	   (template "%%Author%%" (getf article :author (getf *config* :webmaster)))
 	   (template "%%Date%%" (getf article :date))
 	   (template "%%Title%%" (getf article :title))
 	   (template "%%Id%%" (getf article :id))
 	   (template "%%Tags%%" (get-tag-list-article article))
-	   (template "%%Text%%" (if (and tiny (member :tiny article))
-				    (getf article :tiny)
-				  (load-file (format nil "temp/data/~d.html" (getf article :id)))))))
+	   (template "%%Text%%" (if no-text
+				    ""
+				  (if (and tiny (member :tiny article))
+				      (getf article :tiny)
+				    (load-file (format nil "temp/data/~d.html" (getf article :id))))))))
 
 ;; return a html string
 ;; produce the code of a whole page with title+layout with the parameter as the content
@@ -116,10 +118,10 @@
 
 
 ;; html generation of index homepage
-(defun generate-semi-mainpage()
+(defun generate-semi-mainpage(&key (tiny t) (no-text nil))
   (strip-quotes
    (loop for article in *articles* collect
-	 (create-article article :tiny t))))
+	 (create-article article :tiny tiny :no-text no-text))))
 
 ;; html generation of a tag homepage
 (defun generate-tag-mainpage(articles-in-tag)
@@ -150,12 +152,14 @@
 	   (template "%%Url%%" (getf *config* :url))
 	   (template "%%Items%%" (generate-rss-item))))
 
-
 ;; We do all the website
 (defun create-html-site()
   ;; produce index.html
   (generate "output/html/index.html" (generate-semi-mainpage))
-  
+
+  ;; produce index-titles.html where there are only articles titles
+  (generate "output/html/index-titles.html" (generate-semi-mainpage :no-text t))
+
   ;; produce each article file
   (dolist (article *articles*)
     (generate (format nil "output/html/article-~d.html" (getf article :id))
