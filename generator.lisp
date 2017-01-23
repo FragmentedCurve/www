@@ -35,11 +35,15 @@
 ;; load a file as a string
 ;; we escape ~ to avoid failures with format
 (defun load-file(path)
-  (replace-all
-   (strip-quotes
-    (with-open-file (stream path)
-     (loop for line = (read-line stream nil) while line collect line)))
-   "~" "~~"))
+  (if (probe-file path)
+      (replace-all
+       (strip-quotes
+	(with-open-file (stream path)
+			(loop for line = (read-line stream nil) while line collect line)))
+       "~" "~~")
+    (progn
+      (format t "ERROR : file ~a not found. Aborting~%" path)
+      (quit))))
 
 ;; save a string in a file
 (defun save-file(path data)
