@@ -13,6 +13,7 @@
    :rss-item-number 10 ;; we want 10 items in our RSS feed
    :html t ;; t to export html website / nil to disable
    :gopher t ;; t to export gopher website / nil to disable
+   :gopher-path "/user" ;; the absolute path of your gopher directory
    :gopher-server "my.website" ;; hostname of the gopher server
    :gopher-port "70" ;; tcp port of the gopher server, 70 usually
    ))

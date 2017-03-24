@@ -37,6 +37,7 @@ In data/articles.lisp there is a ***config*** variable with the following fields
 + **:rss-item-number** : This is the number of RSS items you want to published when you generate the files, it will publish the last N articles
 + **html** : t to export html website / nil to disable
 + **gopher** : t to export gopher website / nil to disable
++ **gopher-path** : this is the full path of the directory to access your gopher hole
 + **gopher-server**: hostname of the gopher server because gopher doesn't have relative links like html, so you need to know where you put your files
 + **gopher-port** : tcp port of the gopher server, 70 is the default port, it's included in every link as explained in gopher-server
 
