@@ -186,16 +186,26 @@
 	     (let ((output (load-file "template/gopher_head.tpl")))
 	       (dolist (article *articles*)
 		 (setf output
-		       (concatenate 'string output
-				    (format nil "~a by ~a (~a) ~%0~a	/article-~d.txt	~a	~a~%~%"
-					    (getf article :date)
-					    (getf article :author (getf *config* :webmaster))
-					    (format nil "~{#~a ~}" (split-str (getf article :tag)))
-					    (getf article :title)
-					    (getf article :id)
-					    (getf *config* :gopher-server)
-					    (getf *config* :gopher-port)
-					    ))))
+		       (string
+			(concatenate 'string output
+				     (format nil "0~a	~a/article-~d.txt	~a	~a~%~%"
+					     
+					     ;; here we create a 80 width char string with title on the left
+					     ;; and date on the right
+					     ;; we truncate the article title if it's too large
+					     (let ((title (format nil "~80a"
+								  (if (< 80 (length (getf article :title)))
+								      (subseq (getf article :title) 0 80)
+								    (getf article :title)))))
+					       (replace title (getf article :date) :start1 (- (length title) (length (getf article :date)))))
+					     
+					     
+					     (getf *config* :gopher-path)
+					     (getf article :id)
+					     (getf *config* :gopher-server)
+					     (getf *config* :gopher-port)
+					     )))))
+	       
 	       output))
   
   ;; produce each article file (only a copy/paste in fact)
