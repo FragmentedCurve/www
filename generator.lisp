@@ -204,8 +204,7 @@
 					     (getf article :id)
 					     (getf *config* :gopher-server)
 					     (getf *config* :gopher-port)
-					     )))))
-	       
+					     )))))	       
 	       output))
   
   ;; produce each article file (only a copy/paste in fact)
