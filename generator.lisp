@@ -23,7 +23,7 @@
 			       (find y x :test #'string=)))))
     (if n
 	(split-str-1 (subseq string 0 n) separator (cons (subseq string (1+ n)) r))
-            (cons string r))))
+      (cons string r))))
 (defun split-str (string &optional (separator " "))
   (split-str-1 string separator))
 
@@ -48,7 +48,7 @@
 ;; save a string in a file
 (defun save-file(path data)
   (with-open-file (stream path :direction :output :if-exists :supersede)
-    (format stream data)))
+		  (format stream data)))
 
 ;; simplify the str replace work
 (defmacro template(before &body after)
@@ -79,7 +79,7 @@
 			 :value (push (getf article :id) (getf (getf tag-list (intern tag "KEYWORD")) :value)))))))
     (loop for i from 1 to (length tag-list) by 2 collect ;; removing the keywords
 	  (nth i tag-list))))
-    
+
 ;; generates the html of the list of tags for an article
 (defun get-tag-list-article(&optional article)
   (strip-quotes
@@ -94,22 +94,22 @@
 	       (prepare "template/one-tag.tpl"
 			(template "%%Name%%" (getf item :name))))
 	   (articles-by-tag))))
-  
+
 
 ;; generates the html of one only article
 ;; this is called in a loop to produce the homepage
 (defun create-article(article &optional &key (tiny t) (no-text nil))
   (prepare "template/article.tpl"
 	   (template "%%Author%%" (getf article :author (getf *config* :webmaster)))
-	   (template "%%Date%%" (getf article :date))
-	   (template "%%Title%%" (getf article :title))
-	   (template "%%Id%%" (getf article :id))
-	   (template "%%Tags%%" (get-tag-list-article article))
-	   (template "%%Text%%" (if no-text
-				    ""
-				  (if (and tiny (member :tiny article))
-				      (getf article :tiny)
-				    (load-file (format nil "temp/data/~d.html" (getf article :id))))))))
+	   (template "%%Date%%"   (getf article :date))
+	   (template "%%Title%%"  (getf article :title))
+	   (template "%%Id%%"     (getf article :id))
+	   (template "%%Tags%%"   (get-tag-list-article article))
+	   (template "%%Text%%"   (if no-text
+				      ""
+				    (if (and tiny (member :tiny article))
+					(getf article :tiny)
+				      (load-file (format nil "temp/data/~d.html" (getf article :id))))))))
 
 ;; return a html string
 ;; produce the code of a whole page with title+layout with the parameter as the content
