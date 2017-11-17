@@ -84,14 +84,14 @@
 (defun get-tag-list-article(&optional article)
   (strip-quotes
    (mapcar #'(lambda (item)
-	       (prepare "template/one-tag.tpl" (template "%%Name%%" item)))
+	       (prepare "templates/one-tag.tpl" (template "%%Name%%" item)))
 	   (split-str (getf article :tag)))))
 
 ;; generates the html of the whole list of tags
 (defun get-tag-list()
   (strip-quotes
    (mapcar #'(lambda (item)
-	       (prepare "template/one-tag.tpl"
+	       (prepare "templates/one-tag.tpl"
 			(template "%%Name%%" (getf item :name))))
 	   (articles-by-tag))))
 
@@ -99,7 +99,7 @@
 ;; generates the html of one only article
 ;; this is called in a loop to produce the homepage
 (defun create-article(article &optional &key (tiny t) (no-text nil))
-  (prepare "template/article.tpl"
+  (prepare "templates/article.tpl"
 	   (template "%%Author%%" (getf article :author (getf *config* :webmaster)))
 	   (template "%%Date%%"   (getf article :date))
 	   (template "%%Title%%"  (getf article :title))
@@ -114,7 +114,7 @@
 ;; return a html string
 ;; produce the code of a whole page with title+layout with the parameter as the content
 (defun generate-layout(body &optional &key (title nil))
-  (prepare "template/layout.tpl"
+  (prepare "templates/layout.tpl"
 	   (template "%%Title%%" (if title title (getf *config* :title)))
 	   (template "%%Tags%%" (get-tag-list))
 	   (template "%%Body%%" body)
@@ -140,7 +140,7 @@
    (loop for article in *articles*
 	 for i from 1 to (if (> (length *articles*) (getf *config* :rss-item-number)) (getf *config* :rss-item-number) (length *articles*))
 	 collect
-	 (prepare "template/rss-item.tpl"
+	 (prepare "templates/rss-item.tpl"
 		  (template "%%Title%%" (getf article :title))
 		  (template "%%Description%%" (load-file (format nil "temp/data/~d.html" (getf article :id))))
 		  (template "%%Url%%"
@@ -150,7 +150,7 @@
   
 ;; Generate the rss xml data
 (defun generate-rss()
-  (prepare "template/rss.tpl"
+  (prepare "templates/rss.tpl"
 	   (template "%%Description%%" (getf *config* :description))
 	   (template "%%Title%%" (getf *config* :title))
 	   (template "%%Url%%" (getf *config* :url))
@@ -183,7 +183,7 @@
 
   ;; produce the gophermap file
   (save-file "output/gopher/gophermap"
-	     (let ((output (load-file "template/gopher_head.tpl")))
+	     (let ((output (load-file "templates/gopher_head.tpl")))
 	       (dolist (article *articles*)
 		 (setf output
 		       (string
