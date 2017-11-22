@@ -1,30 +1,39 @@
-;; WARNING caracter "~" must be escaped when used in this file
-;; you have to type ~~ for one ~ to escape it
+;; MIND: The tilde character "~" must be escaped like this '~~' to use it as a literal.
 
 
-;; define informations about your blog
-;; used for the RSS generation and some variables replacements in the layout
+;; Define Your Webpage
+
 (defvar *config*
   (list
-   :webmaster "Your author name here"
-   :title "Your blog title here"
-   :description "Yet another website on the net"
-   :url "https://my.website/~~user/" ;; the trailing slash is mandatory, rss links will fails without it
-   :rss-item-number 10 ;; we want 10 items in our RSS feed
-   :html t ;; t to export html website / nil to disable
-   :gopher t ;; t to export gopher website / nil to disable
-   :gopher-path "/user" ;; the absolute path of your gopher directory
-   :gopher-server "my.website" ;; hostname of the gopher server
-   :gopher-port "70" ;; tcp port of the gopher server, 70 usually
+   :webmaster       "Your autor name here"
+   :title           "Put youre website's title here."
+   :description     "Yet another website on the net"
+   :url             "https://my.website/~~user/"     ;; the trailing slash is mandatory! RSS links will fail without it. Notice the '~~' to produce a literal '~'
+   :rss-item-number 10                               ;; limit total amount of items in RSS feed to 10
+   :html   t                                         ;; 't' to enable export to a html website / 'nil' to disable
+   :gopher t                                         ;; 't' to enable export to a gopher website / 'nil' to disable
+   :gopher-path      "/user"                         ;; absolute path of your gopher directory
+   :gopher-server    "my.website"                    ;; hostname of the gopher server
+   :gopher-port      "70"                            ;; tcp port of the gopher server, 70 usually
    ))
 
-;; describes articles (ordered on the website as they are displayed here, the first in list is the top of the website)
-;; exemple => (list :id "4" :date "2015-05-04" :title "The article title" :author "Me" :tiny "Short description for home page")
-;; :author can be omitted and will be replaced by webmaster value
-;; :tiny can be omitted and will be replaced by the full article text
+
+
+
+
+;; Define your articles and their display-order on the website in *articles* below.
+;; Display Order is 'lifo', i.e. the top entry in this list gets displayed as the topmost entry.
+;; 
+;; An Example Of A Minimal Definition:
+;; (list :id "4" :date "2015-05-04" :title "The article title" :author "Me" :tiny "Short description for home page")
+;;
+;; A Note On Keywords:
+;; :author  can be omitted.   If so, it's value gets replaced by the value of :webmaster.
+;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
+
 (defvar *articles*
   (list
-   (list :id "2" :date "30 April 2016" :tag "lisp" :title "Another message" :short "New version available")   
-   (list :id "1" :date "29 April 2016":tag "pony code" :title "My first message" :short "This is my first message" :author "Solène")
+   (list :id "README" :date "20 May 2016" :tag "cl-yag" :title "README" :author "Solène" :short "cl-yag is documenting itself." :tiny "cl-yag's README")
+   (list :id "1" :date "29 April 2016":tag "pony code" :title "My first message" :short "This is my first message" :author "Solène" :tiny "Read more")
    ))
 
