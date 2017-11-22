@@ -1,7 +1,10 @@
-<div class="article">
-  <div class="informations">
-    <b><a href="article-%%Id%%.html"><em>%%Author%%</em> wrote "%%Title%%" on %%Date%%</a></b>Tags : %%Tags%%
-  </div>
+
+<article>
+  <header>
+    <h1><a href="article-%%Id%%.html">%%Title%%</a></h1>
+    <p>Written by <em>%%Author%%</em>, on %%Date%%.<br/>Tags: %%Tags%%</p>
+  </header>
   %%Text%%
-</div>
+
+</article>
 
