@@ -1,24 +1,34 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="static/style.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="generator" content="cl-yag" />
     <title>%%Title%%</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="%%Title%% RSS Feed" href="rss.xml" />
+<!--    <link rel="alternate" type="application/atom+xml" title="%%Title%% Atom Feed" href="atom.xml" /> -->
+    <link rel="icon" type="image/x-icon" href="static/img/yourFavIcon.ico" />
   </head>
-  <body>
 
-    <div id="top">
-      <a href="index.html">Home</a> - <a href="index-titles.html">List of articles</a> - <a href="rss.xml">Rss</a> 
-      <p>Tags : %%Tags%%</p>
-    </div>
+    <body>
+    <div id="wrapper">
+      <header>
+	<nav>
+	 <!-- <a href="#">BRAND</a> -->
+	    <ul>
+	      <li><a href="index.html">Home</a></li>
+	      <li><a href="index-titles.html">List of Articles</a></li>
+	      <li><a href="rss.xml">RSS</a></li>
+	     </ul>
+	</nav>
+	<div>All Tags: %%Tags%%</div>
+      </header>
 
-    <div id="content">
-      %%Body%%
-    </div>
+      <main>%%Body%%</main>
 
-    <div id="foot" >
-      This blog is powered by cl-yag ! 
-    </div>
-    
+      <footer><p>This blog is powered by cl-yag!<p></footer>
+
+    </div><!-- #wrapper -->
   </body>
 </html>
