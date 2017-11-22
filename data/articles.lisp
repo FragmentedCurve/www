@@ -6,7 +6,7 @@
 (defvar *config*
   (list
    :webmaster       "Your autor name here"
-   :title           "Put youre website's title here."
+   :title           "Your website's title."
    :description     "Yet another website on the net"
    :url             "https://my.website/~~user/"     ;; the trailing slash is mandatory! RSS links will fail without it. Notice the '~~' to produce a literal '~'
    :rss-item-number 10                               ;; limit total amount of items in RSS feed to 10
