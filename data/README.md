@@ -1,108 +1,278 @@
-# Introduction
+# README
 
-cl-yag stands for Common Lisp Yet Another Generator and obviously it's written in Common Lisp. Currently, cl-yag can generate **gopher** and **html** website.
 
-**It needs a Common Lisp interpreter and a markdown-to-html export tool (like multimarkdown).**
-It is regularly tested with sbcl, clisp and ecl which are free, open-source and multi-platform. You don't need quicklisp library manager.
+## Introduction
 
-**This comes with a minimalistic template**, don't expect something good looking without work. You will have to write the CSS entirely and modify the html to fit your need.
+cl-yag is a very lightweight, 'static site'-generator that produces **gopher** sites as well as **html** websites.  
+The name 'cl-yag' stands for 'Common Lisp - Yet Another website Generator'.  
+It runs without Quicklisp.
 
-As a "demo", there is [my website](https://dataswamp.org/~solene/) using cl-yag for html version, and [my gopher](gopher://perso.pw/) for gopher version.
 
-## The hierarchy
+## Showcase
 
-Here are the files and folder of cl-yag :
- 
-+ **Makefile** : exists to simplify your life (updating, cleaning) 
-+ **generator.lisp** : contains all the code of the generator
-+ **templates/** : contains .tpl files which are used as template for the html or xml structure 
-+ **static/** : contains the static files like images, css, js etc... that will be published
-+ **data/** : 
-  + **articles.lisp** : contains metadata about the website and the list of the articles with their id/title/date/tag/*author*/*short description* (fields in *italic* are not mandatory)
-  + **${id}.md** : contains the article using markdown syntax that will be used when exported
-+ **output/** :
-  + **gopher/** : contains the exported website for gopher
-  + **html/** : contains the exported website in html
+I am using cl-yag to create and maintain my websites in the
+world-wide-web (visit: *[Solene's
+percent](https://dataswamp.org/~solene/)*) as well as [in
+gopher-space](gopher://dataswamp.org/1/~solene/).
 
-# Usage
+
+## Requirements
+
+To use cl-yag you'll need:
+
+1. A Common Lisp Interpreter
+    - cl-yag's current default is **Steel Bank Common Lisp (SBCL)**.
+    - **Embeddable Common Lisp (ECL)** will do fine as well.
+2. A Markdown-to-HTML Converter
+    - cl-yag's current default is **multimarkdown**.
+3. BSD Make
+    - Linux-Users, cl-yag uses a BSD Makefile syntax, that isn't compatible with GNU make's.
+    - You need to install a port of the NetBSD make tool, called **bmake**.
+
+
+## Usage
+
+Go into your project's directory and type ``make``. You'll find your new website/gopher page in 'output/'.  
+If you want to get rid of everything in your 'output/' subdirectories,
+type ``make clean``.  
+For further commands: read the Makefile.  
+Read in the follwing section where to find it.
+
+
+## Overview: cl-yag's File Hierarchy
+
+After cloning the repository, your project's directory should contain at
+least the following files and folders:
+
+	.
+	|-- LICENSE
+	|-- Makefile
+	|-- README.md
+	|-- data/
+	|   |-- 1.md
+	|   |-- README.md
+	|   `-- articles.lisp
+	|-- generator.lisp
+	|-- output/
+	|   |-- gopher/
+	|   `-- html/
+	|-- static/
+	|   |-- css/style.css
+	|   `-- img/
+	`-- templates/
+		|-- article.tpl
+		|-- gopher_head.tpl
+		|-- layout.tpl
+		|-- one-tag.tpl
+		|-- rss-item.tpl
+		`-- rss.tpl
+
+- **Makefile**
+    - This file exists to simplifiy the recurring execution of frequently used commands.
+- **generator.lisp**
+    - This is cl-yag's core library.
+- **static/**
+    - This directory holds content, that needs to be published without being changed (e.g. stylesheets, js-scripts).
+	- If you come from 'non-static CMS'-Country: 'static/' holds, what you would put in your 'assets/' directory.
+- **templates/**
+    - The templates in this directory provide the structural skeleton(s) of the webpages and feeds you want to create.
+- **output/**
+    - cl-yag puts in this directory everything ready to get deployed.
+	- Because cl-yag generates not only HTML, but gopher-compliant pages as well, output/ **holds two subdirectories**.
+		- **gopher/** : contains the website for gopher,
+		- **html/** : contains the website in HTML.
+
+And there is the **data/** directory, which is important enough to get a subsubsection of its own.
+
+### The 'data/' Directory
+
+This directory is crucial for the usage of cl-yag.
+
+**data/** contains
+
+- the **articles.lisp configuration file**, which defines important metadata for posts and pages.
+- It also holds **${id}.md**-files, which are holding your posts' and pages' content. You can use markdown to write them.
+
+For more information: Read section 'Configuration'.
+
 
 ## Configuration
 
-In data/articles.lisp there is a ***config*** variable with the following fields :
+cl-yag's main configuration file is **data/articles.lisp**.  
+In order to have a reliably running implementation of cl-yag, you have
+to set most of the values in this file.
 
-+ **:webmaster** : The name of the default author, this is the name used when **:author** is omitted
-+ **:title** : The title of the webpage
-+ **:description** : This text is used in the *description* field of the Atom RSS
-+ **:url** : This is the full url of the blog with the final slash. If the url contains a ~ it should be doubled (e.g. : https://mydomain/~~user/ is a valid url)
-+ **:rss-item-number** : This is the number of RSS items you want to published when you generate the files, it will publish the last N articles
-+ **html** : t to export html website / nil to disable
-+ **gopher** : t to export gopher website / nil to disable
-+ **gopher-path** : this is the full path of the directory to access your gopher hole
-+ **gopher-server**: hostname of the gopher server because gopher doesn't have relative links like html, so you need to know where you put your files
-+ **gopher-port** : tcp port of the gopher server, 70 is the default port, it's included in every link as explained in gopher-server
+**data/articles.lisp** has two parts:
 
-## How to add an article
+1. A variable called **config**. It defines global values, that define your webpage.
+2. A variable called **articles**. It defines local values, that - in turn - define individual pages/posts.
+
+Values are assigned by placing a string (e.g. "foo") or a boolean
+(i.e. 't' or 'nil') behind a keyword (e.g. ':title').
+
+
+### The **config** Variable
+
+The **config** variable is used to assign the following values:
+
+- **:webmaster**
+    - The name of the default(!) author. 
+	- :webmaster gets used, if **:author** is omitted. (see below: 'The **articles** variable'.)
+- **:title**
+    - The title of the webpage
+- **:description**
+    - This text is used in the *description* field of the Atom RSS
+- **:url**
+    - This needs to be the full(!) URL of your website, including(!) a final slash.
+	- MIND: If the url contains a tilde (~), it needs to get duplicated
+	- Example: https://mydomain/~~user/ is a valid url.
+- **:rss-item-number**
+    - This holds the number of latest(!) RSS items you want to get published when you generate the files.
+- **html**
+    - *t* to export html website. Set *nil* to disable.
+- **gopher**
+    - *t* to export gopher website. Set *nil* to disable.
+- **gopher-path**
+    - This is the full path of the directory to access your gopher hole.
+- **gopher-server**
+    - Hostname of the gopher server. Because gopher doesn't allow relative links (like html), you need to know where you put your files.
+- **gopher-port**
+    - tcp port of the gopher server. 70 is the default port. It need to be included in every link (see: **gopher-server**).
+
+
+### The **articles** Variable
+
+The **articles** variable holds per page/post-metadata.  
+Of the following fields, only the *:author* and *:short* description could be omitted.
+
+- **:short**
+	- The _:short_ field's value is used for displaying a really short description of the posts content on your homepage.
+	- If _:short_ doesn't get a value, the full article gets displayed.
+	- Hint: Use ``:short "view the article for the full text"``, if you don't want to display the full text of an article on your index site.
+- **:id_**
+    - The _:id_ field holds the filename of your post/page. 
+	- Example: ``:id "2"`` will load file ``data/2.md``. Use text instead of numbers, if you want to.
+	- (See section: 'The **data/** Directory'.)
+- **:author**
+    - The _:author_ field is used to display the article' author.
+    -  If you omit it, the generator will take the name from the **:webmaster** field of the *config* variable.
+- **:tag**
+    - _:tag_ field is used to create a "view" containing all articles of the same tag.
+	-  MIND: Whitespaces are not allowed in(!) tags.
+
+
+## Howto Create A New Post
  
-Edit data/articles.lisp and add a new line inside the *articles* variable like this (you can do it in one line, as you prefer)
+Edit data/articles.lisp and add a new list to the *articles* variable:
 
     (list :title "How do I use cl-yag" 
-	      :id "2" :date "29 April 2016" 
-	      :author "Solène" 
+		  :id "2"
+		  :date "29 April 2016" 
+		  :author "Solène"
 		  :short "I will explain how to use the generator" 
 		  :tag "example help code")
 
-The _:short_ field is used on the homepage. It it is defined, this is the text that will be shown on the homepage with all the others articles. If it's not defined, the whole article content will be used on the homepage. Sometimes when you have long articles, you may not want to display it entirely on the index so you can use _:short "view the article for the full text_.
+Then write a corresponding ``2.md`` file, using markdown.
 
-The _:id_ field will be part of the filename of the file and it's also the name of the content on the disk. `:id "2"` will load file `data/2.txt`, you can use text instead of numbers if you want.
+## Howto Publish A Post
 
-The _:author_ field is used to display who wrote the article. You can omitt it, the generator will take the name from the *config* variable
+I prepared a Makefile to facilitate the process of generating and
+publishing your static sites.
 
-The _:tag_ field is used to create a page with all the articles with the same tag. Tags can't contain spaces.
+All you need to do in order to publish is to go into your cl-yag
+directory and type "make".
 
-## How to publish
+The 'make' command does create html and gopher files in the defined
+**output/** location (which can be a symbolic link pointing to some
+other directory, somewhere else on your machine).
 
-There is a makefile, all you need to do is to type "make" in the folder, this will create the files in the **output/** location (which can be a symbolic link to somewhere else). The Gopher website will be generated inside **output/gopher** and the html will be generated in **output/html**.
 
-**/!\ Linux users /!\ **  you should use **bmake** (bsd make) because the Makefile isn't compatible with gmake (gnu make) which is the default in Linux.
+## Howto Add A New Page
 
-If you want to use a different lisp interpreter (default is **sbcl**), you can set the variable LISP to the name of your binary. 
-
-Example with clisp : 
-
-`make LISP=clisp`
-
-This way, you can easily use a git hook to type make after each change in the repo so your website is automatically updated.
-
-# Some hacks you can do
-
-I tried to make it "hacking friendly", you can extend if easily. If you have any idea, feel free to contact me or to send patches.
-
-## Include some file in the template
-
-Here is an example code if you want to include a page in the template
-
-+ Add a string for the replacement to occure, like %%Panel%% in **template/layout.tpl** (because we want the panel on every page)
-+ In **generator.lisp** modify the function *generate-layout* to add "**(template "%%Panel%%" (load-file "template/panel.tpl"))**" after one template function call
-+ Create **template/panel.tpl** with the html
-
-(note : you can also directly add your text inside the layout template file instead of including another file)
-
-## Add a new specific page
-
-You may want to have some dedicated page for some reason, reusing the website layout, which is not the index nor an article.
-
-In **generate-site** function we can load a file, apply the template and save it in the output. It may look like this
+You may want to have some dedicated pages besides the index or a post.  
+To create one, edit the **generate-site** function in cl-yag's
+generator.lisp and add a function call, like this:
 
     (generate "somepage.html" (load-file "data/mypage.html"))
   
 This will produce the file **somepage.html** in the output folder.
 
-# Known limitations
 
-## Use of ~ character
+## Further Customization
 
-The application will crash if you use a single "**~**" caracter inside one data structure in **articles.lisp** files. This is due to the format function trying to interpret the ~ symbol while we just one a ~ symbol. This symbol in the others files are automatically replaced by ~~ which produce a single ~. So, if you want to have a "~" as a title/url/author/description/short/date you have to double it. It may be interestind to sanitize it in the tool maybe.
+### Howto Use Another Common Lisp Interpreter
 
-## Article without tag
+cl-yags default Lisp interpreter is **sbcl**.  
+If you want to use a different lisp interpreter you need to set the
+variable 'LISP' to the name of your binary, when calling ``make``.
 
-You can have a page without a tag associated but in the default template you will have a line under the title which will displays "Tags : " and no tags after.
+	`make LISP=ecl`
+
+
+### Using git Hooks For Publishing
+
+You may customize your publishing-process further, e.g. by using a git
+hook to call 'make' after each change in the repo so your website gets
+updated automatically.
+
+
+## Page-Includes
+
+Here is an example code, if you want to include another page in the template:
+
+1. Create **template/panel.tpl** with the html you want to include.
+2. Add a string in the target file, where the replacement should occur.  
+   In this case, we choose **%%Panel%%** for a string, and, because we want the panel to be displayed on each page, we add this string to **template/layout.tpl**.
+
+3. Modify the function *generate-layout* in cl-yag's **generator.lisp** accordingly.  
+   This is done by adding the following template function call:
+
+		"**(template "%%Panel%%" (load-file "template/panel.tpl"))**" 
+
+(Note: You can insert your text directly into the layout template file
+as well.)
+
+
+## Known Limitations
+
+### Use ~~ To Create ~
+
+cl-yag crashes if you use a single "**~**" caracter inside one data
+structure in **articles.lisp** files, because Common Lisp employs the
+tilde as a prefix to indicate format specifiers in format strings.
+
+In order to use a literal `~` - e.g. for creating a :title or :url
+reference - you have to **escape** the tilde **by duplicating** it:
+``~~``.  
+(See _:url_ in section 'Configuration').
+
+
+### Posting Without Tagging
+
+cl-yag allows posts to be 'untagged'- but with the default template
+you'll get a line below your title that displays: "Tags: ".
+
+(Note: If you are looking for a way to contribute this may be a task for you.)
+
+
+### A Note On Themes
+
+Although cl-yag **may** ship with a **minimalistic** template, cl-yag
+focuses only on generating html- and gopher-compliant structural
+markup - not themed layouts.
+
+If you want some deeply refined, cross-browser compatible, responsive,
+webscale style-sheet, you need to create it yourself.  
+However, cl-yag will work nicely with it and if you want to make your
+stylesheets a part of cl-yag you're very welcome to contact me.
+
+
+# Hacking cl-yag
+
+I tried to make cl-yag easy to extend.  
+If you want to contribute, feel free to contact me and/or to send in a patch.
+
+- If you are looking for a way to contribute:
+    - You could find a way to "sanitize" cl-yag's behaviour regarding the tilde (see: above);
+    - Also see: 'Note' in 'Posting Without Tagging';
+	- Also see: 'A Note On Themes.
