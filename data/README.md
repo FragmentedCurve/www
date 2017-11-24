@@ -3,7 +3,7 @@
 
 ## Introduction
 
-cl-yag is a very lightweight, 'static site'-generator that produces **gopher** sites as well as **html** websites.  
+cl-yag is a very lightweight, static-site generator that produces **gopher** sites as well as **html** websites.  
 The name 'cl-yag' stands for 'Common Lisp - Yet Another website Generator'.  
 It runs without Quicklisp.
 
@@ -143,13 +143,13 @@ The **config** variable is used to assign the following values:
 ### The **articles** Variable
 
 The **articles** variable holds per page/post-metadata.  
-Of the following fields, only the *:author* and *:short* description could be omitted.
+Of the following fields, only the *:author* and *:short* description can be omitted.
 
 - **:short**
 	- The _:short_ field's value is used for displaying a really short description of the posts content on your homepage.
 	- If _:short_ doesn't get a value, the full article gets displayed.
 	- Hint: Use ``:short "view the article for the full text"``, if you don't want to display the full text of an article on your index site.
-- **:id_**
+- **:id**
     - The _:id_ field holds the filename of your post/page. 
 	- Example: ``:id "2"`` will load file ``data/2.md``. Use text instead of numbers, if you want to.
 	- (See section: 'The **data/** Directory'.)
