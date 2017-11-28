@@ -37,7 +37,10 @@
       (replace-all
        (apply #'concatenate 'string
               (with-open-file (stream path)
-                (loop for line = (read-line stream nil) while line collect line)))
+                (loop for line = (read-line stream nil)
+                   while line
+                   collect
+                   (format nil "~a~%" line))))
        "~" "~~")
     (progn
       (format t "ERROR : file ~a not found. Aborting~%" path)
