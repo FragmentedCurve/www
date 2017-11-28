@@ -30,19 +30,14 @@
 		    (if left-separator-position (+ 1 left-separator-position) 0)
 		    (- count 1))))))
 
-;; we have to remove the quotes
-;; when using collect in a loop
-(defun strip-quotes(input)
-  (format nil "~{~d~%~}" input))
-
 ;; load a file as a string
 ;; we escape ~ to avoid failures with format
 (defun load-file(path)
   (if (probe-file path)
       (replace-all
-       (strip-quotes
-	(with-open-file (stream path)
-			(loop for line = (read-line stream nil) while line collect line)))
+       (apply #'concatenate 'string
+              (with-open-file (stream path)
+                (loop for line = (read-line stream nil) while line collect line)))
        "~" "~~")
     (progn
       (format t "ERROR : file ~a not found. Aborting~%" path)
@@ -85,18 +80,18 @@
 
 ;; generates the html of the list of tags for an article
 (defun get-tag-list-article(&optional article)
-  (strip-quotes
-   (mapcar #'(lambda (item)
-	       (prepare "templates/one-tag.tpl" (template "%%Name%%" item)))
-	   (split-str (getf article :tag)))))
+  (apply #'concatenate 'string
+         (mapcar #'(lambda (item)
+                     (prepare "templates/one-tag.tpl" (template "%%Name%%" item)))
+                 (split-str (getf article :tag)))))
 
 ;; generates the html of the whole list of tags
 (defun get-tag-list()
-  (strip-quotes
-   (mapcar #'(lambda (item)
-	       (prepare "templates/one-tag.tpl"
-			(template "%%Name%%" (getf item :name))))
-	   (articles-by-tag))))
+  (apply #'concatenate 'string
+         (mapcar #'(lambda (item)
+                     (prepare "templates/one-tag.tpl"
+                              (template "%%Name%%" (getf item :name))))
+                 (articles-by-tag))))
 
 
 ;; generates the html of one only article
@@ -126,31 +121,31 @@
 
 ;; html generation of index homepage
 (defun generate-semi-mainpage(&key (tiny t) (no-text nil))
-  (strip-quotes
-   (loop for article in *articles* collect
-	 (create-article article :tiny tiny :no-text no-text))))
+  (apply #'concatenate 'string
+         (loop for article in *articles* collect
+              (create-article article :tiny tiny :no-text no-text))))
 
 ;; html generation of a tag homepage
 (defun generate-tag-mainpage(articles-in-tag)
-  (strip-quotes
-   (loop for article in *articles* 
-	 when (member (getf article :id) articles-in-tag :test #'equal)
-	 collect (create-article article :tiny t))))
+  (apply #'concatenate 'string
+         (loop for article in *articles* 
+            when (member (getf article :id) articles-in-tag :test #'equal)
+            collect (create-article article :tiny t))))
 
 ;; xml generation of the items for the rss
 (defun generate-rss-item()
-  (strip-quotes
-   (loop for article in *articles*
-	 for i from 1 to (if (> (length *articles*) (getf *config* :rss-item-number)) (getf *config* :rss-item-number) (length *articles*))
-	 collect
-	 (prepare "templates/rss-item.tpl"
-		  (template "%%Title%%" (getf article :title))
-		  (template "%%Description%%" (load-file (format nil "temp/data/~d.html" (getf article :id))))
-		  (template "%%Url%%"
-			    (format nil "~darticle-~d.html"
-				    (getf *config* :url)
-				    (getf article :id)))))))
-  
+  (apply #'concatenate 'string
+         (loop for article in *articles*
+            for i from 1 to (if (> (length *articles*) (getf *config* :rss-item-number)) (getf *config* :rss-item-number) (length *articles*))
+            collect
+              (prepare "templates/rss-item.tpl"
+                       (template "%%Title%%" (getf article :title))
+                       (template "%%Description%%" (load-file (format nil "temp/data/~d.html" (getf article :id))))
+                       (template "%%Url%%"
+                                 (format nil "~darticle-~d.html"
+                                         (getf *config* :url)
+                                         (getf article :id)))))))
+
 ;; Generate the rss xml data
 (defun generate-rss()
   (prepare "templates/rss.tpl"
