@@ -34,7 +34,7 @@
 (defvar *articles*
   (list
    ;; README
-   (list :id "README"    :date "23 November 2016"  :tag "cl-yag README"
+   (list :id "README"    :date "23 November 2017"  :tag "cl-yag README"
 	 :title "README" :author "lambda"     :short "cl-yag's README got reworked." :tiny "Read cl-yag's README")
    ;; 1
    (list :id "1"         :date "29 April 2016":tag "pony code"
