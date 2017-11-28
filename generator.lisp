@@ -15,17 +15,20 @@
 			       while pos)))
 
 ;; common-lisp don't have a split string function natively
-;; thanks https://gist.github.com/siguremon/1174988
-(defun split-str-1 (string &optional (separator " ") (r nil))
-  (let ((n (position separator string
-		     :from-end t
-		     :test #'(lambda (x y)
-			       (find y x :test #'string=)))))
-    (if n
-	(split-str-1 (subseq string 0 n) separator (cons (subseq string (1+ n)) r))
-      (cons string r))))
-(defun split-str (string &optional (separator " "))
-  (split-str-1 string separator))
+(defun split-str(text &optional (separator #\Space))
+  "this function split a string with separator and return a list"
+  (let ((text (concatenate 'string text (string separator))))
+    (loop for char across text
+	  counting char into count
+	  when (char= char separator)
+	  collect
+	  ;; we look at the position of the left separator from right to left
+	  (let ((left-separator-position (position separator text :from-end t :end (- count 1))))
+	    (subseq text
+		    ;; if we can't find a separator at the left of the current, then it's the start of
+		    ;; the string
+		    (if left-separator-position (+ 1 left-separator-position) 0)
+		    (- count 1))))))
 
 ;; we have to remove the quotes
 ;; when using collect in a loop
@@ -225,4 +228,4 @@
       (create-gopher-hole)))
 
 (generate-site)
-
+(quit)
