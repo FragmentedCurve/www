@@ -5,18 +5,10 @@ HTMLDIR=       temp/data
 ARTICLES!=     ls data/*.md
 HTML=          $(ARTICLES:.md=.html)
 
-.if "${LISP}" == "sbcl"
-PARAM=--dynamic-space-size 90 --script
-.elif "${LISP}" == "clisp"
-PARAM=
-.elif "${LISP}" == "ecl"
-PARAM=-shell
-.endif
-
 all: clean dirs html
 
 html: $(HTML) css
-	$(LISP) $(PARAM) generator.lisp
+	$(LISP) --load generator.lisp
 	rm -fr "temp"
 
 dirs:

@@ -3,7 +3,8 @@
 
 ## Introduction
 
-cl-yag is a very lightweight, static-site generator that produces **gopher** sites as well as **html** websites.  
+
+cl-yag is a very lightweight, static site generator that produces **gopher** sites as well as **html** websites.  
 The name 'cl-yag' stands for 'Common Lisp - Yet Another website Generator'.  
 It runs without Quicklisp.
 
