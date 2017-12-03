@@ -117,7 +117,7 @@ The *config* variable is used to assign the following values:
 - **:title**
     - The title of the webpage
 - **:description**
-    - This text is used in the *description* field of the Atom RSS
+    - This text is used in the *description* field of the atom/rss feed.
 - **:url**
     - This needs to be the full(!) URL of your website, including(!) a final slash.
 	- MIND: If the url contains a tilde (~), it needs to get duplicated
@@ -150,13 +150,13 @@ Of the following keywords, only ``:author`` and ``:short`` can be omitted.
     - The ``:id`` field holds the filename of your post/page.
 	- Example: ``:id "2"`` will load file **data/2.md**. Use text instead of numbers, if you want to.
 	- (See section: 'The **data/** Directory'.)
-- **:short**
-	- The ``:short`` field's value is used for displaying a really short description of the posts content on your homepage.
-	- If ``:short`` doesn't get a value, the full article gets displayed.
-	- Hint: Use ``:short "view the article for the full text"``, if you don't want to display the full text of an article on your index site.
 - **:tag**
     - ``:tag`` field is used to create a "view" containing all articles of the same tag.
 	-  MIND: Whitespaces are used to separate tags and are not allowed in(!) tags.
+- **:tiny**
+	- The ``:tiny`` field's value is used for displaying a really short description of the posts content on your homepage.
+	- If ``:tiny`` doesn't get a value, the full article gets displayed.
+	- Hint: Use ``:tiny "Read the full article for more information."``, if you don't want to display the full text of an article on your index site.
 - **:title**
 	- The ``:title`` field's value sets your post's title, its first headline, as well as its entry on the index.html.
 
