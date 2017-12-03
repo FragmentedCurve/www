@@ -12,22 +12,22 @@
   </head>
 
     <body>
-    <div id="wrapper">
-      <header>
-	<nav>
+    <div id="wrapper" class="pure-g">
+      <header class="pure-u-1-1">
+	<nav class="pure-menu pure-menu-horizontal">
 	  <!--<a href="#"></a>-->
-	    <ul>
-	      <li><a href="index.html">Home</a></li>
-	      <li><a href="index-titles.html">All Posts</a></li>
-	      <li><a href="rss.xml">RSS</a></li>
+	    <ul class="pure-menu-list">
+	      <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">Home</a></li>
+	      <li class="pure-menu-item"><a href="index-titles.html" class="pure-menu-link">All Posts</a></li>
+	      <li class="pure-menu-item"><a href="rss.xml" class="pure-menu-link">RSS</a></li>
 	     </ul>
 	</nav>
 	<div>All Tags: %%Tags%%</div>
       </header>
 
-      <main>%%Body%%</main>
+      <main class="pure-u-1-1">%%Body%%</main>
 
-      <footer><p>This blog is powered by cl-yag!<p></footer>
+      <footer class="pure-u-1-1"><p>This blog is powered by cl-yag!<p></footer>
 
     </div><!-- #wrapper -->
   </body>

@@ -115,7 +115,7 @@
 ;; return a html string
 ;; produce the code of a whole page with title+layout with the parameter as the content
 (defun generate-layout(body &optional &key (title nil))
-  (prepare "templates/layout.tpl"
+  (prepare "templates/layout-pure.tpl"
 	   (template "%%Title%%" (if title title (getf *config* :title)))
 	   (template "%%Tags%%" (get-tag-list))
 	   (template "%%Body%%" body)
