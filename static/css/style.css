@@ -1,19 +1,17 @@
-/* ==================================================================== */
+/* =================================================================== */
                         /* style.css for cl-yag */
-/* ==================================================================== */
+/* =================================================================== */
 @charset "utf-8";
 
 
-/* ~                           PURE.CSS                               ~ */
+/* ~                           PURE.CSS                              ~ */
 @import url("pure_r1.0.0/pure.css");
-@import url("pure_r1.0.0/grids.css");
-@import url("pure_r1.0.0/grids-responsive.css");
 
 
-/* ~                     Stylesheet for cl-yag                         ~ */
+/* ~                     Stylesheet for cl-yag                       ~ */
 @import url("clym.css");
 
 
-/* ~                             LAST ENTRY                            ~ */
-/* ~                 custom.css to override styles.                    ~ */
+/* ~                             LAST ENTRY                          ~ */
+/* ~                 custom.css to override styles.                  ~ */
 @import url("custom.css");
