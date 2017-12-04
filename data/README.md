@@ -120,10 +120,10 @@ The *config* variable is used to assign the following values:
     - This text is used in the *description* field of the atom/rss feed.
 - **:url**
     - This needs to be the full(!) URL of your website, including(!) a final slash.
-	- MIND: If the url contains a tilde (~), it needs to get duplicated
+	- MIND: If the url contains a tilde (~), it needs to get duplicated.
 	- Example: ``https://mydomain/~~user/``
 - **:rss-item-number**
-    - This holds the number of latest(!) RSS items you want to get published when you generate the files.
+    - This holds the number of latest(!) RSS items you want to get published.
 - **html**
     - ``t`` to export html website. Set ``nil`` to disable.
 - **gopher**
@@ -131,9 +131,9 @@ The *config* variable is used to assign the following values:
 - **gopher-path**
     - This is the full path of the directory to access your gopher hole.
 - **gopher-server**
-    - Hostname of the gopher server. It needs to be included in every link.
+    - Hostname of the gopher server. It needs to be included in each link.
 - **gopher-port**
-    - tcp port of the gopher server. 70 is the default port. It needs to be included in every link.
+    - tcp port of the gopher server. 70 is the default port. It needs to be included in each link.
 
 
 ### The *articles* Variable
@@ -169,7 +169,7 @@ Edit **data/articles.lisp** and add a new list to the *articles* variable:
 		  :id "2"
 		  :date "29 April 2016" 
 		  :author "Solène"
-		  :short "I will explain how to use the generator" 
+		  :tiny "Read more about how I use cl-yag." 
 		  :tag "example help code")
 
 Then write a corresponding **data/2.md** file, using markdown.
@@ -202,9 +202,9 @@ This will produce **output/html/somepage.html**.
 
 ### Howto Use Another Common Lisp Interpreter
 
-cl-yags default Lisp interpreter is **sbcl**.  
-If you want to use a different lisp interpreter you need to set the
-variable *LISP* to the name of your binary, when calling ``make``:
+cl-yags default Lisp interpreter is **sbcl**. If you want to use a
+different interpreter you need to set the variable *LISP* to the name
+of your binary, when calling ``make``:
 
     make LISP=ecl
 
@@ -262,7 +262,7 @@ themed layouts.
 If you want some deeply refined, cross-browser compatible, responsive,
 webscale style sheets, you need to create them yourself.  However,
 cl-yag will work nicely with them and if you want to make your
-stylesheets a part of cl-yag you're very welcome to contact me.
+style sheets a part of cl-yag you're very welcome to contact me.
 
 
 # Hacking cl-yag

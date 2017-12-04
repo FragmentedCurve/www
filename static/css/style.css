@@ -4,14 +4,14 @@
 @charset "utf-8";
 
 
-/* ~                           PURE.CSS                              ~ */
+/* ~                             PURE                                ~ */
 @import url("pure_r1.0.0/pure.css");
 
 
-/* ~                     Stylesheet for cl-yag                       ~ */
+/* ~                             CLYM                                ~ */
 @import url("clym.css");
 
 
-/* ~                             LAST ENTRY                          ~ */
-/* ~                 custom.css to override styles.                  ~ */
+/* ~                          LAST ENTRY                             ~ */
+/* ~             use custom.css for overriding rules                 ~ */
 @import url("custom.css");
