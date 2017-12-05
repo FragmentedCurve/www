@@ -33,14 +33,11 @@
 
 (defvar *articles*
   (list
-   ;; CSS
-   (list :id "css"               :date "02.12.2017"  :tag "cl-yag"
-	 :title "CSS For cl-yag" :author "lambda"    :tiny "Read more")
    ;; README
-   (list :id "README"    :date "23.11.2017"  :tag "cl-yag"
-	 :title "README" :author "lambda"    :tiny "Read cl-yag's README")
+   (list :id "README"    :date "23 November 2017"  :tag "cl-yag README"
+	 :title "README" :author "lambda"     :short "cl-yag's README got reworked." :tiny "Read cl-yag's README")
    ;; 1
-   (list :id "1"                   :date "29.04.2016"                :tag "pony"
+   (list :id "1"         :date "29 April 2016":tag "pony code"
 	 :title "My first message" :short "This is my first message" :author "Solène" :tiny "Read more")
    ))
 
