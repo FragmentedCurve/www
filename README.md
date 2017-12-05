@@ -1,9 +1,9 @@
-o# README
+# README
 
 
 ## Introduction
 
-cl-yag is a lightweight, static-site generator that produces **gopher** sites as well as **html** websites.  
+cl-yag is a lightweight, static site generator that produces **gopher** sites as well as **html** websites.  
 The name 'cl-yag' stands for 'Common Lisp - Yet Another website Generator'.  
 It runs without Quicklisp.
 
@@ -117,13 +117,13 @@ The *config* variable is used to assign the following values:
 - **:title**
     - The title of the webpage
 - **:description**
-    - This text is used in the *description* field of the Atom RSS
+    - This text is used in the *description* field of the atom/rss feed.
 - **:url**
     - This needs to be the full(!) URL of your website, including(!) a final slash.
-	- MIND: If the url contains a tilde (~), it needs to get duplicated
+	- MIND: If the url contains a tilde (~), it needs to get duplicated.
 	- Example: ``https://mydomain/~~user/``
 - **:rss-item-number**
-    - This holds the number of latest(!) RSS items you want to get published when you generate the files.
+    - This holds the number of latest(!) RSS items you want to get published.
 - **html**
     - ``t`` to export html website. Set ``nil`` to disable.
 - **gopher**
@@ -131,9 +131,9 @@ The *config* variable is used to assign the following values:
 - **gopher-path**
     - This is the full path of the directory to access your gopher hole.
 - **gopher-server**
-    - Hostname of the gopher server. It needs to be included in every link.
+    - Hostname of the gopher server. It needs to be included in each link.
 - **gopher-port**
-    - tcp port of the gopher server. 70 is the default port. It needs to be included in every link.
+    - tcp port of the gopher server. 70 is the default port. It needs to be included in each link.
 
 
 ### The *articles* Variable
@@ -150,13 +150,13 @@ Of the following keywords, only ``:author`` and ``:short`` can be omitted.
     - The ``:id`` field holds the filename of your post/page.
 	- Example: ``:id "2"`` will load file **data/2.md**. Use text instead of numbers, if you want to.
 	- (See section: 'The **data/** Directory'.)
-- **:short**
-	- The ``:short`` field's value is used for displaying a really short description of the posts content on your homepage.
-	- If ``:short`` doesn't get a value, the full article gets displayed.
-	- Hint: Use ``:short "view the article for the full text"``, if you don't want to display the full text of an article on your index site.
 - **:tag**
     - ``:tag`` field is used to create a "view" containing all articles of the same tag.
 	-  MIND: Whitespaces are used to separate tags and are not allowed in(!) tags.
+- **:tiny**
+	- The ``:tiny`` field's value is used for displaying a really short description of the posts content on your homepage.
+	- If ``:tiny`` doesn't get a value, the full article gets displayed.
+	- Hint: Use ``:tiny "Read the full article for more information."``, if you don't want to display the full text of an article on your index site.
 - **:title**
 	- The ``:title`` field's value sets your post's title, its first headline, as well as its entry on the index.html.
 
@@ -169,7 +169,7 @@ Edit **data/articles.lisp** and add a new list to the *articles* variable:
 		  :id "2"
 		  :date "29 April 2016" 
 		  :author "Solène"
-		  :short "I will explain how to use the generator" 
+		  :tiny "Read more about how I use cl-yag." 
 		  :tag "example help code")
 
 Then write a corresponding **data/2.md** file, using markdown.
@@ -202,9 +202,9 @@ This will produce **output/html/somepage.html**.
 
 ### Howto Use Another Common Lisp Interpreter
 
-cl-yags default Lisp interpreter is **sbcl**.  
-If you want to use a different lisp interpreter you need to set the
-variable *LISP* to the name of your binary, when calling ``make``:
+cl-yags default Lisp interpreter is **sbcl**. If you want to use a
+different interpreter you need to set the variable *LISP* to the name
+of your binary, when calling ``make``:
 
     make LISP=ecl
 
@@ -262,7 +262,7 @@ themed layouts.
 If you want some deeply refined, cross-browser compatible, responsive,
 webscale style sheets, you need to create them yourself.  However,
 cl-yag will work nicely with them and if you want to make your
-stylesheets a part of cl-yag you're very welcome to contact me.
+style sheets a part of cl-yag you're very welcome to contact me.
 
 
 # Hacking cl-yag
