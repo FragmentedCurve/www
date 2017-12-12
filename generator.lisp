@@ -1,4 +1,20 @@
+(defparameter *articles* '())
+
+;; structure to store links
+(defstruct article title tag date id tiny author short)
+
+(defun post(&optional &key title tag date id (tiny nil) (author nil) (short nil))
+  (push (make-article :title title
+                      :tag tag
+                      :date date
+                      :tiny tiny
+                      :author author
+                      :short short
+                      :id id)
+        *articles*))
+
 (load "data/articles.lisp")
+
 
 ;; common-lisp don't have a replace string function natively
 (defun replace-all (string part replacement &key (test #'char=))
@@ -72,12 +88,12 @@
 (defun articles-by-tag()
   (let ((tag-list))
     (loop for article in *articles* do
-	  (when (getf article :tag nil) ;; we don't want an error if no tag
-	    (loop for tag in (split-str (getf article :tag)) do ;; for each word in tag keyword
+	  (when (article-tag article) ;; we don't want an error if no tag
+	    (loop for tag in (split-str (article-tag article)) do ;; for each word in tag keyword
 		  (setf (getf tag-list (intern tag "KEYWORD")) ;; we create the keyword is inexistent and add ID to :value
 			(list
 			 :name tag
-			 :value (push (getf article :id) (getf (getf tag-list (intern tag "KEYWORD")) :value)))))))
+			 :value (push (article-id article) (getf (getf tag-list (intern tag "KEYWORD")) :value)))))))
     (loop for i from 1 to (length tag-list) by 2 collect ;; removing the keywords
 	  (nth i tag-list))))
 
@@ -86,7 +102,7 @@
   (apply #'concatenate 'string
          (mapcar #'(lambda (item)
                      (prepare "templates/one-tag.tpl" (template "%%Name%%" item)))
-                 (split-str (getf article :tag)))))
+                 (split-str (article-tag article)))))
 
 ;; generates the html of the whole list of tags
 (defun get-tag-list()
@@ -101,16 +117,17 @@
 ;; this is called in a loop to produce the homepage
 (defun create-article(article &optional &key (tiny t) (no-text nil))
   (prepare "templates/article.tpl"
-	   (template "%%Author%%" (getf article :author (getf *config* :webmaster)))
-	   (template "%%Date%%"   (getf article :date))
-	   (template "%%Title%%"  (getf article :title))
-	   (template "%%Id%%"     (getf article :id))
+	   (template "%%Author%%" (let ((author (article-author article)))
+                                    (or author (getf *config* :webmaster))))
+	   (template "%%Date%%"   (article-date article))
+	   (template "%%Title%%"  (article-title article))
+	   (template "%%Id%%"     (article-id article))
 	   (template "%%Tags%%"   (get-tag-list-article article))
 	   (template "%%Text%%"   (if no-text
 				      ""
-				    (if (and tiny (member :tiny article))
-					(getf article :tiny)
-				      (load-file (format nil "temp/data/~d.html" (getf article :id))))))))
+                                      (if (and tiny (article-tiny article))
+                                          (article-tiny article)
+                                          (load-file (format nil "temp/data/~d.html" (article-id article))))))))
 
 ;; return a html string
 ;; produce the code of a whole page with title+layout with the parameter as the content
@@ -132,7 +149,7 @@
 (defun generate-tag-mainpage(articles-in-tag)
   (apply #'concatenate 'string
          (loop for article in *articles* 
-            when (member (getf article :id) articles-in-tag :test #'equal)
+            when (member (article-id article) articles-in-tag :test #'equal)
             collect (create-article article :tiny t))))
 
 ;; xml generation of the items for the rss
@@ -142,12 +159,12 @@
             for i from 1 to (if (> (length *articles*) (getf *config* :rss-item-number)) (getf *config* :rss-item-number) (length *articles*))
             collect
               (prepare "templates/rss-item.tpl"
-                       (template "%%Title%%" (getf article :title))
-                       (template "%%Description%%" (load-file (format nil "temp/data/~d.html" (getf article :id))))
+                       (template "%%Title%%" (article-title article))
+                       (template "%%Description%%" (load-file (format nil "temp/data/~d.html" (article-id article))))
                        (template "%%Url%%"
                                  (format nil "~darticle-~d.html"
                                          (getf *config* :url)
-                                         (getf article :id)))))))
+                                         (article-id article)))))))
 
 ;; Generate the rss xml data
 (defun generate-rss()
@@ -167,9 +184,9 @@
 
   ;; produce each article file
   (dolist (article *articles*)
-    (generate (format nil "output/html/article-~d.html" (getf article :id))
+    (generate (format nil "output/html/article-~d.html" (article-id article))
 	      (create-article article :tiny nil)
-	      :title (concatenate 'string (getf *config* :title) " : " (getf article :title))))
+	      :title (concatenate 'string (getf *config* :title) " : " (article-title article))))
   
   ;; produce index file for each tag
   (loop for tag in (articles-by-tag) do
@@ -195,14 +212,14 @@
 					     ;; and date on the right
 					     ;; we truncate the article title if it's too large
 					     (let ((title (format nil "~80a"
-								  (if (< 80 (length (getf article :title)))
-								      (subseq (getf article :title) 0 80)
-								    (getf article :title)))))
-					       (replace title (getf article :date) :start1 (- (length title) (length (getf article :date)))))
+								  (if (< 80 (length (article-title article)))
+								      (subseq (article-title article) 0 80)
+								    (article-title article)))))
+					       (replace title (article-date article) :start1 (- (length title) (length (article-date article)))))
 					     
 					     
 					     (getf *config* :gopher-path)
-					     (getf article :id)
+					     (article-id article)
 					     (getf *config* :gopher-server)
 					     (getf *config* :gopher-port)
 					     )))))	       
@@ -210,7 +227,7 @@
   
   ;; produce each article file (only a copy/paste in fact)
   (dolist (article *articles*)
-    (let ((id (getf article :id)))
+    (let ((id (article-id article)))
       (save-file (format nil "output/gopher/article-~d.txt" id)
 		 (load-file (format nil "data/~d.md" id)))))
   
@@ -225,5 +242,7 @@
   (if (getf *config* :gopher)
       (create-gopher-hole)))
 
+
 (generate-site)
+
 (quit)
