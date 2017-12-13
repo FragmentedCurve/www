@@ -1,3 +1,5 @@
+;;;; GLOBAL VARIABLES
+
 (defparameter *articles* '())
 (defparameter *converters* '())
 (defparameter *days* '("Monday" "Tuesday" "Wednesday" "Thursday"
@@ -7,36 +9,19 @@
                          "October" "November" "December"))
 
 ;; structure to store links
-(defstruct article title tag date id tiny author)
+(defstruct article title tag date id tiny author rawdate)
 (defstruct converter name command extension)
 
-(defun post(&optional &key title tag date id (tiny nil) (author nil))
-  (push (make-article :title title
-                      :tag tag
-                      :date date
-                      :tiny tiny
-                      :author author
-                      :id id)
-        *articles*))
-
-;; we add a converter to the list of the one availables
-(defun converter(&optional &key name command extension)
-  (push (make-converter :name name
-                        :command command
-                        :extension extension)
-        *converters*))
-
-(load "data/articles.lisp")
-(setf *articles* (reverse *articles*))
-
+;;;; FUNCTIONS
 
 ;; return the day of the week
 (defun get-day-of-week(day month year)
   (multiple-value-bind
-        (second minute hour date month year day-of-week dst-p tz)
-      (decode-universal-time (encode-universal-time 0 0 0 day month year))
-    (declare (ignore second minute hour date month year dst-p tz))
-    day-of-week))
+   (second minute hour date month year day-of-week dst-p tz)
+   (decode-universal-time (encode-universal-time 0 0 0 day month year))
+   (declare (ignore second minute hour date month year dst-p tz))
+   day-of-week))
+
 
 ;; parse the date to
 (defun date-parse(date)
@@ -52,7 +37,28 @@
          :monthname month
          :monthnumber monthnum
          :year year))
-      nil))
+    nil))
+
+(defun post(&optional &key title tag date id (tiny nil) (author nil))
+  (push (make-article :title title
+                      :tag tag
+                      :date (date-parse date)
+		      :rawdate date
+                      :tiny tiny
+                      :author author
+                      :id id)
+        *articles*))
+
+;; we add a converter to the list of the one availables
+(defun converter(&optional &key name command extension)
+  (push (make-converter :name name
+                        :command command
+                        :extension extension)
+        *converters*))
+
+;; load data from metadata and load config
+(load "data/articles.lisp")
+(setf *articles* (reverse *articles*))
 
 
 ;; common-lisp don't have a replace string function natively
@@ -115,9 +121,9 @@
 (defun date-format(format date)
   (let ((output format))
     (template "%DayName"     (getf date :dayname))
-    (template "%DayNumber"   (write-to-string (getf date :daynumber)))
+    (template "%DayNumber"   (format nil "~2,'0d" (getf date :daynumber)))
     (template "%MonthName"   (getf date :monthname))
-    (template "%MonthNumber" (write-to-string (getf date :monthnumber)))
+    (template "%MonthNumber" (format nil "~2,'0d" (getf date :monthnumber)))
     (template "%Year"        (write-to-string (getf date :year )))
     output))
 
@@ -162,18 +168,20 @@
                  (articles-by-tag))))
 
 
-;; generates the html of one only article
+;; generates the html of only one article
 ;; this is called in a loop to produce the homepage
 (defun create-article(article &optional &key (tiny t) (no-text nil))
   (prepare "templates/article.tpl"
 	   (template "%%Author%%" (let ((author (article-author article)))
                                     (or author (getf *config* :webmaster))))
 	   (template "%%Date%%"   (date-format (getf *config* :date-format)
-                                               (date-parse (article-date article))))
-           (template "%%Raw-Date%%" (article-date article))
+					       (article-date article)))
+           (template "%%Raw-Date%%" (article-rawdate article))
            (template "%%Title%%"  (article-title article))
            (template "%%Id%%"     (article-id article))
 	   (template "%%Tags%%"   (get-tag-list-article article))
+	   (template "%%Date-Url%%"  (date-format "%Year-%MonthNumber-%DayNumber"
+						  (article-date article)))
 	   (template "%%Text%%"   (if no-text
 				      ""
                                       (if (and tiny (article-tiny article))
@@ -212,10 +220,11 @@
               (prepare "templates/rss-item.tpl"
                        (template "%%Title%%" (article-title article))
                        (template "%%Description%%" (load-file (format nil "temp/data/~d.html" (article-id article))))
-                       (let ((date (date-parse (article-date article))))
-                         (template "%%Date%%" (format nil (date-format "~a, %DayNumber ~a %Year 00:00:00 GMT" date)
-                                                      (subseq (getf date :dayname) 0 3)
-                                                      (subseq (getf date :monthname) 0 3))))
+		       (template "%%Date%%" (format nil
+						    (date-format "~a, %DayNumber ~a %Year 00:00:00 GMT"
+								 (article-date article))
+						    (subseq (getf (article-date article) :dayname) 0 3)
+						    (subseq (getf (article-date article) :monthname) 0 3)))
                        (template "%%Url%%"
                                  (format nil "~darticle-~d.html"
                                          (getf *config* :url)
@@ -238,10 +247,14 @@
   (generate "output/html/index-titles.html" (generate-semi-mainpage :no-text t))
 
   ;; produce each article file
-  (dolist (article *articles*)
-    (generate (format nil "output/html/article-~d.html" (article-id article))
-	      (create-article article :tiny nil)
-	      :title (concatenate 'string (getf *config* :title) " : " (article-title article))))
+  (loop for article in *articles*
+	do
+	(generate  (format nil "output/html/~d-~d.html"
+			   (date-format "%Year-%MonthNumber-%DayNumber"
+					(article-date article))
+			   (article-id article))
+		   (create-article article :tiny nil)
+		   :title (concatenate 'string (getf *config* :title) " : " (article-title article))))
   
   ;; produce index file for each tag
   (loop for tag in (articles-by-tag) do
@@ -269,7 +282,7 @@
 								  (if (< 80 (length (article-title article)))
 								      (subseq (article-title article) 0 80)
 								    (article-title article)))))
-					       (replace title (article-date article) :start1 (- (length title) (length (article-date article)))))
+					       (replace title (article-rawdate article) :start1 (- (length title) (length (article-rawdate article)))))
 					     
 					     
 					     (getf *config* :gopher-path)
@@ -296,6 +309,7 @@
   (if (getf *config* :gopher)
       (create-gopher-hole)))
 
+;;;; EXECUTION
 
 (generate-site)
 
