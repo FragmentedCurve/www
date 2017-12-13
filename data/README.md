@@ -3,17 +3,18 @@
 
 ## Introduction
 
-cl-yag is a lightweight, static site generator that produces **gopher** sites as well as **html** websites.  
-The name 'cl-yag' stands for 'Common Lisp - Yet Another website Generator'.  
-It runs without Quicklisp.
+cl-yag is a lightweight, static site generator that produces
+**gopher** sites as well as **html** websites.  The name 'cl-yag'
+stands for 'Common Lisp - Yet Another website Generator'.  It runs
+without needing Quicklisp (Common LISP library manager).
 
 
 ## Showcase
 
 I am using cl-yag to create and maintain my websites in the
-world-wide-web (visit: *[Solene's
-percent](https://dataswamp.org/~solene/)*) as well as [in
-gopher-space](gopher://dataswamp.org/1/~solene/).
+world-wide-web (visit: *[Solene's percent]
+(https://dataswamp.org/~solene/)*) as well as [in gopher-space]
+(gopher://dataswamp.org/1/~solene/).
 
 
 ## Requirements
@@ -101,7 +102,7 @@ to set most of the values in this file.
 **data/articles.lisp** has two parts:
 
 1. A variable called *config*. Its values define your webpage.
-2. A variable called *articles*. Its values define your posts.
+2. "posts" declaration with their metadata
 
 Values are assigned by placing a string (e.g. ``"foo"``) or a boolean
 (i.e. ``t`` or ``nil``) behind a keyword (e.g. ``:title``).
@@ -134,12 +135,16 @@ The *config* variable is used to assign the following values:
     - Hostname of the gopher server. It needs to be included in each link.
 - **gopher-port**
     - tcp port of the gopher server. 70 is the default port. It needs to be included in each link.
+- **gopher-format**
+    - format of the gopher server. default is the geomyidae format, gophernicus format is commented.
+- **gopher-index**
+    - name of the gopher menu file. defaut is index.gph for geomyidae, gophermap file is commented.
 
 
-### The *articles* Variable
+### Posts declarations
 
-The *articles* variable holds post metadata.  
-So you need to create an entry in the *articles* variable for each of your posts.
+Each post is declared with its metadata using the function "post".
+So you need to add a new line for each of your posts.
 
 Of the following keywords, only ``:author`` and ``:short`` can be omitted.
 
@@ -178,18 +183,18 @@ Then write a corresponding **data/2.md** file, using markdown.
 ## Howto Publish A Post
 
 I prepared a Makefile to facilitate the process of generating and
-publishing your static sites.  
+publishing your static sites.
 All you need to do in order to publish is to go into your cl-yag
 directory and type ``make``.
 
-The make command creates html and gopher files in the defined location.  
+The make command creates html and gopher files in the defined location.
 The default is the **output/** directory, but you can use a symbolic link
 pointing to some other directory as well.
 
 
 ## Howto Add A New Page
 
-You may want to have some dedicated pages besides the index or a post.  
+You may want to have some dedicated pages besides the index or a post.
 To create one, edit the *generate-site* function in cl-yag's
 **generator.lisp** and add a function call, like this:
 

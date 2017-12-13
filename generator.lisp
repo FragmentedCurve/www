@@ -1,7 +1,9 @@
 (defparameter *articles* '())
+(defparameter *converters* '())
 
 ;; structure to store links
 (defstruct article title tag date id tiny author short)
+(defstruct converter name command extension)
 
 (defun post(&optional &key title tag date id (tiny nil) (author nil) (short nil))
   (push (make-article :title title
@@ -13,7 +15,15 @@
                       :id id)
         *articles*))
 
+;; we add a converter to the list of the one availables
+(defun converter(&optional &key name command extension)
+  (push (make-converter :name name
+                        :command command
+                        :extension extension)
+        *converters*))
+
 (load "data/articles.lisp")
+(setf *articles* (reverse *articles*))
 
 
 ;; common-lisp don't have a replace string function natively
@@ -200,14 +210,13 @@
 (defun create-gopher-hole()
 
   ;; produce the gophermap file
-  (save-file "output/gopher/gophermap"
+  (save-file (concatenate 'string "output/gopher/" (getf *config* :gopher-index))
 	     (let ((output (load-file "templates/gopher_head.tpl")))
 	       (dolist (article *articles*)
 		 (setf output
 		       (string
 			(concatenate 'string output
-				     (format nil "0~a	~a/article-~d.txt	~a	~a~%~%"
-					     
+                                     (format nil (getf *config* :gopher-format)
 					     ;; here we create a 80 width char string with title on the left
 					     ;; and date on the right
 					     ;; we truncate the article title if it's too large

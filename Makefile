@@ -1,5 +1,5 @@
 LISP=          sbcl
-MD=            multimarkdown -o
+MD=            multimarkdown -t html -o
 
 HTMLDIR=       temp/data
 ARTICLES!=     ls data/*.md
