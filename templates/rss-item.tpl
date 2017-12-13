@@ -7,4 +7,5 @@
   </description>
   <guid>%%Url%%</guid>
   <link>%%Url%%</link>
+  <pubDate>%%Date%%</pubDate>
 </item>

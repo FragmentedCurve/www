@@ -212,6 +212,10 @@
               (prepare "templates/rss-item.tpl"
                        (template "%%Title%%" (article-title article))
                        (template "%%Description%%" (load-file (format nil "temp/data/~d.html" (article-id article))))
+                       (let ((date (date-parse (article-date article))))
+                         (template "%%Date%%" (format nil (date-format "~a, %DayNumber ~a %Year 00:00:00 GMT" date)
+                                                      (subseq (getf date :dayname) 0 3)
+                                                      (subseq (getf date :monthname) 0 3))))
                        (template "%%Url%%"
                                  (format nil "~darticle-~d.html"
                                          (getf *config* :url)
