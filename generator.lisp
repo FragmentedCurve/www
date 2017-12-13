@@ -1,17 +1,21 @@
 (defparameter *articles* '())
 (defparameter *converters* '())
+(defparameter *days* '("Monday" "Tuesday" "Wednesday" "Thursday"
+                       "Friday" "Saturday" "Sunday"))
+(defparameter *months* '("January" "February" "March" "April"
+                         "May" "June" "July" "August" "September"
+                         "October" "November" "December"))
 
 ;; structure to store links
-(defstruct article title tag date id tiny author short)
+(defstruct article title tag date id tiny author)
 (defstruct converter name command extension)
 
-(defun post(&optional &key title tag date id (tiny nil) (author nil) (short nil))
+(defun post(&optional &key title tag date id (tiny nil) (author nil))
   (push (make-article :title title
                       :tag tag
                       :date date
                       :tiny tiny
                       :author author
-                      :short short
                       :id id)
         *articles*))
 
@@ -24,6 +28,31 @@
 
 (load "data/articles.lisp")
 (setf *articles* (reverse *articles*))
+
+
+;; return the day of the week
+(defun get-day-of-week(day month year)
+  (multiple-value-bind
+        (second minute hour date month year day-of-week dst-p tz)
+      (decode-universal-time (encode-universal-time 0 0 0 day month year))
+    (declare (ignore second minute hour date month year dst-p tz))
+    day-of-week))
+
+;; parse the date to
+(defun date-parse(date)
+  (if (= 8 (length date))
+      (let* ((year     (parse-integer date :start 0 :end 4))
+             (monthnum (parse-integer date :start 4 :end 6))
+             (daynum   (parse-integer date :start 6 :end 8))
+             (day      (nth (get-day-of-week daynum monthnum year) *days*))
+             (month    (nth (- monthnum 1) *months*)))
+        (list
+         :dayname day
+         :daynumber daynum
+         :monthname month
+         :monthnumber monthnum
+         :year year))
+      nil))
 
 
 ;; common-lisp don't have a replace string function natively
@@ -82,6 +111,16 @@
   `(progn
      (setf output (replace-all output ,before ,@after))))
 
+;; format the date
+(defun date-format(format date)
+  (let ((output format))
+    (template "%DayName"     (getf date :dayname))
+    (template "%DayNumber"   (write-to-string (getf date :daynumber)))
+    (template "%MonthName"   (getf date :monthname))
+    (template "%MonthNumber" (write-to-string (getf date :monthnumber)))
+    (template "%Year"        (write-to-string (getf date :year )))
+    output))
+
 ;; simplify the declaration of a new page type
 (defmacro prepare(template &body code)
   `(progn
@@ -129,9 +168,11 @@
   (prepare "templates/article.tpl"
 	   (template "%%Author%%" (let ((author (article-author article)))
                                     (or author (getf *config* :webmaster))))
-	   (template "%%Date%%"   (article-date article))
-	   (template "%%Title%%"  (article-title article))
-	   (template "%%Id%%"     (article-id article))
+	   (template "%%Date%%"   (date-format (getf *config* :date-format)
+                                               (date-parse (article-date article))))
+           (template "%%Raw-Date%%" (article-date article))
+           (template "%%Title%%"  (article-title article))
+           (template "%%Id%%"     (article-id article))
 	   (template "%%Tags%%"   (get-tag-list-article article))
 	   (template "%%Text%%"   (if no-text
 				      ""
@@ -166,7 +207,7 @@
 (defun generate-rss-item()
   (apply #'concatenate 'string
          (loop for article in *articles*
-            for i from 1 to (if (> (length *articles*) (getf *config* :rss-item-number)) (getf *config* :rss-item-number) (length *articles*))
+            for i from 1 to (min (length *articles*) (getf *config* :rss-item-number))
             collect
               (prepare "templates/rss-item.tpl"
                        (template "%%Title%%" (article-title article))
