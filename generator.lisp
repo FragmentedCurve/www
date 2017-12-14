@@ -9,10 +9,12 @@
                          "October" "November" "December"))
 
 ;; structure to store links
-(defstruct article title tag date id tiny author rawdate)
+(defstruct article title tag date id tiny author rawdate converter)
 (defstruct converter name command extension)
 
 ;;;; FUNCTIONS
+
+(require 'asdf)
 
 ;; return the day of the week
 (defun get-day-of-week(day month year)
@@ -39,22 +41,26 @@
          :year year))
     nil))
 
-(defun post(&optional &key title tag date id (tiny nil) (author nil))
+(defun post(&optional &key title tag date id (tiny nil) (author nil) (converter nil))
   (push (make-article :title title
                       :tag tag
                       :date (date-parse date)
 		      :rawdate date
                       :tiny tiny
                       :author author
-                      :id id)
+                      :id id
+		      :converter converter)
         *articles*))
 
 ;; we add a converter to the list of the one availables
 (defun converter(&optional &key name command extension)
-  (push (make-converter :name name
-                        :command command
-                        :extension extension)
-        *converters*))
+  (setf *converters*
+	(append
+	 (list name
+	       (make-converter :name name
+			       :command command
+			       :extension extension))
+	 *converters*)))
 
 ;; load data from metadata and load config
 (load "data/articles.lisp")
@@ -116,6 +122,23 @@
 (defmacro template(before &body after)
   `(progn
      (setf output (replace-all output ,before ,@after))))
+
+;; get the converter object of "article"
+(defmacro with-converter(&body code)
+  `(progn
+     (let ((converter-name (if (article-converter article)
+			       (article-converter article)
+			     (getf *config* :default-converter))))
+       (let ((converter-object (getf *converters* converter-name)))
+	 ,@code))))
+
+(defun use-converter-to-html(article)
+  (with-converter
+   (let ((output (converter-command converter-object)))
+     (ensure-directories-exist "temp/data/")
+     (template "%IN" (concatenate 'string (article-id article) (converter-extension converter-object)))
+     (template "%OUT" (concatenate 'string "temp/data/" (article-id article) ".html"))
+     (uiop:run-program output))))
 
 ;; format the date
 (defun date-format(format date)
@@ -240,21 +263,25 @@
 
 ;; We do all the website
 (defun create-html-site()
-  ;; produce index.html
-  (generate "output/html/index.html" (generate-semi-mainpage))
-
-  ;; produce index-titles.html where there are only articles titles
-  (generate "output/html/index-titles.html" (generate-semi-mainpage :no-text t))
 
   ;; produce each article file
   (loop for article in *articles*
 	do
+	;; use the article's converter to get html code of it
+	(use-converter-to-html article)
+
 	(generate  (format nil "output/html/~d-~d.html"
 			   (date-format "%Year-%MonthNumber-%DayNumber"
 					(article-date article))
 			   (article-id article))
 		   (create-article article :tiny nil)
 		   :title (concatenate 'string (getf *config* :title) " : " (article-title article))))
+
+  ;; produce index.html
+  (generate "output/html/index.html" (generate-semi-mainpage))
+
+  ;; produce index-titles.html where there are only articles titles
+  (generate "output/html/index-titles.html" (generate-semi-mainpage :no-text t))
   
   ;; produce index file for each tag
   (loop for tag in (articles-by-tag) do
@@ -293,10 +320,12 @@
 	       output))
   
   ;; produce each article file (only a copy/paste in fact)
-  (dolist (article *articles*)
-    (let ((id (article-id article)))
-      (save-file (format nil "output/gopher/article-~d.txt" id)
-		 (load-file (format nil "data/~d.md" id)))))
+  (loop for article in *articles*
+	do
+	(with-converter
+	 (let ((id (article-id article)))
+	   (save-file (format nil "output/gopher/article-~d.txt" id)
+		      (load-file (format nil "data/~d~d" id (converter-extension converter-object)))))))
   
   )
 
@@ -312,5 +341,6 @@
 ;;;; EXECUTION
 
 (generate-site)
+
 
 (quit)

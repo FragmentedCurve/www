@@ -11,6 +11,7 @@
    :url             "https://my.website/~~user/"        ;; the trailing slash is mandatory! RSS links will fail without it. Notice the '~~' to produce a literal '~'
    :rss-item-number 10                                  ;; limit total amount of items in RSS feed to 10
    :date-format "%DayNumber %MonthName %Year"           ;; format for date %DayNumber %DayName %MonthNumber %MonthName %Year
+   :default-converter :markdown2
    :html   t                                            ;; 't' to enable export to a html website / 'nil' to disable
    :gopher t                                            ;; 't' to enable export to a gopher website / 'nil' to disable
    :gopher-path      "/user"                            ;; absolute path of your gopher directory
@@ -23,8 +24,13 @@
    ))
 
 
-(converter :name :markdown  :extension ".md" :command "peg-markdown -o %IN")
-(converter :name :markdown2 :extension ".md" :command "multimarkdown -o %IN")
+(converter :name :markdown  :extension ".md"  :command "peg-markdown -t html -o %OUT data/%IN")
+(converter :name :markdown2 :extension ".md"  :command "multimarkdown -t html -o %OUT data/%IN")
+(converter :name :org-mode  :extension ".org"
+	   :command (concatenate 'string
+				 "emacs data/%IN --batch --eval '(with-temp-buffer (org-mode) "
+				 "(insert-file \"%IN\") (org-html-export-as-html nil nil nil t)"
+				 "(princ (buffer-string)))' --kill | tee %OUT"))
 
 ;; Define your articles and their display-order on the website below.
 ;; Display Order is 'lifo', i.e. the top entry in this list gets displayed as the topmost entry.
@@ -40,6 +46,8 @@
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
 
 
+(post :title "test"
+      :id "t" :date "20171214" :tag "f" :converter :org-mode)
 ;; CSS
 (post :title "CSS For cl-yag"
       :id "css" :date "20171202" :tag "cl-yag"
