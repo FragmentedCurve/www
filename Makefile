@@ -1,7 +1,5 @@
 LISP=          sbcl
 
-HTMLDIR=       temp/data
-
 all: clean dirs html
 
 html: $(HTML) css
@@ -9,7 +7,6 @@ html: $(HTML) css
 	rm -fr "temp"
 
 dirs:
-	mkdir -p "$(HTMLDIR)"
 	mkdir -p "output/html/static"
 	mkdir -p "output/gopher"
 
