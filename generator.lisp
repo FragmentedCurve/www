@@ -132,13 +132,26 @@
        (let ((converter-object (getf *converters* converter-name)))
 	 ,@code))))
 
+;; generate the html file from the source file
+;; using the converter associated with the post
 (defun use-converter-to-html(article)
   (with-converter
    (let ((output (converter-command converter-object)))
-     (ensure-directories-exist "temp/data/")
-     (template "%IN" (concatenate 'string (article-id article) (converter-extension converter-object)))
-     (template "%OUT" (concatenate 'string "temp/data/" (article-id article) ".html"))
-     (uiop:run-program output))))
+     (let* ((src-file (format nil "~a~a" (article-id article) (converter-extension converter-object)))
+	   (dst-file (format nil "temp/data/~a.html" (article-id article) ))
+	   (full-src-file (format nil "data/~a" src-file)))
+       ;; skip generating if the destination exists
+       ;; and is more recent than source
+       (unless (and
+		(probe-file dst-file)
+		(>=
+		 (file-write-date dst-file)
+		 (file-write-date full-src-file)))
+	 (ensure-directories-exist "temp/data/")
+	 (template "%IN" src-file)
+	 (template "%OUT" dst-file)
+	 (format t "~a~%" output)
+	 (uiop:run-program output))))))
 
 ;; format the date
 (defun date-format(format date)
@@ -341,6 +354,5 @@
 ;;;; EXECUTION
 
 (generate-site)
-
 
 (quit)
