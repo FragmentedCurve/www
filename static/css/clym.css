@@ -153,7 +153,7 @@ article > header > h1 > a {
 /* ====================================================== */
 /* A basic style for          	                     code */
 /* ====================================================== */
-code {
+.src, code {
     display:inline-block;
     padding: 1px 5px;
     border-radius: 3px;
@@ -162,7 +162,7 @@ code {
     font-size: 0.8em;
     color: #3c3f42;
 }
-pre > code {
+pre > code, pre.src {
     display: block;
     height: auto;
     padding: 1em;
