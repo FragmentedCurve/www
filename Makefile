@@ -1,10 +1,9 @@
 LISP=          sbcl
 
-all: clean dirs html
+all: dirs html
 
 html: $(HTML) css
 	$(LISP) --load generator.lisp
-	rm -fr "temp"
 
 dirs:
 	mkdir -p "output/html/static"
