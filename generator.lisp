@@ -126,9 +126,9 @@
 ;; get the converter object of "article"
 (defmacro with-converter(&body code)
   `(progn
-     (let ((converter-name (if (article-converter article)
-			       (article-converter article)
-			     (getf *config* :default-converter))))
+     (let ((converter-name
+            (or (article-converter article)
+                (getf *config* :default-converter))))
        (let ((converter-object (getf *converters* converter-name)))
 	 ,@code))))
 
@@ -228,7 +228,7 @@
 ;; produce the code of a whole page with title+layout with the parameter as the content
 (defun generate-layout(body &optional &key (title nil))
   (prepare "templates/layout.tpl"
-	   (template "%%Title%%" (if title title (getf *config* :title)))
+	   (template "%%Title%%" (or title (getf *config* :title)))
 	   (template "%%Tags%%" (get-tag-list))
 	   (template "%%Body%%" body)
 	   output))
