@@ -343,7 +343,6 @@
   )
 
 
-;; ENGINE START !
 ;; This is function called when running the tool
 (defun generate-site()
   (if (getf *config* :html)
