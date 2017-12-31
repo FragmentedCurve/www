@@ -17,10 +17,10 @@
    :gopher-path      "/user"                            ;; absolute path of your gopher directory
    :gopher-server    "my.website"                       ;; hostname of the gopher server
    :gopher-port      "70"                               ;; tcp port of the gopher server, 70 usually
-   :gopher-format "[0|~a|~a/article-~d.txt|~a|~a]~%~%"  ;; geomyidae
-   :gopher-index "index.gph"                            ;; geomyidae
-   ;; :gopher-format "0~a	~a/article-~d.txt	~a	~a~%~%" ;; gophernicus and others
-   ;; :gopher-index "gophermap"                         ;; gophernicus and others
+   :gopher-format "[0|~a|~a/article-~d.txt|~a|~a]~%~%"  ;; menu format (geomyidae)
+   :gopher-index "index.gph"                            ;; menu file   (geomyidae)
+   ;; :gopher-format "0~a	~a/article-~d.txt	~a	~a~%~%" ;; menu format (gophernicus and others)
+   ;; :gopher-index "gophermap"                         ;; menu file (gophernicus and others)
    ))
 
 
