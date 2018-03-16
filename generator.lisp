@@ -262,8 +262,10 @@
 						    (subseq (getf (article-date article) :dayname) 0 3)
 						    (subseq (getf (article-date article) :monthname) 0 3)))
                        (template "%%Url%%"
-                                 (format nil "~darticle-~d.html"
+                                 (format nil "~d~d-~d.html"
                                          (getf *config* :url)
+                                         (date-format "%Year-%MonthNumber-%DayNumber"
+                                                      (article-date article))
                                          (article-id article)))))))
 
 ;; Generate the rss xml data
