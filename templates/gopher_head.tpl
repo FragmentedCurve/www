@@ -1,5 +1,7 @@
 Hello, this is the head of your gophermap page, you can
 customize it how you want !
 
+[0|RSS Feed|/~me/rss.xml|server|port]
+
  -----------------------------------------------------------------
 

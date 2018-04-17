@@ -248,7 +248,7 @@
             collect (create-article article :tiny t))))
 
 ;; xml generation of the items for the rss
-(defun generate-rss-item()
+(defun generate-rss-item(&key (gopher nil))
   (apply #'concatenate 'string
          (loop for article in *articles*
             for i from 1 to (min (length *articles*) (getf *config* :rss-item-number))
@@ -262,19 +262,26 @@
 						    (subseq (getf (article-date article) :dayname) 0 3)
 						    (subseq (getf (article-date article) :monthname) 0 3)))
                        (template "%%Url%%"
-                                 (format nil "~d~d-~d.html"
-                                         (getf *config* :url)
-                                         (date-format "%Year-%MonthNumber-%DayNumber"
-                                                      (article-date article))
-                                         (article-id article)))))))
+                                 (if gopher
+                                     (format nil "gopher://~a:~d/0~a/~a.txt"
+					     (getf *config* :gopher-server)
+					     (getf *config* :gopher-port)
+                                             (getf *config* :gopher-path)
+					     (article-id article))
+                                     (format nil "~d~d-~d.html"
+                                             (getf *config* :url)
+                                             (date-format "%Year-%MonthNumber-%DayNumber"
+                                                          (article-date article))
+                                             (article-id article))))))))
+
 
 ;; Generate the rss xml data
-(defun generate-rss()
+(defun generate-rss(&key (gopher nil))
   (prepare "templates/rss.tpl"
 	   (template "%%Description%%" (getf *config* :description))
 	   (template "%%Title%%" (getf *config* :title))
 	   (template "%%Url%%" (getf *config* :url))
-	   (template "%%Items%%" (generate-rss-item))))
+	   (template "%%Items%%" (generate-rss-item :gopher gopher))))
 
 ;; We do all the website
 (defun create-html-site()
@@ -302,12 +309,19 @@
   (loop for tag in (articles-by-tag) do
 	(generate (format nil "output/html/tag-~d.html" (getf tag :NAME))
 		  (generate-tag-mainpage (getf tag :VALUE))))
-  
+
+  ;; generate rss gopher in html folder if gopher is t
+  (when (getf *config* :gopher)
+    (save-file "output/html/rss-gopher.xml" (generate-rss :gopher t)))
+
   ;;(generate-file-rss)
   (save-file "output/html/rss.xml" (generate-rss)))
 
 ;; we do all the gopher hole
 (defun create-gopher-hole()
+
+  ;;(generate-file-rss)
+  (save-file "output/gopher/rss.xml" (generate-rss :gopher t))
 
   ;; produce the gophermap file
   (save-file (concatenate 'string "output/gopher/" (getf *config* :gopher-index))
@@ -340,9 +354,7 @@
 	(with-converter
 	 (let ((id (article-id article)))
 	   (save-file (format nil "output/gopher/article-~d.txt" id)
-		      (load-file (format nil "data/~d~d" id (converter-extension converter-object)))))))
-  
-  )
+		      (load-file (format nil "data/~d~d" id (converter-extension converter-object))))))))
 
 
 ;; This is function called when running the tool
