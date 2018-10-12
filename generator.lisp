@@ -45,22 +45,22 @@
   (push (make-article :title title
                       :tag tag
                       :date (date-parse date)
-		      :rawdate date
+                      :rawdate date
                       :tiny tiny
                       :author author
                       :id id
-		      :converter converter)
+                      :converter converter)
         *articles*))
 
 ;; we add a converter to the list of the one availables
 (defun converter(&optional &key name command extension)
   (setf *converters*
-	(append
-	 (list name
-	       (make-converter :name name
-			       :command command
-			       :extension extension))
-	 *converters*)))
+        (append
+         (list name
+               (make-converter :name name
+                               :command command
+                               :extension extension))
+         *converters*)))
 
 ;; load data from metadata and load config
 (load "data/articles.lisp")
@@ -70,32 +70,32 @@
 ;; common-lisp don't have a replace string function natively
 (defun replace-all (string part replacement &key (test #'char=))
   (with-output-to-string (out)
-			 (loop with part-length = (length part)
-			       for old-pos = 0 then (+ pos part-length)
-			       for pos = (search part string
-						 :start2 old-pos
-						 :test test)
-			       do (write-string string out
-						:start old-pos
-						:end (or pos (length string)))
-			       when pos do (write-string replacement out)
-			       while pos)))
+    (loop with part-length = (length part)
+       for old-pos = 0 then (+ pos part-length)
+       for pos = (search part string
+                         :start2 old-pos
+                         :test test)
+       do (write-string string out
+                        :start old-pos
+                        :end (or pos (length string)))
+       when pos do (write-string replacement out)
+       while pos)))
 
 ;; common-lisp don't have a split string function natively
 (defun split-str(text &optional (separator #\Space))
   "this function split a string with separator and return a list"
   (let ((text (concatenate 'string text (string separator))))
     (loop for char across text
-	  counting char into count
-	  when (char= char separator)
-	  collect
-	  ;; we look at the position of the left separator from right to left
-	  (let ((left-separator-position (position separator text :from-end t :end (- count 1))))
-	    (subseq text
-		    ;; if we can't find a separator at the left of the current, then it's the start of
-		    ;; the string
-		    (if left-separator-position (+ 1 left-separator-position) 0)
-		    (- count 1))))))
+       counting char into count
+       when (char= char separator)
+       collect
+       ;; we look at the position of the left separator from right to left
+         (let ((left-separator-position (position separator text :from-end t :end (- count 1))))
+           (subseq text
+                   ;; if we can't find a separator at the left of the current, then it's the start of
+                   ;; the string
+                   (if left-separator-position (+ 1 left-separator-position) 0)
+                   (- count 1))))))
 
 ;; load a file as a string
 ;; we escape ~ to avoid failures with format
@@ -175,6 +175,30 @@
   `(progn
      (save-file ,name (generate-layout ,@data))))
 
+;; generate a gopher index file
+(defun generate-gopher-index(articles)
+  (let ((output (load-file "templates/gopher_head.tpl")))
+    (dolist (article articles)
+      (setf output
+	    (string
+	     (concatenate 'string output
+                          (format nil (getf *config* :gopher-format)
+                                  0 ;;;; gopher type, 0 for text files
+				  ;; here we create a 80 width char string with title on the left
+				  ;; and date on the right
+				  ;; we truncate the article title if it's too large
+				  (let ((title (format nil "~80a"
+						       (if (< 80 (length (article-title article)))
+							   (subseq (article-title article) 0 80)
+							   (article-title article)))))
+				    (replace title (article-rawdate article) :start1 (- (length title) (length (article-rawdate article)))))
+				  (concatenate 'string
+                                               (getf *config* :gopher-path) "/article-" (article-id article) ".txt")
+				  (getf *config* :gopher-server)
+				  (getf *config* :gopher-port)
+				  )))))
+    output))
+
 ;; generate the list of tags
 (defun articles-by-tag()
   (let ((tag-list))
@@ -243,7 +267,7 @@
 ;; html generation of a tag homepage
 (defun generate-tag-mainpage(articles-in-tag)
   (apply #'concatenate 'string
-         (loop for article in *articles* 
+         (loop for article in *articles*
             when (member (article-id article) articles-in-tag :test #'equal)
             collect (create-article article :tiny t))))
 
@@ -304,10 +328,10 @@
 
   ;; produce index-titles.html where there are only articles titles
   (generate "output/html/index-titles.html" (generate-semi-mainpage :no-text t))
-  
+
   ;; produce index file for each tag
   (loop for tag in (articles-by-tag) do
-	(generate (format nil "output/html/tag-~d.html" (getf tag :NAME))
+       (generate (format nil "output/html/tag-~d.html" (getf tag :NAME))
 		  (generate-tag-mainpage (getf tag :VALUE))))
 
   ;; generate rss gopher in html folder if gopher is t
@@ -325,29 +349,40 @@
 
   ;; produce the gophermap file
   (save-file (concatenate 'string "output/gopher/" (getf *config* :gopher-index))
-	     (let ((output (load-file "templates/gopher_head.tpl")))
-	       (dolist (article *articles*)
-		 (setf output
-		       (string
-			(concatenate 'string output
-                                     (format nil (getf *config* :gopher-format)
-					     ;; here we create a 80 width char string with title on the left
-					     ;; and date on the right
-					     ;; we truncate the article title if it's too large
-					     (let ((title (format nil "~80a"
-								  (if (< 80 (length (article-title article)))
-								      (subseq (article-title article) 0 80)
-								    (article-title article)))))
-					       (replace title (article-rawdate article) :start1 (- (length title) (length (article-rawdate article)))))
-					     
-					     
-					     (getf *config* :gopher-path)
-					     (article-id article)
-					     (getf *config* :gopher-server)
-					     (getf *config* :gopher-port)
-					     )))))	       
-	       output))
-  
+             (generate-gopher-index *articles*))
+
+  ;; produce a tag list menu
+  (let* ((directory-path "output/gopher/_tags_/")
+         (index-path (concatenate 'string directory-path (getf *config* :gopher-index))))
+    (ensure-directories-exist directory-path)
+    (save-file index-path
+               (let ((output (load-file "templates/gopher_head.tpl")))
+                 (loop for tag in (articles-by-tag)
+                    do
+                      (setf output
+	                    (string
+	                     (concatenate
+                              'string output
+                              (format nil (getf *config* :gopher-format)
+                                      1 ;; gopher type, 1 for menus
+				      (getf tag :NAME)
+                                      (concatenate 'string
+                                                   (getf *config* :gopher-path) "/" (getf tag :NAME) "/")
+				      (getf *config* :gopher-server)
+				      (getf *config* :gopher-port)
+				      )))))
+                 output)))
+
+  ;; produce each tag gophermap index
+  (loop for tag in (articles-by-tag) do
+       (let* ((directory-path (concatenate 'string "output/gopher/" (getf tag :NAME) "/"))
+              (index-path (concatenate 'string directory-path (getf *config* :gopher-index)))
+              (articles-with-tag (loop for article in *articles*
+                                    when (member (article-id article) (getf tag :VALUE) :test #'equal)
+                                    collect article)))
+         (ensure-directories-exist directory-path)
+         (save-file index-path (generate-gopher-index articles-with-tag))))
+
   ;; produce each article file (only a copy/paste in fact)
   (loop for article in *articles*
 	do

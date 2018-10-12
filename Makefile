@@ -3,7 +3,7 @@ LISP=          ecl
 all: dirs html
 
 html: $(HTML) css
-	$(LISP) -load generator.lisp
+	$(LISP) --load generator.lisp
 
 dirs:
 	mkdir -p "output/html/static"
