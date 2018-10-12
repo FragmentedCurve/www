@@ -24,7 +24,6 @@
    (declare (ignore second minute hour date month year dst-p tz))
    day-of-week))
 
-
 ;; parse the date to
 (defun date-parse(date)
   (if (= 8 (length date))
@@ -41,7 +40,7 @@
          :year year))
     nil))
 
-(defun post(&optional &key title tag date id (tiny nil) (author nil) (converter nil))
+(defun post(&optional &key title tag date id (tiny nil) (author (getf *config* :webmaster)) (converter nil))
   (push (make-article :title title
                       :tag tag
                       :date (date-parse date)
@@ -394,13 +393,20 @@
          (ensure-directories-exist directory-path)
          (save-file index-path (generate-gopher-index articles-with-tag))))
 
-  ;; produce each article file (only a copy/paste in fact)
+  ;; produce each article file (adding some headers)
   (loop for article in *articles*
-	do
-	(with-converter
-	 (let ((id (article-id article)))
-	   (save-file (format nil "output/gopher/article-~d.txt" id)
-		      (load-file (format nil "data/~d~d" id (converter-extension converter-object))))))))
+     do
+       (with-converter
+	   (let ((id (article-id article)))
+	     (save-file (format nil "output/gopher/article-~d.txt" id)
+                        (format nil "~{~a~}"
+                                (list
+                                 "Title: " (article-title article) "~%"
+                                 "Author: " (article-author article) "~%"
+                                 "Date: " (date-format (getf *config* :date-format) (article-date article)) "~%"
+                                 "Tags: " (article-tag article) "~%"
+                                 "==========~%~%"
+		                 (load-file (format nil "data/~d~d" id (converter-extension converter-object))))))))))
 
 
 ;; This is function called when running the tool
