@@ -47,7 +47,8 @@
 
 
 (post :title "test"
-      :id "t" :date "20171214" :tag "f" :converter :org-mode)
+      :id "t" :date "20171214" :tag "cl-yag" :converter :org-mode)
+
 ;; CSS
 (post :title "CSS For cl-yag"
       :id "css" :date "20171202" :tag "cl-yag"

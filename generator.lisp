@@ -357,7 +357,10 @@
     (ensure-directories-exist directory-path)
     (save-file index-path
                (let ((output (load-file "templates/gopher_head.tpl")))
-                 (loop for tag in (articles-by-tag)
+                 (loop for tag in
+                      ;; sort tags per articles in it
+                      (sort (articles-by-tag) #'>
+                            :key #'(lambda (x) (length (getf x :value))))
                     do
                       (setf output
 	                    (string
@@ -365,7 +368,15 @@
                               'string output
                               (format nil (getf *config* :gopher-format)
                                       1 ;; gopher type, 1 for menus
-				      (getf tag :NAME)
+                                      ;; here we create a 72 width char string with title on the left
+				      ;; and number of articles on the right
+				      ;; we truncate the article title if it's too large
+				      (let ((title (format nil "~72a"
+						           (if (< 72 (length (getf tag :NAME)))
+							       (subseq (getf tag :NAME) 0 80)
+							       (getf tag :NAME))))
+                                            (article-number (format nil "~d article~p" (length (getf tag :value)) (length (getf tag :value)))))
+				        (replace title article-number :start1 (- (length title) (length article-number))))
                                       (concatenate 'string
                                                    (getf *config* :gopher-path) "/" (getf tag :NAME) "/")
 				      (getf *config* :gopher-server)
