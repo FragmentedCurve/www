@@ -28,7 +28,7 @@
 
       <main>%%Body%%</main>
 
-      <footer><p>This blog is powered by cl-yag!<p></footer>
+      <footer><p>This blog is powered by cl-yag!</p></footer>
 
     </div><!-- #wrapper -->
   </body>
