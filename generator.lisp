@@ -100,14 +100,10 @@
 ;; we escape ~ to avoid failures with format
 (defun load-file(path)
   (if (probe-file path)
-      (replace-all
-       (apply #'concatenate 'string
-              (with-open-file (stream path)
-                (loop for line = (read-line stream nil)
-                   while line
-                   collect
-                   (format nil "~a~%" line))))
-       "~" "~~")
+      (with-open-file (stream path)
+        (let ((contents (make-string (file-length stream))))
+          (read-sequence contents stream)
+          contents))
     (progn
       (format t "ERROR : file ~a not found. Aborting~%" path)
       (quit))))
@@ -115,7 +111,7 @@
 ;; save a string in a file
 (defun save-file(path data)
   (with-open-file (stream path :direction :output :if-exists :supersede)
-		  (format stream data)))
+		  (write-sequence data stream)))
 
 ;; simplify the str replace work
 (defmacro template(before &body after)
