@@ -129,24 +129,27 @@
 
 ;; generate the html file from the source file
 ;; using the converter associated with the post
-(defun use-converter-to-html(article)
-  (with-converter
-   (let ((output (converter-command converter-object)))
-     (let* ((src-file (format nil "~a~a" (article-id article) (converter-extension converter-object)))
-	   (dst-file (format nil "temp/data/~a.html" (article-id article) ))
-	   (full-src-file (format nil "data/~a" src-file)))
-       ;; skip generating if the destination exists
-       ;; and is more recent than source
-       (unless (and
-		(probe-file dst-file)
-		(>=
-		 (file-write-date dst-file)
-		 (file-write-date full-src-file)))
-	 (ensure-directories-exist "temp/data/")
-	 (template "%IN" src-file)
-	 (template "%OUT" dst-file)
-	 (format t "~a~%" output)
-	 (uiop:run-program output))))))
+(defun use-converter-to-html(filename &optional (converter-name nil))
+  (let* ((converter-object (getf *converters*
+                                 (or converter-name
+			             converter-name
+			             (getf *config* :default-converter))))
+         (output           (converter-command converter-object))
+         (src-file (format nil "~a~a" filename (converter-extension converter-object)))
+         (dst-file (format nil "temp/data/~a.html" filename ))
+         (full-src-file (format nil "data/~a" src-file)))
+      ;; skip generating if the destination exists
+      ;; and is more recent than source
+      (unless (and
+               (probe-file dst-file)
+               (>=
+                (file-write-date dst-file)
+                (file-write-date full-src-file)))
+        (ensure-directories-exist "temp/data/")
+        (template "%IN" src-file)
+        (template "%OUT" dst-file)
+        (format t "~a~%" output)
+        (uiop:run-program output))))
 
 ;; format the date
 (defun date-format(format date)
@@ -307,9 +310,9 @@
 
   ;; produce each article file
   (loop for article in *articles*
-	do
-	;; use the article's converter to get html code of it
-	(use-converter-to-html article)
+     do
+     ;; use the article's converter to get html code of it
+       (use-converter-to-html (article-id article) (article-converter article))
 
 	(generate  (format nil "output/html/~d-~d.html"
 			   (date-format "%Year-%MonthNumber-%DayNumber"
