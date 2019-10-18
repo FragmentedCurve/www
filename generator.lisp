@@ -243,7 +243,7 @@
 	   (template "%%Text%%"   (if no-text
 				      ""
                                       (if (and tiny (article-tiny article))
-                                          (article-tiny article)
+                                          (format nil "<p>~a</p>" (article-tiny article))
                                           (load-file (format nil "temp/data/~d.html" (article-id article))))))))
 
 ;; return a html string
