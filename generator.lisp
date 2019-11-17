@@ -398,14 +398,12 @@
        (with-converter
 	   (let ((id (article-id article)))
 	     (save-file (format nil "output/gopher/article-~d.txt" id)
-                        (format nil "~{~a~}"
-                                (list
-                                 "Title: " (article-title article) "~%"
-                                 "Author: " (article-author article) "~%"
-                                 "Date: " (date-format (getf *config* :date-format) (article-date article)) "~%"
-                                 "Tags: " (article-tag article) "~%"
-                                 "==========~%~%"
-		                 (load-file (format nil "data/~d~d" id (converter-extension converter-object))))))))))
+                        (format nil "Title: ~a~%Author: ~a~%Date: ~a~%Tags: ~a~%============~%~%~a"
+                                 (article-title article)
+                                 (article-author article)
+                                 (date-format (getf *config* :date-format) (article-date article))
+                                 (article-tag article)
+		                         (load-file (format nil "data/~d~d" id (converter-extension converter-object)))))))))
 
 
 ;; This is function called when running the tool
