@@ -8,6 +8,7 @@ html: $(HTML) css
 dirs:
 	mkdir -p "output/html/static"
 	mkdir -p "output/gopher"
+	mkdir -p "output/gemini/articles/"
 
 
 clean:
