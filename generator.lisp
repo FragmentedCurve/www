@@ -180,9 +180,12 @@
       (setf output
 	    (string
 	     (concatenate 'string output
-                          (format nil "=> ~a/articles/~a.txt ~a~%"
+                          (format nil "=> ~a/articles/~a.md ~a-~2,'0d-~2,'0d ~a~%"
                                   (getf *config* :gemini-path)
                                   (article-id article)
+                                  (getf (article-date article) :year)
+                                  (getf (article-date article) :monthnumber)
+                                  (getf (article-date article) :daynumber)
                                   (article-title article))))))
     output))
 
