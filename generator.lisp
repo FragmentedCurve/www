@@ -180,7 +180,7 @@
       (setf output
 	    (string
 	     (concatenate 'string output
-                          (format nil "=> ~a/articles/~a.md ~a-~2,'0d-~2,'0d ~a~%"
+                          (format nil "=> ~a/articles/~a.gmi ~a-~2,'0d-~2,'0d ~a~%"
                                   (getf *config* :gemini-path)
                                   (article-id article)
                                   (getf (article-date article) :year)
@@ -358,7 +358,7 @@
 ;; we do all the gemini capsule
 (defun create-gemini-capsule()
 
-  ;; produce the index.md file
+  ;; produce the index.gmi file
   (save-file (concatenate 'string "output/gemini/" (getf *config* :gemini-index))
              (generate-gemini-index *articles*))
 
@@ -377,7 +377,7 @@
 	                    (string
 	                     (concatenate
                               'string output
-                              (format nil "=> ~a/~a/index.md ~a ~d~%"
+                              (format nil "=> ~a/~a/index.gmi ~a ~d~%"
                                       (getf *config* :gemini-path)
                                       (getf tag :name)
                                       (getf tag :name)
@@ -399,7 +399,7 @@
      do
        (with-converter
 	   (let ((id (article-id article)))
-	     (save-file (format nil "output/gemini/articles/~a.txt" id)
+	     (save-file (format nil "output/gemini/articles/~a.gmi" id)
                         (format nil "~{~a~}"
                                 (list
                                  "Title : " (article-title article) #\Newline
