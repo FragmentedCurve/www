@@ -338,10 +338,14 @@
 		   :title (concatenate 'string (getf *config* :title) " : " (article-title article))))
 
   ;; produce index.html
-  (generate "output/html/index.html" (generate-semi-mainpage))
+  (generate "output/html/index.html" (generate-semi-mainpage :no-text t))
 
-  ;; produce index-titles.html where there are only articles titles
-  (generate "output/html/index-titles.html" (generate-semi-mainpage :no-text t))
+  ;; produce index-everything.html
+  (generate "output/html/index-everything.html" (generate-semi-mainpage))
+
+  ;; produce links.html
+  (use-converter-to-html "links" :org-mode)
+  (generate "output/html/links.html" (load-file "temp/data/links.html"))
 
   ;; produce index file for each tag
   (loop for tag in (articles-by-tag) do
