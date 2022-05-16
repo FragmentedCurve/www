@@ -14,3 +14,101 @@ a.pure-menu-link {
 a.pure-menu-link:active, a.pure-menu-link:hover, a.pure-menu-link:focus {
    color: #203785;
 }
+
+
+/* Sections & Headers */
+
+h1.title {
+	//border-bottom: 5px double #a0a0a0;
+	//background: #a0a0a0;
+	//background: #fffbbb;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+}
+
+h2 {
+	padding-top: 25px;
+	border-bottom: 1px solid #a0a0a0;
+}
+
+:not(div#table-of-contents) > h2 {
+	margin-left: -20px;
+}
+
+article > header {
+    border: unset;
+    border-left: 2px dashed black;
+    background-color: #f0f0f0;
+
+    border-radius: unset;
+    -webkit-box-shadow: unset;
+    box-shadow: unset;
+}
+
+/* Preformatted Text & Code Blocks */
+
+pre {
+	/* Wrap text */
+	white-space: pre-wrap;       /* css-3 */
+	white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+	white-space: -pre-wrap;      /* Opera 4-6 */
+	white-space: -o-pre-wrap;    /* Opera 7 */
+	word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+pre.example {
+	border: 1px solid black;
+	background: #f0f0ff;
+	padding: 10px;
+	width: 90%;
+	margin: auto;
+	border-radius: 10px;
+}
+
+pre.src {
+	border: 1px solid black;
+	background: #fffbbb;
+	padding: 10px;
+	width: 90%;
+	margin: auto;
+	border-radius: 10px;
+}
+
+.linenr {
+	color: #999666;
+	margin-right: 15px;
+}
+
+blockquote {
+	border-left: 5px double #a0a0a0;
+	background: #fafafa;
+	padding: 10px;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+
+/* Table of Contents */
+
+#table-of-contents {
+    margin-top:    2em;
+    margin-bottom: 2em;
+
+    padding-bottom: 20px;
+    padding-left:   50px;
+    padding-right:  50px;
+
+    border-top:    5px double #a0a0a0;
+    border-bottom: 5px double #a0a0a0;
+    border-radius: 50px;
+}
+
+#table-of-contents > h2 {
+	border: 0;
+}
