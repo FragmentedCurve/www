@@ -12,7 +12,7 @@ a.pure-menu-link {
     text-transform: uppercase;
 }
 a.pure-menu-link:active, a.pure-menu-link:hover, a.pure-menu-link:focus {
-   color: #203785;
+    color: #203785;
 }
 
 .offsite {
@@ -26,24 +26,16 @@ a.pure-menu-link:active, a.pure-menu-link:hover, a.pure-menu-link:focus {
 
 /* Sections & Headers */
 
-h1.title {
-	//border-bottom: 5px double #a0a0a0;
-	//background: #a0a0a0;
-	//background: #fffbbb;
-	padding-top: 10px;
-	padding-bottom: 5px;
-	padding-left: 10px;
-	padding-right: 10px;
-	text-align: center;
+h2 {
+    border-bottom: 1px solid #a0a0a0;
 }
 
-h2 {
-	padding-top: 25px;
-	border-bottom: 1px solid #a0a0a0;
+h2, h3, h4 {
+    margin-top: 25px;
 }
 
 :not(div#table-of-contents) > h2 {
-	margin-left: -20px;
+    margin-left: -20px;
 }
 
 article > header {
@@ -59,46 +51,46 @@ article > header {
 /* Preformatted Text & Code Blocks */
 
 pre {
-	/* Wrap text */
-	white-space: pre-wrap;       /* css-3 */
-	white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-	white-space: -pre-wrap;      /* Opera 4-6 */
-	white-space: -o-pre-wrap;    /* Opera 7 */
-	word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    /* Wrap text */
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+pre.example, pre.src {
+    border: 1px solid black;
+    padding: 10px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: .5em;
+    margin-top:    .5em;
+    border-radius: 10px;
 }
 
 pre.example {
-	border: 1px solid black;
-	background: #f0f0ff;
-	padding: 10px;
-	width: 90%;
-	margin: auto;
-	border-radius: 10px;
+    background: #f0f0ff;
 }
 
 pre.src {
-	border: 1px solid black;
-	background: #fffbbb;
-	padding: 10px;
-	width: 90%;
-	margin: auto;
-	border-radius: 10px;
+    background: #fffbbb;
 }
 
 .linenr {
-	color: #999666;
-	margin-right: 15px;
+    color: #999666;
+    margin-right: 15px;
 }
 
 blockquote {
-	border-left: 5px double #a0a0a0;
-	background: #fafafa;
-	padding: 10px;
-	width: 90%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
+    border-left: 5px double #a0a0a0;
+    background: #fafafa;
+    padding: 10px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 
@@ -118,5 +110,5 @@ blockquote {
 }
 
 #table-of-contents > h2 {
-	border: 0;
+    border: 0;
 }
