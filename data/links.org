@@ -1,0 +1,105 @@
+#+TITLE: Links
+#+OPTIONS: toc:nil num:nil
+
+* Links
+
+Because search engines are broken, here's a collection of links that I
+find interesting and/or useful.
+
+
+** Individual Person Sites
+
+- [[http://wandel.ca/][Markus Wandel]] --- He's an engineer with other hobbies. The website
+  hasn't been updated since 2009, but it's still worth looking at. I
+  found this guy's site over 10 years ago. The first page I read was
+  about his [[http://wandel.ca/homepage/pbx.html][homemade PBX]] (which
+  I recommend reading).
+- [[https://wozniak.ca/][Geoff Wozniak]] --- A small but interesting programmer's blog.
+- [[https://nullprogram.com/][null program: Chris Wellons]] --- This blog belongs to a programmer
+  and is all about programming. His posts are technical and
+  interesting with C being a favorite topic of his.
+- [[http://www.azillionmonkeys.com][Paul Hsieh]] --- This is an older site that's no longer updated but
+  still worth looking at; especially if you're interested in assembly
+  programming.
+- [[https://www.vttoth.com/CMS/][Viktor T. Toth]] --- A career programmer who's life passion is physics.
+- [[https://www.devdungeon.com/][DevDungeon]] --- A blog and more by John Daniel Leon. The primary
+  topics here are related programming, cybersecurity, software
+  freedom, and electronics.
+- [[https://derivativedribble.wordpress.com/][Charles Davi]] --- He's a mathematician that worked in financial
+  services for eight years, most recently at BlackRock, spending a
+  significant portion of his free time conducting research in
+  information theory. His posts are often controversial, but his work
+  might be worth taking a look at.
+- [[http://findsomethingandburnit.com/][Jim Vicious]] --- An eccentric mad scientist type character with too
+  many projects in the works including an "armored and weaponized
+  zombie apocalypse pyrate beast" truck.
+- [[https://augusterdwilliamsjr.com/][Auguster D Williams Jr]] --- Mixed Media Artist, US Navy Veteran,
+  chess enthusiast and friend.
+  
+** Cooking & Food
+
+- [[https://based.cooking/][Based Cooking]] --- A clean simple recipe directory with no ads created
+  by [[https://lukesmith.xyz/][Luke Smith]].
+- [[https://web.archive.org/web/20020205023717/http://www.geocities.com/Tokyo/1721/martha4.html][Martha Stewart's Cobbler Dough]] --- Originally found on geocities, I've
+  used this recipe many times.
+- [[http://www.manjulaskitchen.com/][Manjula's Kitchen]] --- Straight from the source: "Manjula is here to
+  teach you simple and practical recipes that carry out the
+  authenticity of Indian vegetarian cooking."
+
+** Physics
+
+- [[https://webspace.science.uu.nl/~gadda001/goodtheorist/index.html][How to become a GOOD Theoretical Physicist]]
+- [[https://www.susanjfowler.com/blog/2016/8/26/from-the-fledgling-physicist-archives-if-susan-can-learn-physics-so-can-you][If Susan Can Learn Physics, So Can You]]
+- [[https://www.susanrigetti.com/physics][So You Want to Learn Physics]]
+- [[http://www.coultersmithing.com/forums/index.php][Coulter Smithing: Science/Engineering/Technical forums]] --- These
+  forums are meant to foster a community, and build up useful
+  information for all to read and learn from. The intent is to stick
+  primarily to practical, hands-on, experiential knowledge in most of
+  the forums here, in other words, things that teach someone else what
+  you know.
+
+** Mathematics
+
+- [[http://math.mit.edu/~cohn/Thoughts/advice.html][Advice for amateur mathematicians on writing and publishing papers]]
+  --- From the source: There's no reason why amateurs can't make
+  worthwhile research contributions in mathematics. It has happened
+  many times in the past, and I know of several cases today. I don't
+  have time to offer a lot of personal advice and guidance, but I
+  figured I'd post some general advice here. I've aimed it at people
+  who think they've already solved famous problems, since those are
+  the sort that typically write, but it should be equally useful for
+  people with more modest aspirations. I focus on the mechanics of how
+  to do literature searches, write papers, and publish them, because I
+  have less to say about the deeper issue of how to do research. None
+  of this advice is specific to amateurs, but professionals already
+  learn all these things from their advisors.
+- [[http://www.openproblemgarden.org/][Open Problem Garden]] --- A collection of open (unsolved) problems in
+  mathematics.
+- [[https://www.math.purdue.edu/pow/][Purdue's Problem of the Week]] --- Weekly math problems to solve.
+
+** Computer Security / Hacking
+
+- [[https://overthewire.org/][Over The Wire]] --- This site has been around forever. It has a good
+  collection of wargames.
+- [[https://cwe.mitre.org/index.html][Common Weakness Enumeration (CWE)]] --- CWE™ is a community-developed
+  list of software and hardware weakness types. It serves as a common
+  language, a measuring stick for security tools, and as a baseline
+  for weakness identification, mitigation, and prevention efforts.
+- [[https://www.wechall.net/][We Chall]] --- For the people not familiar with challenge sites, a
+  challenge site is mainly a site focused on offering
+  computer-related problems. Users can register at such a site and
+  start solving challenges. There exist lots of different challenge
+  types. The most common ones are the following: Cryptographic,
+  Crackit, Steganography, Programming, Logic and Math/Science. The
+  difficulty of these challenges vary as well.
+  
+** Utilities
+
+- [[http://surusu.com/][SuRuSu]] --- A flash card replacement similar to Anki.
+- [[https://www.upcdatabase.com/][UPC Database]] --- A crowd sourced database of UPC (and more) barcodes.
+
+** World Affairs
+
+ - [[http://cryptome.org/][Cryptome]] --- Before WikiLeaks there was cryptome, but no one knew.
+
+More to be added ...
