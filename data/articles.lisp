@@ -48,6 +48,10 @@
 ;; :author  can be omitted.   If so, it's value gets replaced by the value of :webmaster.
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
 
+;; Reposting "The Unintentional Invention of Meat"
+(post :id "meat" :date "20111105"
+      :title "The Unintentional Invention of Meat: A Story From Calais Hobbes" :Tag "literature shortstory")
+
 ;; First Post
 (post :id "first" :date "20220516"
       :title "First Post" :tag "site")
