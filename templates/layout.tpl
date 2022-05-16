@@ -24,6 +24,13 @@
 	    <li class="pure-menu-item"><a href="links.html" class="pure-menu-link">Links</a></li>
 	    <li class="pure-menu-item"><a href="rss.xml" class="pure-menu-link">RSS</a></li>
 	  </ul>
+	  <ul class="pure-menu-list">
+	    <li class="pure-menu-item offsite"><strong>[</strong></li>
+	    <li class="pure-menu-item offsite"><a href="https://wiki.pacopascal.com" class="pure-menu-link">Private Wiki</a></li>
+	    <li class="pure-menu-item offsite"><a href="https://fisk.pacopascal.com" class="pure-menu-link">Fisk</a></li>
+	    <li class="pure-menu-item offsite"><a href="https://dc.pacopascal.com" class="pure-menu-link">Dreamcast</a></li>
+	    <li class="pure-menu-item offsite"><strong>]</strong></li>
+	  </ul>
 	</nav>
 	<div>All Tags: %%Tags%%</div>
       </header>

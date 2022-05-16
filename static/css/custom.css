@@ -15,6 +15,14 @@ a.pure-menu-link:active, a.pure-menu-link:hover, a.pure-menu-link:focus {
    color: #203785;
 }
 
+.offsite {
+    color: #505050;
+}
+
+.offsite > a {
+    color: #505050;
+    font-size: .75em
+}
 
 /* Sections & Headers */
 
