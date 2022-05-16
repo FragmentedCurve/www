@@ -1,5 +1,0 @@
-* test title
-org mode text
-#+BEGIN_SRC lisp
-code here
-#+END_SRC
