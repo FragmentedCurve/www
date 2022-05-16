@@ -47,3 +47,7 @@
 ;; A Note On Keywords:
 ;; :author  can be omitted.   If so, it's value gets replaced by the value of :webmaster.
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
+
+;; First Post
+(post :id "first" :date "20220516"
+      :title "First Post" :tag "site")
