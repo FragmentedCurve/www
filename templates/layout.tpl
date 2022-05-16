@@ -7,12 +7,13 @@
     <title>%%Title%%</title>
     <link rel="stylesheet" type="text/css" href="static/css/style.css" media="screen" />
     <link rel="alternate" type="application/rss+xml" title="%%Title%% RSS Feed" href="rss.xml" />
-    <link rel="alternate" type="application/rss+xml" title="%%Title%% RSS Feed Gopher" href="rss-gopher.xml" />
+<!--    <link rel="alternate" type="application/rss+xml" title="%%Title%% RSS Feed Gopher" href="rss-gopher.xml" /> -->
 <!--    <link rel="alternate" type="application/atom+xml" title="%%Title%% Atom Feed" href="atom.xml" /> -->
     <link rel="icon" type="image/x-icon" href="static/img/clyagFav.ico" />
   </head>
 
-    <body>
+  <body>
+
     <div id="wrapper">
       <header>
 	<nav class="pure-menu pure-menu-horizontal">
@@ -28,7 +29,7 @@
 
       <main>%%Body%%</main>
 
-      <footer><p>This blog is powered by cl-yag!</p></footer>
+<!--      <footer><p></p></footer> -->
 
     </div><!-- #wrapper -->
   </body>
