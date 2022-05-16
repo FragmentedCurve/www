@@ -54,4 +54,4 @@
 
 ;; First Post
 (post :id "first" :date "20220516"
-      :title "First Post" :tag "site")
+      :title "First Post" :tag "about site")
