@@ -283,7 +283,7 @@
   (apply #'concatenate 'string
          (loop for article in *articles*
             when (member (article-id article) articles-in-tag :test #'equal)
-            collect (create-article article :tiny t))))
+            collect (create-article article :tiny t :no-text t))))
 
 ;; xml generation of the items for the rss
 (defun generate-rss-item(&key (gopher nil))
