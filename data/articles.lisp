@@ -47,22 +47,3 @@
 ;; A Note On Keywords:
 ;; :author  can be omitted.   If so, it's value gets replaced by the value of :webmaster.
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
-
-
-(post :title "test"
-      :id "t" :date "20171214" :tag "cl-yag" :converter :org-mode)
-
-;; CSS
-(post :title "CSS For cl-yag"
-      :id "css" :date "20171202" :tag "cl-yag"
-      :author "lambda" :tiny "Read more")
-
-;; README
-(post :title "README"
-      :id "README" :date "20171202" :tag "cl-yag"
-      :author "lambda" :tiny "Read cl-yag's README")
-
-;; 1
-(post :title "My first post"
-      :id "1" :date "20160429" :tag "pony"
-      :tiny "This is the first message" :author "Solène")
