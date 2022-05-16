@@ -1,0 +1,23 @@
+#+TITLE: First Post
+#+OPTIONS: toc:nil num:nil
+
+* What am I doing with this site?
+
+For too long, I couldn't decide what I wanted to do with this
+site. Part of me wanted to put up a blog, while another part wanted
+something more like an index of PDF articles. I have old content I'd
+like to repost on web and a blog didn't seem like the right format for
+such a thing.
+
+Additionally, did I want the content to display a professional
+skill-set or be a personal expression? If it's the former, I'd have to
+avoid posting any artwork I produce and narrow down the topics to
+mathematics and programming. (I still prefer the term "programming" to
+"software engineering".) 
+
+In the end, I decided this will be a dumping ground for everything
+me. So, you'll see content from the past, present, and future. The
+topics will range from illustrations to programming to cooking to $X \mid
+X \in U$ where $U$ is the set of all teh tings.
+
+Welcome aboard.
