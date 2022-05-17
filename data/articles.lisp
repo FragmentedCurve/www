@@ -49,6 +49,10 @@
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
 
 ;; Reposting "The Unintentional Invention of Meat"
+(post :id "behemoth" :date "20220516"
+      :title "Over the Wire: Behemoth" :tag "hacking")
+
+;; Reposting "The Unintentional Invention of Meat"
 (post :id "meat" :date "20111105"
       :title "The Unintentional Invention of Meat: A Story From Calais Hobbes" :tag "fiction")
 
