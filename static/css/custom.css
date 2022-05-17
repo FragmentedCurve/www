@@ -33,11 +33,11 @@ h2 {
 h2, h3, h4 {
     margin-top: 25px;
 }
-
+/*
 :not(div#table-of-contents) > h2 {
     margin-left: -20px;
 }
-
+*/
 article > header {
     border: unset;
     border-left: 2px dashed black;
