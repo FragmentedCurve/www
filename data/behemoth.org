@@ -838,7 +838,7 @@ of =/etc/behemoth_pass/behemoth7= and into =pass.txt=.
   }
 #+END_SRC
 
-Now we'll assembly, compile, and run.
+Now we'll assemble, compile, and run.
 
 #+BEGIN_EXAMPLE -n 1
 $ mkdir w
