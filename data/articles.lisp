@@ -50,8 +50,8 @@
 
 ;; Reposting "The Unintentional Invention of Meat"
 (post :id "meat" :date "20111105"
-      :title "The Unintentional Invention of Meat: A Story From Calais Hobbes" :tag "literature shortstory")
+      :title "The Unintentional Invention of Meat: A Story From Calais Hobbes" :tag "fiction")
 
 ;; First Post
 (post :id "first" :date "20220516"
-      :title "First Post" :tag "about site")
+      :title "First Post" :tag "site")
