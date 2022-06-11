@@ -15,7 +15,7 @@ problematic. This is where [[https://github.com/FiloSottile/age][Age]] provided 
 
 * The Solution
 
-On a production machine, I can easily create a temporary Age key by
+On a production machine, we can easily create a temporary Age key by
 doing,
 
 #+BEGIN_EXAMPLE
@@ -87,10 +87,10 @@ and a download script such as,
 #+END_SRC
 
 
-Now if I have two age keys, =key-1.txt=
+Now if we have two age keys, =key-1.txt=
 (=age1dwj4jcfp9wfpslrj4gnws5y5llzetdzu0cpndtr96fr3htlgdvusk6w8tg=) and
 =key-2.txt=
-(=age1xqz970tzhklqp0qyz9x3c3yur3jd65urasmwer0thzc4k6y6qftq7sc2zw=), I
+(=age1xqz970tzhklqp0qyz9x3c3yur3jd65urasmwer0thzc4k6y6qftq7sc2zw=), we
 can upload an encrypted file for both keys by doing,
 
 #+BEGIN_EXAMPLE -n 1
