@@ -17,3 +17,6 @@ clean:
 css:
 	mkdir -p "output/html/static"
 	cp -fr static/* "output/html/static/"
+
+live:
+	rsync -avh --delete output/html/ -e ssh paco@pacopascal.com:/home/paco/www/
