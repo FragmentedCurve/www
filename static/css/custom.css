@@ -67,6 +67,8 @@ pre.example, pre.src {
     margin-bottom: .5em;
     margin-top:    .5em;
     border-radius: 10px;
+    font-size: 1em;
+    font-weight: unset;
 }
 
 pre.example {
