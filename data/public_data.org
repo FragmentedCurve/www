@@ -9,9 +9,9 @@ the servers were sandboxes that could've been infected by malicious
 software; therefore, I didn't want to leak any information in the
 sandboxes about any production servers or credentials.
 
-My first instinct was to post to pastebin. But I wanted to encrypt the
-data before posting. Using GnuPG in the sandboxes was
-problematic. This is where [[https://github.com/FiloSottile/age][Age]] provided a convention solution.
+My first instinct was to post to [[https://pastebin.com][pastebin]]. But I wanted to encrypt the
+data before posting. Using [[https://gnupg.org/][GnuPG]] in the sandboxes was
+problematic. This is where [[https://github.com/FiloSottile/age][Age]] provided a convenient solution.
 
 * The Solution
 
@@ -19,7 +19,7 @@ On a production machine, I can easily create a temporary Age key by
 doing,
 
 #+BEGIN_EXAMPLE
-age-key -o key.txt
+age-keygen -o key.txt
 #+END_EXAMPLE
 
 which gives the following output,
