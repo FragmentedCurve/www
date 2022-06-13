@@ -347,6 +347,9 @@
   (use-converter-to-html "links" :org-mode)
   (generate "output/html/links.html" (load-file "temp/data/links.html"))
 
+  ;; produce contact.html
+  (generate "output/html/contact.html" (load-file "data/contact.html"))
+
   ;; produce index file for each tag
   (loop for tag in (articles-by-tag) do
        (generate (format nil "output/html/tag-~d.html" (getf tag :NAME))
