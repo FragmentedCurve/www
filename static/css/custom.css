@@ -79,6 +79,11 @@ pre.src {
     background: #fffbbb;
 }
 
+code {
+    background-color: unset;
+    padding: unset;
+}
+
 .linenr {
     color: #999666;
     margin-right: 15px;
