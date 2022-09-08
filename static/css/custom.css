@@ -5,12 +5,19 @@
 
 
 /* Override some of pure.css's menu rules to get clym's */
+
+body {
+    /* background-color: #d9d9d9; /* Haiku */
+    /*background-color: #dedbde; /* BeOS */
+}
+
 a.pure-menu-link {
     color: #3b5487;
     text-decoration: none;
     font-weight: 700;
     text-transform: uppercase;
 }
+
 a.pure-menu-link:active, a.pure-menu-link:hover, a.pure-menu-link:focus {
     color: #203785;
 }
@@ -33,6 +40,16 @@ h2 {
 h2, h3, h4 {
     margin-top: 25px;
 }
+
+h2 img, h3 img {
+    max-height: 1em;
+    max-width: 1em;
+    display: inline;
+    padding-left: 5px;
+    padding-right: 5px;
+    vertical-align: middle
+}
+
 /*
 :not(div#table-of-contents) > h2 {
     margin-left: -20px;
@@ -79,6 +96,11 @@ pre.src {
     background: #fffbbb;
 }
 
+pre.src-output {
+    background: white;
+    color: black;
+}
+
 code {
     background-color: unset;
     padding: unset;
@@ -118,4 +140,90 @@ blockquote {
 
 #table-of-contents > h2 {
     border: 0;
+}
+
+/* Donate Bar */
+
+.donatebar {
+    display: block;
+    width: 100%;
+    padding: 10px;
+}
+
+
+.donatebar {
+    width: 30px;
+    height: 100%;
+    //padding-left: 5%;
+    padding-right: 5%;
+    vertical-align: middle;
+}
+
+.pure-menu-item img {
+    display: inline;
+    width: 32px;
+    height: 100%;
+    //padding-left: 5%;
+    padding-right: 5%;
+    //vertical-align: middle;
+}
+
+/* Donate Page */
+
+div.donatecontainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+div.donateinfo {
+    max-width: 350px;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: block;
+}
+
+div.donateinfo a img {
+    width: 50%;
+}
+
+div.donateinfo code {
+    font-size: xx-small;
+    overflow-wrap: break-word;
+    display: unset;
+}
+
+
+/* Toggle Bar */
+
+.toggle-bar-container {    
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.toggle-bar-container .toggle-bar-header {
+    display: inline;
+    margin: 0;
+    width: 25%;
+    padding-left: 10px;
+    padding-right: 25%;
+
+    font-weight: bold;
+    font-size: 1em;
+    
+    background-image: linear-gradient(90deg, rgba(250, 203, 23, .5), rgba(250, 203, 23, 1));
+    border: 3px solid rgba(222, 219, 222, .5);
+}
+
+.toggle-bar {
+    background-color: rgba(222, 219, 222, 1) ;
+    border: 3px ridge rgba(222, 219, 222, 1);
+    padding: 10px;
+}
+
+header {
+    background-color: rgba(222, 219, 222, 1) ;
+    border: 2px outset rgba(222, 219, 222, 1);
+    margin-bottom: 20px;
 }

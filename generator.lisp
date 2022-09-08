@@ -264,11 +264,12 @@
 
 ;; return a html string
 ;; produce the code of a whole page with title+layout with the parameter as the content
-(defun generate-layout(body &optional &key (title nil))
+(defun generate-layout(body &optional &key (title nil) (path "/"))
   (prepare "templates/layout.tpl"
 	   (template "%%Title%%" (if title title (getf *config* :title)))
 	   (template "%%Tags%%" (get-tag-list))
 	   (template "%%Body%%" body)
+	   (template "%%Self%%" path)
 	   output))
 
 
@@ -326,30 +327,35 @@
 
   ;; produce each article file
   (loop for article in *articles*
-     do
-     ;; use the article's converter to get html code of it
-       (use-converter-to-html (article-id article) (article-converter article))
+	do
+	;; use the article's converter to get html code of it
+	(use-converter-to-html (article-id article) (article-converter article))
 
-	(generate  (format nil "output/html/~d-~d.html"
+	(let ((path (format nil "~d-~d.html"
 			   (date-format "%Year-%MonthNumber-%DayNumber"
 					(article-date article))
-			   (article-id article))
-		   (create-article article :tiny nil)
-		   :title (concatenate 'string (getf *config* :title) " : " (article-title article))))
+			   (article-id article))))
+	  (generate (format nil "output/html/~d" path)
+		    (create-article article :tiny nil)
+		    :title (concatenate 'string (getf *config* :title) " : " (article-title article))
+		    :path path)))
 
   ;; produce index.html
-  (generate "output/html/index.html" (generate-semi-mainpage :no-text t))
+  (generate "output/html/index.html" (generate-semi-mainpage :no-text t) :path "index.html")
 
   ;; produce index-everything.html
-  (generate "output/html/index-everything.html" (generate-semi-mainpage))
+  (generate "output/html/index-everything.html" (generate-semi-mainpage) :path "index-everything.html")
 
   ;; produce links.html
   (use-converter-to-html "links" :org-mode)
-  (generate "output/html/links.html" (load-file "temp/data/links.html"))
+  (generate "output/html/links.html" (load-file "temp/data/links.html") :path "links.html")
 
   ;; produce contact.html
-  (generate "output/html/contact.html" (load-file "data/contact.html"))
-
+  (generate "output/html/contact.html" (load-file "data/contact.html") :path "contact.html")
+  
+  ;; produce donate.html
+  (generate "output/html/donate.html" (load-file "data/donate.html") :path "donate.html")
+  
   ;; produce index file for each tag
   (loop for tag in (articles-by-tag) do
        (generate (format nil "output/html/tag-~d.html" (getf tag :NAME))
