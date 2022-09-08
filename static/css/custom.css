@@ -6,9 +6,13 @@
 
 /* Override some of pure.css's menu rules to get clym's */
 
-body {
-    /* background-color: #d9d9d9; /* Haiku */
-    /*background-color: #dedbde; /* BeOS */
+:root {
+    --BeOS-grey:  #dedbde;
+    --Haiku-grey: #d9d9d9;
+    --code-block: #fffbbb;
+    --term-block: #f0f0ff;
+    --soft-grey:  #a0a0a0;
+    --soft-purple: #f0f0f0;
 }
 
 a.pure-menu-link {
@@ -34,7 +38,7 @@ a.pure-menu-link:active, a.pure-menu-link:hover, a.pure-menu-link:focus {
 /* Sections & Headers */
 
 h2 {
-    border-bottom: 1px solid #a0a0a0;
+    border-bottom: 1px solid var(--soft-grey);
 }
 
 h2, h3, h4 {
@@ -56,9 +60,12 @@ h2 img, h3 img {
 }
 */
 article > header {
+    /*
     border: unset;
     border-left: 2px dashed black;
-    background-color: #f0f0f0;
+   */
+    border: 3px outset var(--soft-purple);
+    background-color: var(--BeOS-grey);
 
     border-radius: unset;
     -webkit-box-shadow: unset;
@@ -77,24 +84,21 @@ pre {
 }
 
 pre.example, pre.src {
-    /* border: 1px solid black; */
     padding: 10px;
     width: 90%;
     margin: auto;
     margin-bottom: .5em;
     margin-top:    .5em;
-    border-radius: 0; /*10px;*/
     font-size: 1em;
-    font-weight: unset;
-    /* border-left: 2px dashed black; */
+    font-weight: normal;
 }
 
 pre.src {
-    background: #fffbbb;
+    background: var(--code-block);
 }
 
 pre.example, pre.src-output, pre.src-input, pre.src-termio {
-    background: #f0f0ff;
+    background: var(--term-block);
 }
 
 pre.src::before {
