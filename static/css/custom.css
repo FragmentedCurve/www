@@ -77,28 +77,73 @@ pre {
 }
 
 pre.example, pre.src {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     padding: 10px;
     width: 90%;
     margin: auto;
     margin-bottom: .5em;
     margin-top:    .5em;
-    border-radius: 10px;
+    border-radius: 0; /*10px;*/
     font-size: 1em;
     font-weight: unset;
-}
-
-pre.example {
-    background: #f0f0ff;
+    /* border-left: 2px dashed black; */
 }
 
 pre.src {
     background: #fffbbb;
 }
 
-pre.src-output {
-    background: white;
-    color: black;
+pre.example, pre.src-output, pre.src-input, pre.src-termio {
+    background: #f0f0ff;
+}
+
+pre.src::before {
+    display: block;
+    vertical-align: middle;
+    font-family: Sans-serif;
+    font-size: 1.5em;
+    font-style: bold;
+    font-variant: small-caps;
+    padding-bottom: 5px;
+    color: #a0a0a0;
+    content: url(../img/File_SourceCode.png) "  Code";
+}
+
+
+pre.src-termio::before {
+    display: block;
+    vertical-align: middle;
+    font-family: Sans-serif;
+    font-size: 1.5em;
+    font-style: bold;
+    font-variant: small-caps;
+    padding-bottom: 5px;
+    color: #a0a0a0;
+    content: url(../img/App_Terminal.png) "  Terminal IO";
+}
+
+pre.src-input::before {
+    display: block;
+    vertical-align: middle;
+    font-family: Sans-serif;
+    font-size: 1.5em;
+    font-style: bold;
+    font-variant: small-caps;
+    padding-bottom: 5px;
+    color: #a0a0a0;
+    content: url(../img/Prefs_Keyboard.png) "  Terminal Input";
+}
+
+pre.src-output::before {
+    display: block;
+    vertical-align: middle;
+    font-family: Sans-serif;
+    font-size: 1.5em;
+    font-style: bold;
+    font-variant: small-caps;
+    padding-bottom: 5px;
+    color: #a0a0a0;
+    content: url(../img/Misc_ClassicMacintosh.png) "  Terminal Output";
 }
 
 code {

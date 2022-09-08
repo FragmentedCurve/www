@@ -18,35 +18,35 @@ problematic. This is where [[https://github.com/FiloSottile/age][Age]] provided 
 On a production machine, we can easily create a temporary Age key by
 doing,
 
-#+BEGIN_EXAMPLE
+#+BEGIN_SRC input
 age-keygen -o key.txt
-#+END_EXAMPLE
+#+END_SRC
 
 which gives the following output,
 
-#+BEGIN_EXAMPLE
+#+BEGIN_SRC output
 Public key: age15v5xqysc8g7spuzdyk0v5q90m609ruaecwnlv2x67zv5xqnju4esp2tz3j
-#+END_EXAMPLE
+#+END_SRC
 
 Instead of using, pastebin for posting, we'll use
 [[https://0x0.st/]] which doesn't require an API key. On the insecure
 server, do the following,
 
-#+BEGIN_EXAMPLE
+#+BEGIN_SRC input
 age --encrypt -r age15v5xqysc8g7spuzdyk0v5q90m609ruaecwnlv2x67zv5xqnju4esp2tz3j -a /path/to/private/file | curl -F 'file=@-' https://0x0.st/
-#+END_EXAMPLE
+#+END_SRC
 
 which will output a URL, such as
 
-#+BEGIN_EXAMPLE
+#+BEGIN_SRC output
 https://0x0.st/oM5X.txt
-#+END_EXAMPLE
+#+END_SRC
 
 Now we can download this file and decrypt it in a safe location.
 
-#+BEGIN_EXAMPLE
+#+BEGIN_SRC input
 curl -s https://0x0.st/oM5X.txt | age --decrypt -i key.txt -o secret_file.txt
-#+END_EXAMPLE
+#+END_SRC
 
 * Solution Simplification
 
@@ -93,17 +93,17 @@ Now if we have two age keys, =key-1.txt=
 (=age1xqz970tzhklqp0qyz9x3c3yur3jd65urasmwer0thzc4k6y6qftq7sc2zw=), we
 can upload an encrypted file for both keys by doing,
 
-#+BEGIN_EXAMPLE -n 1
-$ echo secret text | ./age-post.sh \
+#+BEGIN_SRC input
+echo secret text | ./age-post.sh \
   age1dwj4jcfp9wfpslrj4gnws5y5llzetdzu0cpndtr96fr3htlgdvusk6w8tg \
   age1xqz970tzhklqp0qyz9x3c3yur3jd65urasmwer0thzc4k6y6qftq7sc2zw
-#+END_EXAMPLE
+#+END_SRC
 
 and download the same content for each key,
 
-#+BEGIN_EXAMPLE -n 1
+#+BEGIN_SRC termio -n 1
 $ ./age-pull.sh https://0x0.st/oM5_.txt key-1.txt
 secret text
 $ ./age-pull.sh https://0x0.st/oM5_.txt key-2.txt
 secret text
-#+END_EXAMPLE
+#+END_SRC
