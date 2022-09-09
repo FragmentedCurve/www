@@ -104,6 +104,7 @@
 		  <option value="2">Software Bug</option>
 		</select>
 		<textarea id="input-message" name="message" style="display:block;width:100%;max-width:100%;margin-bottom:10px;height:100px;padding:15px;"></textarea>
+		<input type="hidden" id="input-referer" name="referer" value="%%Self%%">
 		<button style="display:block;width:50%;height:50px;">Send</button>
 	      </div>
 	    </form>
@@ -166,8 +167,7 @@
       </main>
       
       <footer>
-	<a href="#" class="pure-menu-link"><img src="static/img/Action_GoUp.svg"></a>
-	<br>
+	<a href="#"><img src="static/img/Action_GoUp.svg"></a>
       </footer>
 
     </div><!-- #wrapper -->
