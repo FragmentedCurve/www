@@ -7,38 +7,60 @@
 /* Override some of pure.css's menu rules to get clym's */
 
 :root {
-    --BeOS-grey:  #dedbde;
-    --Haiku-grey: #d9d9d9;
-    --code-block: #fffbbb;
-    --term-block: #f0f0ff;
-    --soft-grey:  #a0a0a0;
-    --soft-purple: #f0f0f0;
+    --gray-BeOS:       #dedbde;
+    --code-block:      #fffbbb;
+    --term-block:      #f0f0ff;
+    --gray:            #a0a0a0;
+    --gray-soft:       #f0f0f0;
+    --gray-light:      #fafafa
+    --gray-highlight:  #203785;
+    --gray-linenr:     #999666;
+    --clear: rgba(0,0,0,0);
+}
+
+body {
+    background-color: white;
+}
+
+#wrapper {
+    background-color: white;
+    /*
+    padding-left: 32px;
+    padding-right: 32px;
+   */
+}
+
+.panel, header {
+    background-color: var(--gray-BeOS);
+    border: 2px outset var(--gray-BeOS);
+    margin-bottom: 20px;
+    padding: 3px;
+}
+
+.pure-menu-horizontal {
+    white-space: unset;
 }
 
 a.pure-menu-link {
-    color: #3b5487;
+    color: #3b5487; /* TODO: Change color */
     text-decoration: none;
     font-weight: 700;
     text-transform: uppercase;
+    border: 2px solid var(--clear);
 }
 
 a.pure-menu-link:active, a.pure-menu-link:hover, a.pure-menu-link:focus {
-    color: #203785;
+    color: var(--gray-highlight);
 }
 
-.offsite {
-    color: #505050;
-}
-
-.offsite > a {
-    color: #505050;
-    font-size: .75em
+a.pure-menu-link:hover {
+    border: 2px inset var(--gray-BeOS);
 }
 
 /* Sections & Headers */
 
 h2 {
-    border-bottom: 1px solid var(--soft-grey);
+    border-bottom: 1px solid var(--gray);
 }
 
 h2, h3, h4 {
@@ -54,18 +76,9 @@ h2 img, h3 img {
     vertical-align: middle
 }
 
-/*
-:not(div#table-of-contents) > h2 {
-    margin-left: -20px;
-}
-*/
 article > header {
-    /*
-    border: unset;
-    border-left: 2px dashed black;
-   */
-    border: 3px outset var(--soft-purple);
-    background-color: var(--BeOS-grey);
+    border: 3px outset var(--gray-soft);
+    background-color: var(--gray-BeOS);
 
     border-radius: unset;
     -webkit-box-shadow: unset;
@@ -101,7 +114,7 @@ pre.example, pre.src-output, pre.src-input, pre.src-termio {
     background: var(--term-block);
 }
 
-pre.src::before {
+pre.src::before, pre.src-termio::before, pre.src-input::before, pre.src-output::before {
     display: block;
     vertical-align: middle;
     font-family: Sans-serif;
@@ -109,44 +122,22 @@ pre.src::before {
     font-style: bold;
     font-variant: small-caps;
     padding-bottom: 5px;
-    color: #a0a0a0;
+    color: var(--gray);
+}
+
+pre.src::before {
     content: url(../img/File_SourceCode.png) "  Code";
 }
 
-
 pre.src-termio::before {
-    display: block;
-    vertical-align: middle;
-    font-family: Sans-serif;
-    font-size: 1.5em;
-    font-style: bold;
-    font-variant: small-caps;
-    padding-bottom: 5px;
-    color: #a0a0a0;
     content: url(../img/App_Terminal.png) "  Terminal IO";
 }
 
 pre.src-input::before {
-    display: block;
-    vertical-align: middle;
-    font-family: Sans-serif;
-    font-size: 1.5em;
-    font-style: bold;
-    font-variant: small-caps;
-    padding-bottom: 5px;
-    color: #a0a0a0;
     content: url(../img/Prefs_Keyboard.png) "  Terminal Input";
 }
 
 pre.src-output::before {
-    display: block;
-    vertical-align: middle;
-    font-family: Sans-serif;
-    font-size: 1.5em;
-    font-style: bold;
-    font-variant: small-caps;
-    padding-bottom: 5px;
-    color: #a0a0a0;
     content: url(../img/Misc_ClassicMacintosh.png) "  Terminal Output";
 }
 
@@ -156,13 +147,13 @@ code {
 }
 
 .linenr {
-    color: #999666;
+    color: var(--gray-linenr);
     margin-right: 15px;
 }
 
 blockquote {
-    border-left: 5px double #a0a0a0;
-    background: #fafafa;
+    border-left: 5px double var(--gray);
+    background: var(--gray-light);
     padding: 10px;
     width: 90%;
     margin-left: auto;
@@ -182,8 +173,8 @@ blockquote {
     padding-left:   50px;
     padding-right:  50px;
 
-    border-top:    5px double #a0a0a0;
-    border-bottom: 5px double #a0a0a0;
+    border-top:    5px double var(--gray);
+    border-bottom: 5px double var(--gray);
     border-radius: 50px;
 }
 
@@ -266,13 +257,7 @@ div.donateinfo code {
 }
 
 .toggle-bar {
-    background-color: rgba(222, 219, 222, 1) ;
-    border: 3px ridge rgba(222, 219, 222, 1);
+    background-color: var(--gray-BeOS);
+    border: 3px ridge var(--gray-BeOS);
     padding: 10px;
-}
-
-header {
-    background-color: rgba(222, 219, 222, 1) ;
-    border: 2px outset rgba(222, 219, 222, 1);
-    margin-bottom: 20px;
 }
