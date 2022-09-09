@@ -26,6 +26,7 @@ body {
 input, textarea {
     background-color: white;
     border: 1px solid var(--gray);
+    padding: 5px;
 }
 
 #wrapper {
@@ -46,9 +47,6 @@ a.pure-menu-link {
 
 a.pure-menu-link:active, a.pure-menu-link:hover, a.pure-menu-link:focus {
     color: var(--gray-highlight);
-}
-
-a.pure-menu-link:hover {
     border: 2px inset var(--gray-BeOS);
 }
 
@@ -76,7 +74,7 @@ h2, h3, h4 {
     margin-top: 25px;
 }
 
-h2 img, h3 img {
+h1 img, h2 img, h3 img {
     max-height: 1em;
     max-width: 1em;
     display: inline;
@@ -226,7 +224,7 @@ blockquote {
 }
 
 /* Donate Page */
-
+/*
 div.donatecontainer {
     display: flex;
     flex-wrap: wrap;
@@ -250,7 +248,7 @@ div.donateinfo code {
     overflow-wrap: break-word;
     display: unset;
 }
-
+*/
 
 /* Toggle Bar */
 
@@ -279,4 +277,76 @@ div.donateinfo code {
     background-color: var(--gray-BeOS);
     border: 3px ridge var(--gray-BeOS);
     padding: 10px;
+}
+
+.toggle-bar-frame {
+    display: inline-block;
+    width-block: auto;
+    padding: 1em;
+    margin: 0.10em;
+    border: 3px groove var(--gray-soft);
+}
+
+.fill {
+    width: 100%;
+    height: 100%;
+}
+
+.toggle-bar-stack {
+    display: inline-block;
+    border: none;
+}
+
+.toggle-bar-stack > * {
+    display: block;
+    margin: auto;
+}
+
+/*
+window-container {
+    display: inline-block;
+    padding: 0;
+ }
+
+window-container > * {
+    display: block;
+    margin: 0;
+}
+
+window-titlebar {
+    width: 25%;
+    padding-left: 10px;
+    padding-right: 25%;
+
+    font-weight: bold;
+    font-size: 1em;
+
+    background-color: white;
+    background-image: linear-gradient(90deg, rgba(250, 203, 23, .5), rgba(250, 203, 23, 1));
+    border: 3px solid rgba(222, 219, 222, .5);
+}
+
+window-box {
+    background-color: var(--gray-BeOS);
+    border: 3px ridge var(--gray-BeOS);
+    width: 100%;
+    height: 100%;
+}
+
+
+frame {
+    display: inline-block;
+    width-block: auto;
+    padding: 1em;
+    margin: 0.10em;
+    border: 3px groove var(--gray-soft);
+}
+*/
+mono {
+    font-size: small;
+    overflow-wrap: break-word;
+    display: unset;
+    
+    font-family: Monospace;
+    font-weight: bold;
 }

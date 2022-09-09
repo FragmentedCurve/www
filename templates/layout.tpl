@@ -17,13 +17,13 @@
       <header>
 	<nav class="pure-menu-horizontal">
 	  <ul class="pure-menu-list">
-	    <li class="pure-menu-item"><a href="index.html" class="pure-menu-link"><img src="static/img/Action_GoHome.svg"></a></li>
-	    <li class="pure-menu-item"><a onclick="toggleBar('tag-bar')" class="pure-menu-link"><img src="static/img/App_Magnify.svg"></a></li>
-	    <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link"><img src="static/img/App_Finance.svg"></a></li>
-	    <li class="pure-menu-item"><a onclick="toggleBar('contact-form')" class="pure-menu-link"><img src="static/img/App_Mail_None.svg"></a></li>
-	    <!-- <li class="pure-menu-item"><a href="links.html" class="pure-menu-link"><img src="static/img/App_People.svg"></a></li> -->
-	    <li class="pure-menu-item"><a href="" class="pure-menu-link"><img src="static/img/Alert_Idea.svg"></a></li>
-	    <li class="pure-menu-item"><a href="rss.xml" class="pure-menu-link"><img src="static/img/File_RSS_Feed.svg"></a></li>
+	    <li class="pure-menu-item"><a href="index.html" class="pure-menu-link"><img alt src="static/img/Action_GoHome.svg"></a></li>
+	    <li class="pure-menu-item"><a onclick="toggleBar('tag-bar')" class="pure-menu-link"><img alt src="static/img/App_Magnify.svg"></a></li>
+	    <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link"><img alt src="static/img/App_Finance.svg"></a></li>
+	    <li class="pure-menu-item"><a onclick="toggleBar('contact-form')" class="pure-menu-link"><img alt src="static/img/App_Mail_None.svg"></a></li>
+	    <!-- <li class="pure-menu-item"><a href="links.html" class="pure-menu-link"><img alt src="static/img/App_People.svg"></a></li> -->
+	    <li class="pure-menu-item"><a onclick="toggleBar('guide-bar')" class="pure-menu-link"><img alt src="static/img/Alert_Idea.svg"></a></li>
+	    <li class="pure-menu-item"><a href="rss.xml" class="pure-menu-link"><img alt src="static/img/File_RSS_Feed.svg"></a></li>
 	  </ul>
 	</nav>
       </header>
@@ -46,45 +46,27 @@
 	  </div>
 	  
 	  <div class="toggle-bar">
-	    <div class="donatecontainer">
-	      <div class="donateinfo">
-		<h3>
-		  <img src="static/img/xmr.svg">
-		  Monero
-		</h3>
-		<a href="static/img/wallet_xmr.png" class="pure-menu-link">
-		  <img src="static/img/wallet_xmr.png">
-		</a>
-		<code>48ytRrWEvk5GzkxtLHDr6na5qm6oqbYRqKkspeaa4ypHcY4SFMDw474eSYKJXfUAQSAHLF3GoTKzqKccUYDQPSrg9RboArW</code>
+	    <div class="toggle-bar-stack fill">
+	      <div class="toggle-bar-frame">
+		<h1><img alt src="static/img/xmr.svg"> Monero</h1>
+		<mono>48ytRrWEvk5GzkxtLHDr6na5qm6oqbYRqKkspeaa4ypHcY4SFMDw474eSYKJXfUAQSAHLF3GoTKzqKccUYDQPSrg9RboArW</mono>
 	      </div>
 
-	      <div class="donateinfo">
-		<h3><img src="static/img/btc.svg">Bitcoin</h3>
-		<a href="static/img/wallet_btc.png" class="pure-menu-link">
-		  <img src="static/img/wallet_btc.png">
-		</a>
-		<code>bc1qemzsdmtnlgxm9z6hghmg835dzqxq6f3zw0dyah</code>
+	      <div class="toggle-bar-frame">
+		<h1><img alt src="static/img/btc.svg"> Bitcoin</h1>
+		<mono>bc1qemzsdmtnlgxm9z6hghmg835dzqxq6f3zw0dyah</mono>
 	      </div>
 
-	      <div class="donateinfo">
-		<a href="" class="pure-menu-link">
-		  <img src="static/img/kofi.svg">
-		</a>
+	      <div class="toggle-bar-frame">
+		<h1><img alt src="static/img/kofi.svg"> Kofi</h1>
+		Coming soon
 	      </div>
 	      
-	      <div class="donateinfo">
-		<a href="" class="pure-menu-link">
-		  <img src="static/img/patreon.svg">
-		</a>
+	      <div class="toggle-bar-frame">
+		<h1><img alt src="static/img/patreon.svg"> Patreon</h1>
+		Coming soon
 	      </div>
-
 	    </div>
-	    <!--
-	    <ul class="pure-menu-list pure-menu-horizontal" style="width:50%;margin:auto;">
-	      <li class="pure-menu-item"><a href="" class="pure-menu-link"><img src="static/img/kofi.svg"> Kofi</a></li>
-	      <li class="pure-menu-item"><a href="" class="pure-menu-link"><img src="static/img/patreon.svg"> Patreon</a></li>
-	    </ul>
-	    -->
 	  </div>
 	</div>
 	
@@ -108,66 +90,24 @@
 		<button style="display:block;width:50%;height:50px;">Send</button>
 	      </div>
 	    </form>
-	    
-	    <script>
-	      let errorParams = new URLSearchParams(window.location.search);
-	      
-	      let input_elements = [
-		  { default: "name",    error: "error-name",    element: document.getElementById('input-name')    },
-		  { default: "email",   error: "error-email",   element: document.getElementById('input-email')   },
-		  { default: "subject", error: "error-subject", element: document.getElementById('input-subject') },
-		  { default: "message", error: "error-message", element: document.getElementById('input-message') },
+	  </div>
+	</div>
 
-		  // Referral data
-		  { default: "referral-src",   error: null, element: document.getElementById('input-referer') },
-		  { default: "referral-title", error: null, element: document.getElementById('page-title')    }
-	      ];
-
-	      for (let i = 0; i < input_elements.length; i++) {
-		  if (errorParams.has(input_elements[i].default)) {
-		      try {
-			  switch (input_elements[i].element.tagName) {
-			  case 'HIDDEN': // Fall through
-			  case 'INPUT':
-			      input_elements[i].element.setAttribute('value', errorParams.get(input_elements[i].default));
-			      break;
-			  case 'H3': // Fall through
-			  case 'TEXTAREA':
-			      input_elements[i].element.innerHTML = errorParams.get(input_elements[i].default);
-			      break;
-			  case 'SELECT':
-			      input_elements[i].element.getElementsByTagName('option')[errorParams.get(input_elements[i].default)].selected = 'selected';
-			      break;
-			  }
-		      } catch (err) {
-			  // Passively report the error and move on.
-			  console.log(err);
-		      }
-			
-		    }
-
-		    if (errorParams.has(input_elements[i].error)) {
-			input_elements[i].element.setAttribute('class', 'error-box');
-		    }
-		}
-
-		function toggleBar(id) {
-		    let e = document.getElementById(id);
-		    if (e.getAttribute('style') == 'display:none') {
-			e.setAttribute('style', 'display:block');
-		    } else {
-			e.setAttribute('style', 'display:none');
-		    }
-		}
-	      </script>
-	    </div>
+	
+	<div id="guide-bar" class="toggle-bar-container" style="display:none">
+	  <div class="toggle-bar-header">
+	    Guide
+	  </div>
+	  <div class="toggle-bar">
+	    This website is a work in progress.
+	  </div>
 	</div>
 	
 	%%Body%%
       </main>
       
       <footer>
-	<a href="#"><img src="static/img/Action_GoUp.svg"></a>
+	<a href="#"><img alt src="static/img/Action_GoUp.svg"></a>
       </footer>
 
     </div><!-- #wrapper -->
@@ -175,5 +115,7 @@
     <script id="MathJax-script" async
 	    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
     </script>
+
+    <script src="static/js/code.js"></script>
   </body>
 </html>
