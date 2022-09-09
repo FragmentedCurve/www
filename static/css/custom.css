@@ -264,7 +264,8 @@ div.donateinfo code {
 
     font-weight: bold;
     font-size: 1em;
-    
+
+    background-color: white;
     background-image: linear-gradient(90deg, rgba(250, 203, 23, .5), rgba(250, 203, 23, 1));
     border: 3px solid rgba(222, 219, 222, .5);
 }
