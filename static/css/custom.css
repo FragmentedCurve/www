@@ -98,7 +98,7 @@ article > header {
 header {
     background-color: var(--gray-BeOS);
     border: 2px outset var(--gray-BeOS);
-    padding: 0.25em;
+    padding: 3px;
     margin-bottom: 1em;
 }
 
