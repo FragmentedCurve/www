@@ -347,14 +347,11 @@
   (generate "output/html/index-everything.html" (generate-semi-mainpage) :path "index-everything.html")
 
   ;; produce links.html
-  (use-converter-to-html "links" :org-mode)
-  (generate "output/html/links.html" (load-file "temp/data/links.html") :path "links.html")
+  ;(use-converter-to-html "links" :org-mode)
+  ;(generate "output/html/links.html" (load-file "temp/data/links.html") :path "links.html")
 
   ;; produce contact.html
-  (generate "output/html/contact.html" (load-file "data/contact.html") :path "contact.html")
-  
-  ;; produce donate.html
-  (generate "output/html/donate.html" (load-file "data/donate.html") :path "donate.html")
+  ;(generate "output/html/contact.html" (load-file "data/contact.html") :path "contact.html")
   
   ;; produce index file for each tag
   (loop for tag in (articles-by-tag) do
