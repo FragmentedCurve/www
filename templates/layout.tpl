@@ -21,8 +21,8 @@
 	    <li class="pure-menu-item"><a onclick="toggleBar('tag-bar')" class="pure-menu-link"><img src="static/img/App_Magnify.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link"><img src="static/img/App_Finance.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('contact-form')" class="pure-menu-link"><img src="static/img/App_Mail_None.svg"></a></li>
-	    <li class="pure-menu-item"><a href="links.html" class="pure-menu-link"><img src="static/img/App_People.svg"></a></li>
-	    <li class="pure-menu-item"><a href="about.html" class="pure-menu-link"><img src="static/img/Alert_Idea.svg"></a></li>
+	    <!-- <li class="pure-menu-item"><a href="links.html" class="pure-menu-link"><img src="static/img/App_People.svg"></a></li> -->
+	    <li class="pure-menu-item"><a href="" class="pure-menu-link"><img src="static/img/Alert_Idea.svg"></a></li>
 	    <li class="pure-menu-item"><a href="rss.xml" class="pure-menu-link"><img src="static/img/File_RSS_Feed.svg"></a></li>
 	  </ul>
 	</nav>
@@ -94,7 +94,7 @@
 	  </div>
 	  
 	  <div class="toggle-bar">
-	    <form method="post" action="/cgi-bin/contact.cgi">
+	    <form method="post" action="http://localhost:9000/contact.cgi">
 	      <div style="display:block;width:75%;margin:auto">
 		<input type="text" id="input-name" name="name" placeholder="Your name..." style="display:block;width:100%;margin-bottom: 10px;padding:5px;">
 		<input type="email" id="input-email" name="email" placeholder="Your email..." style="display:block;width:100%;margin-bottom:10px;padding:5px;">

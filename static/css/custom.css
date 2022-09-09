@@ -15,26 +15,16 @@
     --gray-light:      #fafafa
     --gray-highlight:  #203785;
     --gray-linenr:     #999666;
+    --blue:            #336698;
     --clear: rgba(0,0,0,0);
 }
 
 body {
-    background-color: white;
+    background-color: var(--blue);
 }
 
 #wrapper {
-    background-color: white;
-    /*
-    padding-left: 32px;
-    padding-right: 32px;
-   */
-}
-
-.panel, header {
-    background-color: var(--gray-BeOS);
-    border: 2px outset var(--gray-BeOS);
-    margin-bottom: 20px;
-    padding: 3px;
+    background-color: var(--blue);
 }
 
 .pure-menu-horizontal {
@@ -55,6 +45,20 @@ a.pure-menu-link:active, a.pure-menu-link:hover, a.pure-menu-link:focus {
 
 a.pure-menu-link:hover {
     border: 2px inset var(--gray-BeOS);
+}
+
+article.document {
+    background: white;
+    margin-bottom: 1em;
+}
+
+article.document > .document-body {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+article::after {
+    content: unset;
 }
 
 /* Sections & Headers */
@@ -83,6 +87,14 @@ article > header {
     border-radius: unset;
     -webkit-box-shadow: unset;
     box-shadow: unset;
+    clear: both;
+}
+
+header {
+    background-color: var(--gray-BeOS);
+    border: 2px outset var(--gray-BeOS);
+    padding: 0.25em;
+    margin-bottom: 1em;
 }
 
 /* Preformatted Text & Code Blocks */
@@ -237,9 +249,10 @@ div.donateinfo code {
 
 /* Toggle Bar */
 
-.toggle-bar-container {    
-    margin-top: 20px;
-    margin-bottom: 20px;
+.toggle-bar-container::after {
+    display: block;
+    height: 1em;
+    content: "";
 }
 
 .toggle-bar-container .toggle-bar-header {
