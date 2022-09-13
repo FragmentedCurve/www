@@ -861,8 +861,8 @@ XXXXXXXXXX
 This level uses the vulnerable =strcpy= function. But it tries to
 protect against us running shellcode by zeroing the memory that holds
 all the environment variables. It also checks =argv[1]= for
-non-alphanumeric characters. If such as characters is found, it exists
-before reaching =strcpy=.
+non-alphanumeric characters. If such characters are found, the process
+exits before reaching =strcpy=.
 
 Notice I said =argv[1]= is checked. It never checks =argv[2]= and
 beyond. Therefore, we can inject our shellcode there. The buffer size
