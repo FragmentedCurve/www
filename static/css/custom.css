@@ -50,37 +50,18 @@ a.pure-menu-link:active, a.pure-menu-link:hover, a.pure-menu-link:focus {
     border: 2px inset var(--gray-BeOS);
 }
 
-article.document {
+article {
     background: white;
     margin-bottom: 1em;
 }
 
-article.document > .document-body {
-    padding-left: 1em;
-    padding-right: 1em;
+article > * {
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
 article::after {
     content: unset;
-}
-
-/* Sections & Headers */
-
-h2 {
-    border-bottom: 1px solid var(--gray);
-}
-
-h2, h3, h4 {
-    margin-top: 25px;
-}
-
-h1 img, h2 img, h3 img {
-    max-height: 1em;
-    max-width: 1em;
-    display: inline;
-    padding-left: 5px;
-    padding-right: 5px;
-    vertical-align: middle
 }
 
 article > header {
@@ -98,6 +79,23 @@ header {
     border: 2px outset var(--gray-BeOS);
     padding: 3px;
     margin-bottom: 1em;
+}
+
+h2 {
+    border-bottom: 1px solid var(--gray);
+}
+
+h2, h3, h4 {
+    margin-top: 25px;
+}
+
+h1 img, h2 img, h3 img {
+    max-height: 1em;
+    max-width: 1em;
+    display: inline;
+    padding-left: 5px;
+    padding-right: 5px;
+    vertical-align: middle
 }
 
 /* Preformatted Text & Code Blocks */
@@ -223,33 +221,6 @@ blockquote {
     //vertical-align: middle;
 }
 
-/* Donate Page */
-/*
-div.donatecontainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-div.donateinfo {
-    max-width: 350px;
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    display: block;
-}
-
-div.donateinfo a img {
-    width: 50%;
-}
-
-div.donateinfo code {
-    font-size: xx-small;
-    overflow-wrap: break-word;
-    display: unset;
-}
-*/
-
 /* Toggle Bar */
 
 .toggle-bar-container::after {
@@ -302,19 +273,17 @@ div.donateinfo code {
     margin: auto;
 }
 
-/*
-window-container {
-    display: inline-block;
+
+window {
+    display: flow block;
     padding: 0;
+    margin: 0;
+    width: attr(width, 100%);
+    height: attr(height, 100%);
  }
 
-window-container > * {
-    display: block;
-    margin: 0;
-}
-
-window-titlebar {
-    width: 25%;
+titlebar {
+    display: inline;
     padding-left: 10px;
     padding-right: 25%;
 
@@ -327,12 +296,10 @@ window-titlebar {
 }
 
 window-box {
+    display: block flow;
     background-color: var(--gray-BeOS);
     border: 3px ridge var(--gray-BeOS);
-    width: 100%;
-    height: 100%;
-}
-
+ }
 
 frame {
     display: inline-block;
@@ -341,7 +308,7 @@ frame {
     margin: 0.10em;
     border: 3px groove var(--gray-soft);
 }
-*/
+
 mono {
     font-size: small;
     overflow-wrap: break-word;

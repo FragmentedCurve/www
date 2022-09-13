@@ -20,7 +20,7 @@
 	    <li class="pure-menu-item"><a href="index.html" class="pure-menu-link"><img alt src="static/img/Action_GoHome.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('tag-bar')" class="pure-menu-link"><img alt src="static/img/App_Magnify.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link"><img alt src="static/img/App_Finance.svg"></a></li>
-	    <li class="pure-menu-item"><a onclick="toggleBar('contact-form')" class="pure-menu-link"><img alt src="static/img/App_Mail_None.svg"></a></li>
+	    <li class="pure-menu-item"><a onclick="toggleBar('contact-bar')" class="pure-menu-link"><img alt src="static/img/App_Mail_None.svg"></a></li>
 	    <!-- <li class="pure-menu-item"><a href="links.html" class="pure-menu-link"><img alt src="static/img/App_People.svg"></a></li> -->
 	    <li class="pure-menu-item"><a onclick="toggleBar('guide-bar')" class="pure-menu-link"><img alt src="static/img/Alert_Idea.svg"></a></li>
 	    <li class="pure-menu-item"><a href="rss.xml" class="pure-menu-link"><img alt src="static/img/File_RSS_Feed.svg"></a></li>
@@ -70,13 +70,13 @@
 	  </div>
 	</div>
 	
-	<div id="contact-form" class="toggle-bar-container" style="display:none">
+	<div id="contact-bar" class="toggle-bar-container" style="display:none">
 	  <div class="toggle-bar-header">
 	    Send Mail
 	  </div>
 	  
 	  <div class="toggle-bar">
-	    <form method="post" action="http://localhost:9000/contact.cgi">
+	    <form method="post" action="#">
 	      <div style="display:block;width:75%;margin:auto">
 		<input type="text" id="input-name" name="name" placeholder="Your name..." style="display:block;width:100%;margin-bottom: 10px;padding:5px;">
 		<input type="email" id="input-email" name="email" placeholder="Your email..." style="display:block;width:100%;margin-bottom:10px;padding:5px;">
