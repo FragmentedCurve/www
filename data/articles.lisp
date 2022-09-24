@@ -48,6 +48,11 @@
 ;; :author  can be omitted.   If so, it's value gets replaced by the value of :webmaster.
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
 
+
+;; Nesticle: Part 0
+(post :id "nesticle_0" :date "20220924"
+      :title "Porting NESticle for Fun & Profit: Part 0" :tag "nes emulation")
+
 ;; Using Age to Publicly Post Sensitive Data
 (post :id "public_data" :date "20220611"
       :title "Using Age to Publicly Post Sensitive Data" :tag "unix linux gpg age cryptography")

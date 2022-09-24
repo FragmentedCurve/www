@@ -1,0 +1,190 @@
+#+TITLE: Porting NESticle for Fun & Profit: Part 0
+#+OPTIONS: toc:nil num:nil
+
+#+LINK: sourcecode  https://archive.org/details/nesticle_source_bundle
+#+LINK: vicehistory https://www.vice.com/en/article/9a48z3/the-story-of-nesticle-the-ambitious-emulator-that-redefined-retro-gaming
+#+LINK: nesticle    https://archive.org/details/nesticle_202112
+#+LINK: fishshell   https://fishshell.com/
+#+LINK: twitch      https://www.twitch.tv/hackyhacks
+
+* Introducing Porting NESticle for Fun & Profit
+
+I've decided to take on the task of porting the leaked NESticle source
+to modern platforms. The end product isn't intended to be
+practical. If one's looking for an NES emulator, there are plenty of
+modern options available. This is purely for fun (and maybe profit);
+it is indeed, a labor of love.
+
+At the moment, the plan is to post an article for each significant
+point of the project's development. I am also live streaming the
+development on [[twitch][Twitch]]. However, I don't actively engage with the
+audience much on Twitch and unlike these posts, the flow isn't as
+digestible for viewers. You are however, welcome to watch me struggle
+in real-time.
+
+Also, do not expect the posts to remain in sync with the streams. The
+articles will lag far behind.
+
+With respect to end goals, I am at the moment bias to preserving as
+much of the original NESticle content and methodology as possible; at
+least until the first working build/release. I imagine there are many
+improvements to be made. The code-base is a mixture of C++ and 32 bit
+x86 assembly. One obvious point of improvement would be removing the
+low level assembly code and make the code-base more portable. I'd love
+to see NESticle running on my Raspberry Pi. However, for reasons of
+strategy and historical preservation, I'm keeping the lack of
+portability and other inherit faults by avoiding implementing initial
+improvements.
+
+I have already ported a chunk of the assembly code. For now, you
+should expect the initial releases to be 32bit x86 Linux executables.
+
+* Assessing the Situation
+
+Tackling this project means moving through many unknowns. It's been a
+long time since NESticle's source code was updated. The C++ standards
+have changed; the compilers have changed; the operating systems have
+changed. We need to methodologically break down the problem and keep
+the unknown variables down to a minimum at each step. Therefore, the
+first thing to do is simply get each source file to compile. After we
+accomplished that, we can begin building off of the potentially
+working code.
+
+But, before we can start compiling, we need the source code which can
+be downloaded at [[sourcecode][The Archive]].  After extracting the zip file, we see
+this mess of files and directories:
+
+#+BEGIN_EXAMPLE
+BACK/ COMMON.H CUNT.ZIP DSOUND.LIB FUCK.ZIP GUIROOT.H INPUTW.CPP LOCAL.H MOUSE.CPP NES.CSM NES.EXE NES.MBT NESSOUND.H NESVIDEO.LIB PTRN.ZIP README SCROLLFK.ZIP SOUND.H STDDLG.CPP TYPES.H VOL.H BUILD.CPP CONFIG.CPP CYCLE.ZIP EXAM GUICOLOR.H GUIVOL.H INPUTW.H MAIN.CPP MOUSE.H NES.~DE NES.H NES.MRT NESSRC.ZIP NESVIDEO.OLD R2IMGASM.ASM README~ SFUCK.ZIP SOUND.ZIP SYNC.ZIP USER.LIB VULNS.H BYTEOR~1.H CONFIG.H DD.H FILE.CPP GUI.H INCLUDES.H INSTALL MESSAGE.CPP NAMESERV.H NESDLG.CPP NESH~1.OLD NES.OBR NESTICLE.ICO PATTERN.ZIP R2IMGASM.OBJ RESOURCE.H SHITFUCK.ZIP SPRITE.ASM TILE.ASM UUTIMER.H WIN95.LIB CLIP.H CPU.CPP DDRAW.LIB FILE.H GUI.LIB INPUT.CPP KANJI.H MESSAGE.H NES95.MK NESDOS.MK NES.ICO NES.OLD NESVIDEO.CPP PPU.H R2IMG.CPP ROM.CPP SLIST.CPP SPRITEBG.ASM TILE.OBJ VERSION.H COMMAND.CPP CPU.OLD DISASM.CPP FONT.CPP GUIMENU.H INPUT.H KEYB.H MMC.CPP NES95.WPJ NESDOS.WPJ NES.IDE NESPAL.H NESVIDEO.FUK PROF.CPP R2IMG.H ROM.H SLIST.H SPRITEBG.OBJ TILE.OLD VOLBATCH.H COMMAND.H CRASH.ZIP DLGPOS.H FONT.H GUIRECT.H INPUT.LIB LOADPARM.H MMC.H NES.CPP NES.DSW NES.LIB NESSOUND.CPP NESVIDEO.H PROF.H R2.LIB SCRIPT1.RC SNAPSHOT.CPP SPRITE.OBJ TIMING.H VOL.CPP
+#+END_EXAMPLE
+
+Unfortunately, it's not clear what's going to be important. The
+/README/ is not going to be helpful, because it's a completely
+unrelated document titled /"NetBIOS Security Kit"/.
+
+To make matters worse, all those zip files are different revisions of
+the code-base. Thus, we're going to have to decide which revision to
+port. At the moment, I suspect the newest revision is the best place
+to start.
+
+The files in the top directory are from April 4^{th}, 1997. Running
+the following in my [[fishshell][fish shell]],
+
+#+BEGIN_SRC input
+  for z in *.ZIP
+      unzip -l $z | awk -v z=$z '$2 ~ "199[0-9].*" {print $2, z}'
+  end | sort -r | uniq
+#+END_SRC
+
+we get the following (truncated) output:
+
+#+BEGIN_SRC output
+1997-03-31 SOUND.ZIP
+1997-03-30 SOUND.ZIP
+1997-03-29 SOUND.ZIP
+1997-03-28 SOUND.ZIP
+1997-03-27 SOUND.ZIP
+1997-03-27 CYCLE.ZIP
+1997-03-27 CRASH.ZIP
+1997-03-26 SOUND.ZIP
+1997-03-26 CYCLE.ZIP
+
+# Omitted output
+
+1995-02-06 SOUND.ZIP
+1995-02-06 NESSRC.ZIP
+1995-01-25 SOUND.ZIP
+1995-01-25 NESSRC.ZIP
+1994-01-16 SOUND.ZIP
+1994-01-16 NESSRC.ZIP
+#+END_SRC
+
+Each line corresponds to a file within one of the zip archives. The
+left column is the modification or creation date and the right column
+is the zip archive the file belongs to. The lines are sorted by the
+date in descending order.
+
+From this output, we can see that =SOUND.ZIP= is the latest revision
+from among the zip files. The files in the top directory are newer but
+after poking around, it looks like the top directory is
+incomplete. There's missing files such as =6502/6502.CPP= which exists
+in =SOUND.ZIP=. I'm betting starting with =SOUND.ZIP= is the safer
+bet. As we progress, we can always cross compare the different
+revisions with our current working directory.
+
+* Preparing the code-base
+
+Now that we picked which revision of the code-base we're porting, we
+need to prep the source files for working with on /Linux/. This code
+was originally written and built on /DOS/ and /Windows 95/ with the
+/Watcom C/C++/ tool chain; all of which are ancient.
+
+For starters, filenames on the the FAT file system (which is what
+/DOS/ uses) convert all filenames to uppercase. We're going to need
+our filenames lowercase. If we don't convert them, the C++
+preprocessor won't be able to include any of the header files. Our
+modern file systems are (usually) case-sensitive. If one of our source
+files is trying to include =NES.H= by doing =#include "nes.h"=, the
+compiler will throw an error because it can't find the
+file. Therefore, let's wack down our majuscules to minuscules.
+
+#+BEGIN_SRC input
+  # First change directory names to lowercase. 
+  for f in (find . -t d)
+      mv $f (echo $f | tr [:upper:] [:lower:])
+  end
+
+  # Then change filenames to lowercase.
+  for f in (find . -t f)
+      mv $f (echo $f | tr [:upper:] [:lower:])
+  end
+#+END_SRC
+
+Next, we need to change how newlines are defined. Anyone who has
+copied a file from Windows over to a Unix-like operating system has
+encountered this problem. The standard way of putting a newline in a
+Windows text file is with ="\r\n"= while on Linux (and Unix) it's
+="\n"=. If we take a peek at the first line of =main.cpp=, we can see
+the extra ="\r"= byte for the newline.
+
+#+BEGIN_SRC termio
+$ head -n1 main.cpp | xxd -g 1
+00000000: 2f 2f 36 35 30 32 20 6e 65 73 20 65 6d 75 6c 61  //6502 nes emula
+00000010: 74 6f 72 20 66 72 6f 6e 74 20 65 6e 64 0d 0a     tor front end..
+#+END_SRC
+
+The two bytes =0d= and =0a= correspond to ="\r"= and ="\n"=
+respectively. To fix this, we just need to use a tool called
+=dos2unix=.
+
+#+BEGIN_SRC input
+  for f in (find . -type f)
+      dos2unix $f
+  end
+#+END_SRC
+
+If we double check the first line of =main.cpp=, we'll confirm the
+="\r"= is gone. I'll let you do it yourself.
+
+* Finishing Up 
+
+Now that we have the code-base prepped, we can start digging around
+trying to find a direction of attack. But first, let's commit this
+into a git repository as our initial starting point.
+
+#+BEGIN_SRC input
+git init
+git add -A
+git commit -m init
+#+END_SRC
+
+From this point, we'll begin the actual porting of the code.
+
+* References
+
+1. [[sourcecode][The leaked NESticle source code.]]
+2. [[vicehistory][The Story of NESticle, the Ambitious Emulator That Redefined Retro Gaming]]
+3. [[nesticle][Complete archive of all NESticle versions.]]
+4. [[fishshell][Fish Shell: A smart and user-friendly command line shell.]]
+   
+
