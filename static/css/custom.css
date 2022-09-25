@@ -195,42 +195,38 @@ blockquote {
     border: 0;
 }
 
-/* Donate Bar */
-
-.donatebar {
-    display: block;
-    width: 100%;
-    padding: 10px;
-}
-
-
-.donatebar {
-    width: 30px;
-    height: 100%;
-    //padding-left: 5%;
-    padding-right: 5%;
-    vertical-align: middle;
-}
-
 .pure-menu-item img {
     display: inline;
     width: 32px;
     height: 100%;
-    //padding-left: 5%;
     padding-right: 5%;
-    //vertical-align: middle;
 }
 
-/* Toggle Bar */
+/* Window Stuff */
 
-.toggle-bar-container::after {
+.frame {
+    display: inline-block;
+    width-block: auto;
+    padding: 1em;
+    margin: 0.10em;
+    border: 3px groove var(--gray-soft);
+}
+
+
+window {
+    div;
+    display: block;
+}
+
+
+window::after {
     display: block;
     height: 1em;
     content: "";
 }
 
-.toggle-bar-container .toggle-bar-header {
-    display: inline;
+window titlebar {
+    div;
     margin: 0;
     width: 25%;
     padding-left: 10px;
@@ -244,62 +240,13 @@ blockquote {
     border: 3px solid rgba(222, 219, 222, .5);
 }
 
-.toggle-bar {
+window-box {
+    div;
+    display: block;
     background-color: var(--gray-BeOS);
     border: 3px ridge var(--gray-BeOS);
     padding: 10px;
 }
-
-.toggle-bar-frame {
-    display: inline-block;
-    width-block: auto;
-    padding: 1em;
-    margin: 0.10em;
-    border: 3px groove var(--gray-soft);
-}
-
-.fill {
-    width: 100%;
-    height: 100%;
-}
-
-.toggle-bar-stack {
-    display: inline-block;
-    border: none;
-}
-
-.toggle-bar-stack > * {
-    display: block;
-    margin: auto;
-}
-
-
-window {
-    display: flow block;
-    padding: 0;
-    margin: 0;
-    width: attr(width, 100%);
-    height: attr(height, 100%);
- }
-
-titlebar {
-    display: inline;
-    padding-left: 10px;
-    padding-right: 25%;
-
-    font-weight: bold;
-    font-size: 1em;
-
-    background-color: white;
-    background-image: linear-gradient(90deg, rgba(250, 203, 23, .5), rgba(250, 203, 23, 1));
-    border: 3px solid rgba(222, 219, 222, .5);
-}
-
-window-box {
-    display: block flow;
-    background-color: var(--gray-BeOS);
-    border: 3px ridge var(--gray-BeOS);
- }
 
 frame {
     display: inline-block;

@@ -29,54 +29,54 @@
       </header>
 
       <main>
-
-	<div id="tag-bar" class="toggle-bar-container" style="display:none">
-	  <div class="toggle-bar-header">
+	<window id="tag-bar" class="window" style="display:none">
+	  <titlebar class="titlebar">
 	    Tags
-	  </div>
+	  </titlebar>
 
-	  <div class="toggle-bar">
+	  <window-box class="toggle-bar">
 	    %%Tags%%
-	  </div>
-	</div>
+	  </window-box>
+	</window>
 
-	<div id="donate-bar" class="toggle-bar-container" style="display:none">
-	  <div class="toggle-bar-header">
+	<window id="donate-bar" style="display:none">
+	  <titlebar>
 	    Donations
-	  </div>
+	  </titlebar>
 
-	  <div class="toggle-bar">
-	    <div class="toggle-bar-stack fill">
-	      <div class="toggle-bar-frame">
+	  <window-box>
+	    <div class="flex vstack">
+	      <div class="frame">
 		<h1><img alt src="static/img/xmr.svg"> Monero</h1>
 		<mono>48ytRrWEvk5GzkxtLHDr6na5qm6oqbYRqKkspeaa4ypHcY4SFMDw474eSYKJXfUAQSAHLF3GoTKzqKccUYDQPSrg9RboArW</mono>
 	      </div>
 
-	      <div class="toggle-bar-frame">
+	      <div class="frame">
 		<h1><img alt src="static/img/btc.svg"> Bitcoin</h1>
 		<mono>bc1qemzsdmtnlgxm9z6hghmg835dzqxq6f3zw0dyah</mono>
 	      </div>
 
-	      <div class="toggle-bar-frame">
+	      <div class="frame">
 		<h1><img alt src="static/img/kofi.svg"> Kofi</h1>
 		Coming soon
 	      </div>
 
-	      <div class="toggle-bar-frame">
+	      <div class="frame">
 		<h1><img alt src="static/img/patreon.svg"> Patreon</h1>
 		Coming soon
 	      </div>
 	    </div>
-	  </div>
-	</div>
+	  </window-box>
+	</window>
 
-	<div id="contact-bar" class="toggle-bar-container" style="display:none">
-	  <div class="toggle-bar-header">
+	<window id="contact-bar" style="display:none">
+	  <titlebar>
 	    Send Mail
-	  </div>
+	  </titlebar>
 
-	  <div class="toggle-bar">
-	    <form method="post" action="#">
+	  <window-box>
+	    <p><b>This feature is currently disabled.</b></p>
+	    <form method="get" action="#">
 	      <div style="display:block;width:75%;margin:auto">
 		<input type="text" id="input-name" name="name" placeholder="Your name..." style="display:block;width:100%;margin-bottom: 10px;padding:5px;">
 		<input type="email" id="input-email" name="email" placeholder="Your email..." style="display:block;width:100%;margin-bottom:10px;padding:5px;">
@@ -90,18 +90,17 @@
 		<button style="display:block;width:50%;height:50px;">Send</button>
 	      </div>
 	    </form>
-	  </div>
-	</div>
+	  </window-box>
+	</window>
 
-
-	<div id="guide-bar" class="toggle-bar-container" style="display:none">
-	  <div class="toggle-bar-header">
+	<window id="guide-bar" style="display:none">
+	  <titlebar>
 	    Guide
-	  </div>
+	  </titlebar>
 
-	  <div class="toggle-bar">
+	  <window-box>
 	    <div class="flex vstack">
-	      <div class="toggle-bar-frame">
+	      <div class="frame">
 		<h1>About</h1>
 
 		<img src="static/img/profile.jpg" style="width: 40%; min-width: 100px; float: left; padding: 1em">
@@ -119,7 +118,7 @@
 		</p>
 	      </div>
 
-	      <div class="toggle-bar-frame">
+	      <div class="frame">
 		<h1>Format Guide</h1>
 
 		<h2>Navigation</h2>
@@ -144,7 +143,7 @@
 		<p>$$This is mathematics. \sum^{n}_{i=1}{i}$$</p>
 
 		<h2>Code Blocks</h2>
-		<div class="toggle-bar-frame" style="background: white;">
+		<div class="frame" style="background: white;">
 		  <h1></h1>
 		  <pre class="example">Generic monospaced text that's not source code such as terminal IO or a hex dump.</pre>
 
@@ -160,7 +159,7 @@
 	    </div>
 
 	    <div class="flex vstack">
-	      <div class="toggle-bar-frame">
+	      <div class="frame">
 		<h1>Credits</h1>
 		<ul>
 		  <li><a href="https://dataswamp.org/%7Esolene/index.html">Solène Rapenne</a> for the static site generator.</li>
@@ -169,8 +168,9 @@
 		</ul>
 	      </div>
 	    </div>
-	  </div>
-	</div>
+	  </window-box>
+	</window>
+
 	%%Body%%
       </main>
 
