@@ -1,0 +1,2 @@
+LISP = ecl
+RSYNC_DEST =

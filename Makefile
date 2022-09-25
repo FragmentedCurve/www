@@ -1,4 +1,10 @@
-LISP=          ecl
+ifeq ($(wildcard config.mk),)
+$(shell cp config.mk.def config.mk)
+endif
+
+include config.mk
+
+LISP ?= ecl
 
 all: dirs html
 
@@ -19,4 +25,8 @@ css:
 	cp -fr static/* "output/html/static/"
 
 live:
-	rsync -avh --delete output/html/ -e ssh paco@pacopascal.com:/home/paco/www/
+ifeq ($(RSYNC_DEST),)
+	@false
+else
+	rsync -rlvh --delete output/html/ $(RSYNC_DEST)
+endif
