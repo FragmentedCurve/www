@@ -51,7 +51,7 @@
 
 ;; Nesticle: Part 0
 (post :id "nesticle_0" :date "20220924"
-      :title "Porting NESticle for Fun & Profit: Part 0" :tag "nes emulation")
+      :title "Porting NESticle for Fun and Profit: Part 0" :tag "nes emulation")
 
 ;; Using Age to Publicly Post Sensitive Data
 (post :id "public_data" :date "20220611"
