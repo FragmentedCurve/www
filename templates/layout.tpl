@@ -27,24 +27,24 @@
 	  </ul>
 	</nav>
       </header>
-      
+
       <main>
 
 	<div id="tag-bar" class="toggle-bar-container" style="display:none">
 	  <div class="toggle-bar-header">
 	    Tags
 	  </div>
-	  
+
 	  <div class="toggle-bar">
 	    %%Tags%%
 	  </div>
 	</div>
-	
+
 	<div id="donate-bar" class="toggle-bar-container" style="display:none">
 	  <div class="toggle-bar-header">
 	    Donations
 	  </div>
-	  
+
 	  <div class="toggle-bar">
 	    <div class="toggle-bar-stack fill">
 	      <div class="toggle-bar-frame">
@@ -61,7 +61,7 @@
 		<h1><img alt src="static/img/kofi.svg"> Kofi</h1>
 		Coming soon
 	      </div>
-	      
+
 	      <div class="toggle-bar-frame">
 		<h1><img alt src="static/img/patreon.svg"> Patreon</h1>
 		Coming soon
@@ -69,12 +69,12 @@
 	    </div>
 	  </div>
 	</div>
-	
+
 	<div id="contact-bar" class="toggle-bar-container" style="display:none">
 	  <div class="toggle-bar-header">
 	    Send Mail
 	  </div>
-	  
+
 	  <div class="toggle-bar">
 	    <form method="post" action="#">
 	      <div style="display:block;width:75%;margin:auto">
@@ -93,19 +93,87 @@
 	  </div>
 	</div>
 
-	
+
 	<div id="guide-bar" class="toggle-bar-container" style="display:none">
 	  <div class="toggle-bar-header">
 	    Guide
 	  </div>
+
 	  <div class="toggle-bar">
-	    This website is a work in progress.
+	    <div class="flex vstack">
+	      <div class="toggle-bar-frame">
+		<h1>About</h1>
+
+		<img src="static/img/profile.jpg" style="width: 40%; min-width: 100px; float: left; padding: 1em">
+
+		<p>
+		  I almost bought a pipe online today. But then my inner voice yelled back, "No dammit!"
+		</p>
+
+		<p>
+		  That little man between my ears was right. I can't buy a tobacco pipe online. I need to go into a tobacco shop where there awaits a dirty old man. He waits to show me his domain, expressing the aesthetics of each pipe. The flavor of each tobacco. We'll climb around his tiny shop. And as we walk down each aisle, little bits of dried grease will be pulled by the wind from his hair. He'll tell a rude joke. And I'll point to the pipe and say, "That's the one."
+		</p>
+
+		<p>
+		  That's how. That's how I'll buy a pipe.
+		</p>
+	      </div>
+
+	      <div class="toggle-bar-frame">
+		<h1>Format Guide</h1>
+
+		<h2>Navigation</h2>
+
+		<div class="flex hstack --center --sp6">
+		  <p style="text-align: center;"><img src="static/img/Action_GoHome.svg"><br>Go home to the full index.</p>
+		  <p style="text-align: center;"><img src="static/img/App_Magnify.svg"><br>List all site tags.</p>
+		  <p style="text-align: center;"><img src="static/img/App_Finance.svg"><br>Donations.</p>
+		  <p style="text-align: center;"><img src="static/img/App_Mail_None.svg"><br>Send me a message.</p>
+		  <p style="text-align: center;"><img src="static/img/Alert_Idea.svg"><br>Show this guide.</p>
+		  <p style="text-align: center;"><img src="static/img/File_RSS_Feed.svg"><br>RSS Feed.</p>
+		</div>
+
+		<h2>Text</h2>
+
+		<p>Text that looks like this is plan language.</p>
+
+		<p><code>Text like this refers to valid syntax from code, an operating system, or file system.</code></p>
+
+		<p><i>This implies a title or term that references a concept.</i></p>
+
+		<p>$$This is mathematics. \sum^{n}_{i=1}{i}$$</p>
+
+		<h2>Code Blocks</h2>
+		<div class="toggle-bar-frame" style="background: white;">
+		  <h1></h1>
+		  <pre class="example">Generic monospaced text that's not source code such as terminal IO or a hex dump.</pre>
+
+		  <pre class="src"> Source code that can be copied into a file and compiled or executed.</pre>
+
+		  <pre class="src src-input">Input for a terminal shell. Can be copied and pasted into a terminal given you're running the correct shell.</pre>
+
+		  <pre class="src src-output">Terminal output from a command.</pre>
+
+		  <pre class="src src-termio">A mixture of user input and output from a terminal. It can't be naively copied into your terminal.</pre>
+		</div>
+	      </div>
+	    </div>
+
+	    <div class="flex vstack">
+	      <div class="toggle-bar-frame">
+		<h1>Credits</h1>
+		<ul>
+		  <li><a href="https://dataswamp.org/%7Esolene/index.html">Solène Rapenne</a> for the static site generator.</li>
+		  <li><a href="https://github.com/ItsJonQ/hstack-vstack-css">ItsJonQ</a> for CSS stacking classes.</li>
+		  <li><a href="https://github.com/darealshinji/haiku-icons">darealshinji</a> for the icons used throughout the site.</li>
+		</ul>
+	      </div>
+	    </div>
 	  </div>
 	</div>
-	
 	%%Body%%
       </main>
-      
+
       <footer>
 	<a href="#"><img alt src="static/img/Action_GoUp.svg"></a>
       </footer>
