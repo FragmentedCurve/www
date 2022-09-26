@@ -1,0 +1,11 @@
+#+TITLE: www
+
+* Introduction
+
+The source of my personal site.
+
+* Code & Content Sources
+
+  - [[https://dataswamp.org/~solene/index.html][Solène Rapenne]] for the static site generator.
+  - [[https://github.com/ItsJonQ/hstack-vstack-css][ItsJonQ]] for CSS stacking classes.
+  - [[https://github.com/darealshinji/haiku-icons][darealshinji]] for the icons used throughout the site.
