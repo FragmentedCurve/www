@@ -48,6 +48,9 @@
 ;; :author  can be omitted.   If so, it's value gets replaced by the value of :webmaster.
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
 
+;; Summer Flowers Under Autumn Leaves
+(post :id "summer_flowers_under_autumn_leaves" :date "20150508"
+      :title "Summer Flowers Under Autumn Leaves" :tag "fiction short")
 
 ;; Nesticle: Part 0
 (post :id "nesticle_0" :date "20220924"
