@@ -48,6 +48,10 @@
 ;; :author  can be omitted.   If so, it's value gets replaced by the value of :webmaster.
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
 
+;; I Met a Man Today
+(post :id "i_met_a_man_today" :date "20221016"
+      :title "I Met a Man Today" :tag "fiction short")
+
 ;; I Want a Beard
 (post :id "i_want_a_beard" :date "20130928"
       :title "I Want a Beard" :tag "fiction short")
