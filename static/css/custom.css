@@ -265,8 +265,13 @@ mono {
     font-weight: bold;
 }
 
-article img {
+div.figure {
     float: right;
     margin: 1em;
     max-width: 50%;
+
+}
+
+div.figure > p {
+    font-size: 0.75em;
 }
