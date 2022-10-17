@@ -1,4 +1,6 @@
 #+TITLE: Using Age to Publicly Post Sensitive Data
+#+AUTHOR: Paco Pascal
+#+DATE: June 11, 2022
 #+OPTIONS: toc:nil
 
 * The Problem

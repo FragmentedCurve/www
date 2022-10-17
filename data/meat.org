@@ -1,5 +1,7 @@
 #+TITLE: The Unintentional Invention of Meat
 #+SUBTITLE: A Story from Calais Hobbes
+#+AUTHOR: Paco Pascal
+#+DATE: November 5, 2011
 #+OPTIONS: toc:nil num:nil
 
 My problem began manifesting during the years of my elementary

@@ -1,5 +1,6 @@
 #+TITLE: I Met a Man Today
 #+AUTHOR: Paco Pascal
+#+DATE: October 16, 2022
 
 I met a man today. I've seen 'em before. They pop up once in a
 while. You see them scattered among the people. Waiting in shopping

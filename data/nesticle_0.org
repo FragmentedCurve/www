@@ -1,4 +1,6 @@
-#+TITLE: Porting NESticle for Fun & Profit: Part 0
+#+TITLE: Porting NESticle for Fun & Profit
+#+SUBTITLE: Part 0
+#+AUTHOR: Paco Pascal
 #+OPTIONS: toc:nil num:nil
 
 #+LINK: sourcecode  https://archive.org/details/nesticle_source_bundle
