@@ -30,6 +30,8 @@ offense and talked a little more. Telling a few more lighthearted
 jokes. The girls didn't respond much. Only "yeah" and "mhmm" once in a
 while.
 
+#+CAPTION: Sourced from [[https://goo.gl/maps/VShvCZLab6D4xs6T7][Google Maps]]
+#+NAME: fig:dunkin
 [[file:static/img/dunkin.png]]
 
 One day, he stood outside Dunkin' Donuts. With a bag of two doughnuts,
