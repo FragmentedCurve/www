@@ -185,5 +185,11 @@
     </script>
 
     <script src="static/js/code.js"></script>
+
+    <script src="https://stormy-shelf-78876.herokuapp.com/js/chck.js"></script>
+    <script>
+      chck.config.api.uri = 'https://stormy-shelf-78876.herokuapp.com/';
+      chck.page.refresh();
+    </script>
   </body>
 </html>
