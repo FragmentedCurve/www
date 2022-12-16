@@ -6,8 +6,8 @@
 (defvar *config*
   (list
    :webmaster       "Paco Pascal"
-   :title           "Paco Pascal's Writings"
-   :description     "Undefined interests of yet another individual"
+   :title           "Paco Pascal"
+   :description     ""
    :url             "https://www.pacopascal.com/"       ;; the trailing slash is mandatory! RSS links will fail without it. Notice the '~~' to produce a literal '~'
    :rss-item-number 10                                  ;; limit total amount of items in RSS feed to 10
    :date-format "%DayNumber %MonthName %Year"           ;; format for date %DayNumber %DayName %MonthNumber %MonthName %Year
