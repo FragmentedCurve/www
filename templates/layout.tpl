@@ -52,7 +52,7 @@
 		<h1><img alt src="static/img/btc.svg"> Bitcoin</h1>
 		<mono>bc1qemzsdmtnlgxm9z6hghmg835dzqxq6f3zw0dyah</mono>
 	      </div>
-
+<!--
 	      <div class="frame">
 		<h1><img alt src="static/img/kofi.svg"> Kofi</h1>
 		Coming soon
@@ -62,6 +62,7 @@
 		<h1><img alt src="static/img/patreon.svg"> Patreon</h1>
 		Coming soon
 	      </div>
+-->
 	    </div>
 	  </window-box>
 	</window>
