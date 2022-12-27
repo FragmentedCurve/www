@@ -1,0 +1,35 @@
+#+TITLE: Wish List: 2022
+#+AUTHOR: Paco Pascal
+#+OPTIONS: toc:nil num:nil
+
+I'm taking this opportunity to test a new feature. More than once I've
+had the need to create public check lists. Such as when friends and
+family want to surprise me with a gift and an Amazon wishlist won't
+suffice. It would be handy to have a list that would easily allow them
+to check off when an item is bought, independent of which site it's
+bought from.
+
+Items on the list with an ❎ aren't bought yet. If you buy an item,
+click the ❎ and fill in the password. It'll change to a ✅
+afterwards.
+
+#+BEGIN_COMMENT
+Password for these chcks is: list22
+#+END_COMMENT
+
+* Software
+
+- [[https://www.hopperapp.com/tutorial.html][Hopper Disassembler]] ($99) [[chck:sQsCBme0JwZaPXFWGoYo0xo4wpZPaN8c]]
+
+* Hardware
+
+- [[https://www.ebay.com/itm/282575686221?hash=item41cad2ca4d:g:ah4AAOSwQJ5USYDp][USB adapter for my IBM Model M keyboard.]] ($39.99) [[chck:MBBiV77N8ffCjsidb3tYA5EvaO8sMfIp]]
+- Realforce Keyboard (Japanese version): [[chck:rgjSq13BmcnQqXYcMZiWrZdw1LgWjBry]]
+  - [[https://www.ebay.com/itm/385109137886]] ($154.99)
+  - [[https://www.ebay.com/itm/284985575546]] ($136.80)
+  - [[https://www.ebay.com/itm/394269601048]] ($131.99)
+- [[https://www.amazon.com/dp/B08Y6M9TML/?coliid=I23CD8Y2EB5V68][Hantek DSO2C15 Digital Storage Oscilloscope]] ($245.99) [[chck:2V8XWSeb4uguEuQQM6w1HqgTaqls9w1G]]
+
+* Other
+
+- [[https://jlifeinternational.com/products/j-life-shikifuton?variant=7084498255923][J-Life Futon]]: 4 inch version. ($160) [[chck:wFVcckDBzmjkqJXf3DmBxwez0NkWMAet]]

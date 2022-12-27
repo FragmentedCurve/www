@@ -45,6 +45,11 @@
 ;; :author  can be omitted.   If so, it's value gets replaced by the value of :webmaster.
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
 
+
+;; Wishlist: 2022
+(post :id "wishlist_2022" :date "20221201"
+      :title "Wish List: 2022" :tag "wishlist")
+
 ;; I Met a Man Today
 (post :id "i_met_a_man_today" :date "20221016"
       :title "I Met a Man Today" :tag "fiction short")
