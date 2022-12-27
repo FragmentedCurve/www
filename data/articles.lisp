@@ -29,11 +29,8 @@
 
 (converter :name :markdown  :extension ".md"  :command "peg-markdown -t html -o %OUT data/%IN")
 (converter :name :markdown2 :extension ".md"  :command "multimarkdown -t html -o %OUT data/%IN")
-(converter :name :org-mode  :extension ".org"
-	   :command (concatenate 'string
-				 "emacs data/%IN --batch --eval '(with-temp-buffer (org-mode) "
-				 "(insert-file \"%IN\") (org-html-export-as-html nil nil nil t)"
-				 "(princ (buffer-string)))' --kill | tee %OUT"))
+(converter :name :org-mode :extension ".org"
+	   :command (concatenate 'string "emacs --insert=data/%IN --batch -l compile.el --kill | tee %OUT"))
 
 ;; Define your articles and their display-order on the website below.
 ;; Display Order is 'lifo', i.e. the top entry in this list gets displayed as the topmost entry.
