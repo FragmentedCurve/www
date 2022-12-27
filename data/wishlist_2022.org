@@ -30,6 +30,11 @@ Password for these chcks is: list22
   - [[https://www.ebay.com/itm/394269601048]] ($131.99)
 - [[https://www.amazon.com/dp/B08Y6M9TML/?coliid=I23CD8Y2EB5V68][Hantek DSO2C15 Digital Storage Oscilloscope]] ($245.99) [[chck:2V8XWSeb4uguEuQQM6w1HqgTaqls9w1G]]
 
+* Books
+
+- [[https://www.amazon.com/21st-Century-Tips-New-School/dp/1491903899/][21st Century C: C Tips from the New School]] ($38.49) [[chck:B2eTHpeNJ5tZPPU9zKNCJHe0NF13Hr96]]
+- [[https://www.amazon.com/Science-Programming-Monographs-Computer/dp/0387964800/][The Science of Programming]] [[chck:zyk8md3GgCYwNfHw3A2N8CJgN0hvlf6F]]
+
 * Other
 
 - [[https://jlifeinternational.com/products/j-life-shikifuton?variant=7084498255923][J-Life Futon]]: 4 inch version. ($160) [[chck:wFVcckDBzmjkqJXf3DmBxwez0NkWMAet]]
