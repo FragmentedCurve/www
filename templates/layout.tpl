@@ -7,8 +7,6 @@
     <title>%%Title%%</title>
     <link rel="stylesheet" type="text/css" href="static/css/style.css" media="screen" />
     <link rel="alternate" type="application/rss+xml" title="%%Title%% RSS Feed" href="rss.xml" />
-    <!--    <link rel="alternate" type="application/rss+xml" title="%%Title%% RSS Feed Gopher" href="rss-gopher.xml" /> -->
-    <!--    <link rel="alternate" type="application/atom+xml" title="%%Title%% Atom Feed" href="atom.xml" /> -->
     <link rel="icon" type="image/x-icon" href="static/img/favicon.ico" />
   </head>
 
@@ -21,7 +19,6 @@
 	    <li class="pure-menu-item"><a onclick="toggleBar('tag-bar')" class="pure-menu-link"><img alt src="static/img/App_Magnify.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link"><img alt src="static/img/App_Finance.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('contact-bar')" class="pure-menu-link"><img alt src="static/img/App_Mail_None.svg"></a></li>
-	    <!-- <li class="pure-menu-item"><a href="links.html" class="pure-menu-link"><img alt src="static/img/App_People.svg"></a></li> -->
 	    <li class="pure-menu-item"><a onclick="toggleBar('guide-bar')" class="pure-menu-link"><img alt src="static/img/Alert_Idea.svg"></a></li>
 	    <li class="pure-menu-item"><a href="rss.xml" class="pure-menu-link"><img alt src="static/img/File_RSS_Feed.svg"></a></li>
 	  </ul>
