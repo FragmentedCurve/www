@@ -266,9 +266,13 @@ mono {
 }
 
 div.figure {
+    /*
     float: right;
-    margin: 1em;
-    max-width: 50%;
+    mrgin: 1em;
+    */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 75%;
 }
 
 div.figure > p > img {
