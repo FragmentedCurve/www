@@ -141,10 +141,10 @@ more structures became packed.
 ./r2img.h:108:} __attribute__((packed));
 #+END_EXAMPLE
 
+Now I had the assets which included images in NESticle's r2 format.
+
 #+CAPTION: Exporting assets from a GUI volume.
 [[exportvol]]
-
-Now I had the assets which included images in NESticle's r2 format.
 
 * Conclusion
 
