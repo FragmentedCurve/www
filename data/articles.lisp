@@ -45,10 +45,14 @@
 ;; :author  can be omitted.   If so, it's value gets replaced by the value of :webmaster.
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
 
+
+;; Nesticle: Part 1
+(post :id "nesticle_1" :date "20230528"
+      :title "Porting NESticle for Fun and Profit: Part 1" :tag "nes emulation")
+
 ;; ChatGPT Can't Do Basic Math
 (post :id "chatgpt_math" :date "20230524"
       :title "ChatGPT Can't Do Basic Math" :tag "chatgpt math")
-
 
 ;; Wishlist: 2022
 (post :id "wishlist_2022" :date "20221201"
