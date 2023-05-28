@@ -1,0 +1,159 @@
+#+TITLE: Porting NESticle for Fun & Profit
+#+SUBTITLE: Updates, Part 1
+#+OPTIONS: toc:nil num:nil
+#+STARTUP: inlineimages
+
+#+LINK: make         https://www.gnu.org/software/make/manual/html_node/index.html
+#+LINK: acme         http://acme.cat-v.org/
+#+LINK: plan9port    https://9fans.github.io/plan9port/
+
+#+LINK: compiled     file:static/img/nes1_compiled.gif
+#+LINK: exportvol    file:static/img/nes1_exportvol.gif
+
+* What's going on? Where are the posts?
+
+Originally, I was planning on writing these posts so readers can
+follow along with the process. I intended to make the problem solving
+visible instead of just dumping the end result. In my opinion, there's
+value in showing the actual thought process and methodology. I've
+helped many friends tackle programming problems in the past. In most
+cases, they have the potential to solve the problems without help;
+however, the main skill they were lacking that snagged them was
+dealing with large amounts of ambiguity, especially in large existing
+code-bases and systems.
+
+Unfortunately, communicating the hills and vallies of problem solving
+is time consuming and frankly unenjoyable. /RTFM./ For the sake of
+closure, I'm just going to dump end results.
+
+All of this happened last year (in 2022).
+
+* Getting Started
+
+Obviously, the first thing to get done was compile each source file
+into an object file. (Turn the widdle =.cpp='s into =.o='s.) This will
+only imply the code is syntactically correct. Once the code can
+compile, I can begin testing and playing with specific areas of the
+code-base.
+
+For projects like this, I prefer using the [[acme][/Acme/]] editor.
+
+** Makefile Skeleton
+
+This endeavor is an iterative process. Therefore, I need something
+simple that I can append each file as I progress. So, I make a simple
+[[make][Makefile]] to work with.
+
+#+BEGIN_SRC makefile
+CPPFLAGS = -ggdb -m32 -O0 -g -Werror -std=c++17
+
+SRC = 
+OBJECTS = $(SRC:.cpp=.o)
+
+all: $(OBJECTS)
+
+%.o: %.cpp
+	$(CXX) $(CPPFLAGS) -c $<
+
+clean:
+	rm -f $(OBJECTS)
+#+END_SRC
+
+** Getting the First Files Compiled
+
+I started with =dasasm.cpp=. There's very little code in it and it's
+straight forward C++ code with nothing unusual. From there, I decided
+to work on =file.cpp=. There's more going on in it but it's still
+straight forward.
+
+Even though the code in the top directory is intended to be platform
+independent, it's not entirely. The most obvious thing that has to be
+changed is the include header files. DOS provides a collection of
+non-standardized functions and headers such as, =conio.h=, =io.h=, and
+=direct.h=. Also, header paths that are in a subdirectory such as
+=sys/types.h= are written as =sys\types.h= which isn't valid on Linux.
+
+This is an easy fix. As I'm progressing through each file, issues such
+as old DOS macros and attributes, outdated array standards, and
+implicit casts from =const char*= to =char*= show up. Some of which
+were easily forgiven in the 90s. Eventually, each file finds its spot
+in the makefile.
+
+#+BEGIN_SRC makefile
+SRC = portutils.cpp    disasm.cpp    file.cpp      font.cpp \
+          mouse.cpp       nes.cpp  nesdlg.cpp  nesvideo.cpp \
+           prof.cpp     r2img.cpp     rom.cpp     slist.cpp \
+       snapshot.cpp    stddlg.cpp  config.cpp   command.cpp \
+            mmc.cpp  nessound.cpp     cpu.cpp   message.cpp \
+          input.cpp    inputw.cpp    main.cpp       vol.cpp
+#+END_SRC
+
+Suddenly, I have each file compiling.
+
+#+CAPTION: /NESticle C++ files compiling./
+#+NAME: fig:compiled
+[[compiled]]
+
+* Making Things Work
+
+Just because things are compiling, doesn't mean they work. I decided
+to get file IO working first; specifically, I wanted to be able to
+read the =gui.vol= file. This file contains various assets that can be
+drawn. Being able to read and write a GUI volume file had almost no
+dependencies. The code was pretty much independent from the rest of
+the code base. That makes it an easy starting place. Additionally,
+it'll give me real assets to use later on when I port the drawing
+code.
+
+So, I pulled =GUI.VOL= from NESticle versions 040 and 042 into the
+source directory. Then wrote a simple tool (I called =volmain.cpp=)
+that linked to =file.o= and =vol.o= which are the only dependencies
+needed to read a GUI volume file. The tool would just read each asset
+from the volume and write it out to it's own file.
+
+This is where one of the first bugs rose up which would become a
+repetitive one throughout the code. The volume files have a header for
+each asset that is defined by the structure called =struct header=.
+
+#+BEGIN_SRC c++
+// header for each entry in the volume file
+struct header {
+	char key[4];         // must be "DSL"
+	char type;           // type of data
+	unsigned int size;   // size of data
+	char name[9];        // name of data
+} __attribute__((packed));
+#+END_SRC
+
+However, it didn't look like this originally; the structure wasn't
+packed with the =__attribute__((packed))= attribute. NESticle assumes
+all it's structures are packed. Whenever it reads and writes a
+structure, this assumption remains. After a bit of debugging, a few
+more structures became packed.
+
+#+BEGIN_EXAMPLE
+./vol.h:17:} __attribute__((packed));
+./r2img.h:24:} __attribute__((packed));
+./r2img.h:48:} __attribute__((packed));
+./r2img.h:56:} __attribute__((packed));
+./r2img.h:66:} __attribute__((packed));
+./r2img.h:92:} __attribute__((packed));
+./r2img.h:108:} __attribute__((packed));
+#+END_EXAMPLE
+
+#+CAPTION: Exporting assets from a GUI volume.
+[[exportvol]]
+
+Now I had the assets which included images in NESticle's r2 format.
+
+* Conclusion
+
+After accomplishing these first critical steps, porting the r2 drawing
+code was within sight. Half of the code is written in x86
+assembly. And I intended on keeping that way.
+
+* References
+
+1. [[make][GNU Make Documentation]]
+2. [[acme][Collection of information about Acme]]
+3. [[plan9port][A port of Plan 9's userspace that includes Acme]]
