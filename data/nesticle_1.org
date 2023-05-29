@@ -125,11 +125,19 @@ struct header {
 } __attribute__((packed));
 #+END_SRC
 
-However, it didn't look like this originally; the structure wasn't
-packed with the =__attribute__((packed))= attribute. NESticle assumes
-all it's structures are packed. Whenever it reads and writes a
-structure, this assumption remains. After a bit of debugging, a few
-more structures became packed.
+However, it didn't look like this originally. The structure wasn't
+packed using the =__attribute__((packed))= attribute. NESticle assumes
+all it's structures are packed because back when the code was written,
+structs were packed. These days most compilers pad their structs by
+default. So, whenever NESticle reads data into a structure, it assumes
+the data matches it's memory layout. However, the GUI volumes were
+created using old versions of NESticle that had packed structs by
+default. It's not a bug in the code. It's just changes in time rusting it a bit.
+
+The alternative to packing the structs is to convert the volume files
+to have padded struct data. But the idea right now is to maintain and
+port what was to today. Changing the memory layout prematurely might
+cause complicated down the line that I can't see at the moment.
 
 #+BEGIN_EXAMPLE
 ./vol.h:17:} __attribute__((packed));
@@ -141,9 +149,11 @@ more structures became packed.
 ./r2img.h:108:} __attribute__((packed));
 #+END_EXAMPLE
 
-Now I had the assets which included images in NESticle's r2 format.
+With packed structs, I'm now able to successfully use the file IO and
+volume segments of the code-base. And I have the original collection
+of NESticle assets ready to be put on the screen.
 
-#+CAPTION: Exporting assets from a GUI volume.
+#+CAPTION: /Exporting assets from a GUI volume. The error message is the early tool not handling the EOF correctly./
 [[exportvol]]
 
 * Conclusion
