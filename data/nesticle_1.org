@@ -74,10 +74,10 @@ non-standardized functions and headers such as, =conio.h=, =io.h=, and
 =sys/types.h= are written as =sys\types.h= which isn't valid on Linux.
 
 This is an easy fix. As I'm progressing through each file, issues such
-as old DOS macros and attributes, outdated array standards, and
-implicit casts from =const char*= to =char*= show up. Some of which
-were easily forgiven in the 90s. Eventually, each file finds its spot
-in the makefile.
+as old DOS macros, non-standard C++ flexible arrays, and implicit
+casts from =const char*= to =char*= show up. Some of which were easily
+forgiven in the 90s. Eventually, each file finds its spot in the
+makefile.
 
 #+BEGIN_SRC makefile
 SRC = portutils.cpp    disasm.cpp    file.cpp      font.cpp \
