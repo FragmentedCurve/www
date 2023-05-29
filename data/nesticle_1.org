@@ -136,8 +136,8 @@ default. It's not a bug in the code. It's just changes in time rusting it a bit.
 
 The alternative to packing the structs is to convert the volume files
 to have padded struct data. But the idea right now is to maintain and
-port what was to today. Changing the memory layout prematurely might
-cause complicated down the line that I can't see at the moment.
+port what was, to today. Changing the memory layout prematurely might
+cause complications down the line that I can't see at the moment.
 
 #+BEGIN_EXAMPLE
 ./vol.h:17:} __attribute__((packed));
