@@ -98,24 +98,13 @@
 
 	  <window-box>
 	    <div class="flex vstack">
+<!--
 	      <div class="frame">
 		<h1>About</h1>
 
 		<img src="static/img/profile.jpg" style="width: 40%; min-width: 100px; float: left; padding: 1em">
-
-		<p>
-		  I almost bought a pipe online today. But then my inner voice yelled back, "No dammit!"
-		</p>
-
-		<p>
-		  That little man between my ears was right. I can't buy a tobacco pipe online. I need to go into a tobacco shop where there awaits a dirty old man. He waits to show me his domain, expressing the aesthetics of each pipe. The flavor of each tobacco. We'll climb around his tiny shop. And as we walk down each aisle, little bits of dried grease will be pulled by the wind from his hair. He'll tell a rude joke. And I'll point to the pipe and say, "That's the one."
-		</p>
-
-		<p>
-		  That's how. That's how I'll buy a pipe.
-		</p>
 	      </div>
-
+-->
 	      <div class="frame">
 		<h1>Format Guide</h1>
 
