@@ -47,9 +47,9 @@
 
 
 
-;; Farewell to a Childhood Hero (Kevin Mitnick)
+;; Farewell to a Childhood Hero
 (post :id "mitnick" :date "20230719"
-      :title "Farewell to a Childhood Hero (Kevin Mitnick)" :tag "kevin mitnick")
+      :title "Farewell to a Childhood Hero" :tag "kevin mitnick")
 
 ;; Nesticle: Part 1
 (post :id "nesticle_1" :date "20230528"

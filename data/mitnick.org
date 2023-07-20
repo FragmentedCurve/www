@@ -1,4 +1,4 @@
-#+TITLE: Farewell to a Childhood Hero (Kevin Mitnick)
+#+TITLE: Farewell to a Childhood Hero
 #+AUTHOR: Paco Pascal
 #+DATE: July 19, 2023
 #+OPTIONS: toc:nil num:nil
