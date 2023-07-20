@@ -6,8 +6,9 @@
 #+LINK: obituaries https://www.dignitymemorial.com/obituaries/las-vegas-nv/kevin-mitnick-11371668
 #+LINK: book       https://a.co/d/acDuPEh
 #+LINK: techtv     https://www.youtube.com/watch?v=heiHrcFlqu4
+#+LINK: manifesto  http://www.phrack.org/issues/7/3.html
 
-/Another one got caught today, it's all over the papers./ Kevin
+/Another one got caught today, it's all over the papers.^{[[manifesto][4]]}/ Kevin
 Mitnick has passed away due to pancreatic cancer. As a teenager that
 was part of the hacker community, Mitnick was a bundle of inspiration,
 excitement, and folklore. He inspired many discussions and debates
@@ -34,10 +35,11 @@ his telephone number. Thrilled being within a dial's reach of a
 hacker's hero, I shared the news with my group and began dialing the
 number --
 
-/Damn kids.  They're all alike./
+/Damn kids.  They're all alike.^{[[manifesto][4]]}/
 
 * References
 
-- [[obituaries][Kevin D. Mitnick's Obituary]]
-- [[book][The Art of Deception]]
-- [[techtv][Kevin Mitnick Is Free]]
+1. [[obituaries][Kevin D. Mitnick's Obituary]]
+2. [[book][The Art of Deception]]
+3. [[techtv][Kevin Mitnick Is Free]]
+4. [[manifesto][The Conscience of a Hacker]]
