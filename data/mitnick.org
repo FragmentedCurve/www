@@ -1,0 +1,43 @@
+#+TITLE: Farewell to a Childhood Hero (Kevin Mitnick)
+#+AUTHOR: Paco Pascal
+#+DATE: July 19, 2023
+#+OPTIONS: toc:nil num:nil
+
+#+LINK: obituaries https://www.dignitymemorial.com/obituaries/las-vegas-nv/kevin-mitnick-11371668
+#+LINK: book       https://a.co/d/acDuPEh
+#+LINK: techtv     https://www.youtube.com/watch?v=heiHrcFlqu4
+
+/Another one got caught today, it's all over the papers./ Kevin
+Mitnick has passed away due to pancreatic cancer. As a teenager that
+was part of the hacker community, Mitnick was a bundle of inspiration,
+excitement, and folklore. He inspired many discussions and debates
+between my friends and peers. As a beloved hero in the hacker
+community, he inspired curiosity, adventure, and out of the box
+thinking.
+
+Despite reducing my book count many times, his book [[book][The Art of
+Deception]] still survives on my shelf. It must be one of my oldest
+books at this point. Every time I considered discarding it to lighten
+my load, I couldn't.
+
+I remember rushing to the TV the day he used a computer for the first
+time since his release from prison. The act was being broadcasted live
+on TechTV's show "The ScreenSavers". Back then, "The ScreenSavers"
+would upload clips of the show to their website after it aired. As I
+was watching it live, I noticed a the letterhead with his address
+slipped into a few frames.
+
+As soon as the show ended, I went to the website to download the
+clip. The video quality was so low back then. I split the video frame
+by frame and pieced together his address which I used to track down
+his telephone number. Thrilled being within a dial's reach of a
+hacker's hero, I shared the news with my group and began dialing the
+number --
+
+/Damn kids.  They're all alike./
+
+* References
+
+- [[obituaries][Kevin D. Mitnick's Obituaries]]
+- [[book][The Art of Deception]]
+- [[techtv][Kevin Mitnick Is Free]]

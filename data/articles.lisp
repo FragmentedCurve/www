@@ -46,6 +46,11 @@
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
 
 
+
+;; Farewell to a Childhood Hero (Kevin Mitnick)
+(post :id "mitnick" :date "20230719"
+      :title "Farewell to a Childhood Hero (Kevin Mitnick)" :tag "kevin mitnick")
+
 ;; Nesticle: Part 1
 (post :id "nesticle_1" :date "20230528"
       :title "Porting NESticle for Fun and Profit: Part 1" :tag "nes emulation")
