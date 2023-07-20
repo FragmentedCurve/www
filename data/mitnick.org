@@ -40,6 +40,6 @@ number --
 * References
 
 1. [[obituaries][Kevin D. Mitnick's Obituary]]
-2. [[book][The Art of Deception]]
-3. [[techtv][Kevin Mitnick Is Free]]
-4. [[manifesto][The Conscience of a Hacker]]
+2. [[book][The Art of Deception by Kevin Mitnick]]
+3. [[techtv][The ScreenSavers: Kevin Mitnick Is Free]]
+4. [[manifesto][The Conscience of a Hacker by The Mentor]]
