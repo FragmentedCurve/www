@@ -24,7 +24,7 @@ I remember rushing to the TV the day he used a computer for the first
 time since his release from prison. The act was being broadcasted live
 on TechTV's show "The ScreenSavers". Back then, "The ScreenSavers"
 would upload clips of the show to their website after it aired. As I
-was watching it live, I noticed a the letterhead with his address
+was watching it live, I noticed the letterhead with his address
 slipped into a few frames.
 
 As soon as the show ended, I went to the website to download the
@@ -38,6 +38,6 @@ number --
 
 * References
 
-- [[obituaries][Kevin D. Mitnick's Obituaries]]
+- [[obituaries][Kevin D. Mitnick's Obituary]]
 - [[book][The Art of Deception]]
 - [[techtv][Kevin Mitnick Is Free]]
