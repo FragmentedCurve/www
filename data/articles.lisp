@@ -60,20 +60,20 @@
       :title "ChatGPT Can't Do Basic Math" :tag "chatgpt math")
 
 ;; Wishlist: 2022
-(post :id "wishlist_2022" :date "20221201"
-      :title "Wish List: 2022" :tag "wishlist")
+;;(post :id "wishlist_2022" :date "20221201"
+;;      :title "Wish List: 2022" :tag "wishlist")
 
 ;; I Met a Man Today
-(post :id "i_met_a_man_today" :date "20221016"
-      :title "I Met a Man Today" :tag "fiction short")
+;;(post :id "i_met_a_man_today" :date "20221016"
+;;      :title "I Met a Man Today" :tag "fiction short")
 
 ;; I Want a Beard
-(post :id "i_want_a_beard" :date "20130928"
-      :title "I Want a Beard" :tag "fiction short")
+;;(post :id "i_want_a_beard" :date "20130928"
+;;      :title "I Want a Beard" :tag "fiction short")
 
 ;; Summer Flowers Under Autumn Leaves
-(post :id "summer_flowers_under_autumn_leaves" :date "20150508"
-      :title "Summer Flowers Under Autumn Leaves" :tag "fiction short")
+;;(post :id "summer_flowers_under_autumn_leaves" :date "20150508"
+;;      :title "Summer Flowers Under Autumn Leaves" :tag "fiction short")
 
 ;; Nesticle: Part 0
 (post :id "nesticle_0" :date "20220924"
@@ -88,9 +88,9 @@
       :title "Over the Wire: Behemoth" :tag "hacking")
 
 ;; Reposting "The Unintentional Invention of Meat"
-(post :id "meat" :date "20111105"
-      :title "The Unintentional Invention of Meat: A Story From Calais Hobbes" :tag "fiction")
+;;(post :id "meat" :date "20111105"
+;;      :title "The Unintentional Invention of Meat: A Story From Calais Hobbes" :tag "fiction")
 
 ;; First Post
-(post :id "first" :date "20220516"
-      :title "First Post" :tag "site")
+;;(post :id "first" :date "20220516"
+;;      :title "First Post" :tag "site")
