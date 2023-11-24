@@ -1,0 +1,71 @@
+#+TITLE: Replacing =sudo= with =doas= (on Arch Linux)
+#+AUTHOR: Paco Pascal
+#+DATE: July 5, 2023
+#+OPTIONS: toc:nil num:nil
+
+#+LINK: github         https://github.com/FragmentedCurve/fudo
+#+LINK: doas-sudo-shim https://github.com/jirutka/doas-sudo-shim
+#+LINK: CVE-2021-3156  https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3156
+#+LINK: archbuilds     https://wiki.archlinux.org/title/DeveloperWiki:Building_in_a_clean_chroot
+#+LINK: devtools       https://gitlab.archlinux.org/archlinux/devtools
+
+* The Motivation
+
+The Linux ecosystem and /sudo/ are tightly integrated. Many (if not
+most) distributions are built with the assumption that sudo is
+installed. When replacing /sudo/ with /doas/ and installing a simple
+wrapper such as [[doas-sudo-shim][doas-sudo-shim]], most tasks work. For example, you can
+run =sudo rm -rf /= without a problem. But once in a while, you run
+into a sudo command that breaks the wrapper. The reason such commands
+break the wrapper is because they don't handle all the /sudo/
+flags. These flags end up getting naively passed to /doas/.
+
+A common reaction is to just reinstall sudo (for now) and do the
+task. Maybe you remove sudo afterwards, maybe not.
+
+* The Difficulty with Replacing sudo
+
+Because /sudo/ commands don't directly translate, 
+
+#+BEGIN_SRC input
+grep -i sudo (file /usr/bin/* | grep 'Bourne-Again' | awk '{print $1}' | rev | cut -c 2- | rev) | cut -c 10-
+#+END_SRC
+
+#+BEGIN_SRC output
+makechrootpkg:[[ -n ${SUDO_USER:-} ]] && copy=$SUDO_USER
+makechrootpkg:src_owner=${SUDO_USER:-$USER}
+makechrootpkg: cat > "$copydir/etc/sudoers.d/builduser-pacman" <<EOF
+makechrootpkg: chmod 440 "$copydir/etc/sudoers.d/builduser-pacman"
+makechrootpkg: # use "$" in arguments to commands with "sudo -i".  ${foo} or
+makechrootpkg: # https://bugzilla.sudo.ws/show_bug.cgi?id=765
+makechrootpkg: sudo --preserve-env=SOURCE_DATE_EPOCH \
+makechrootpkg:         sudo -u builduser namcap "$pkgfile" 2>&1 | tee "/logdest/${pkgfile##*/}-namcap.log"
+makechrootpkg: sudo -u "$makepkg_user" --preserve-env=GNUPGHOME,SSH_AUTH_SOCK \
+makechrootpkg:makepkg_user=${makepkg_user:-${SUDO_USER:-$USER}}
+makechrootpkg:IFS=: read -r _ _ _ _ _ HOME _ < <(getent passwd "${SUDO_USER:-$USER}")
+makechrootpkg: mapfile -t pkgnames < <(sudo -u "$makepkg_user" bash -c 'source PKGBUILD; printf "%s\n" "${pkgname[@]}"')
+makechrootpkg:         sudo -u "$makepkg_user" checkpkg --rmdir --warn --makepkg-config "$copydir/etc/makepkg.conf" "${remotepkgs[@]/#file:\/\//}"
+makepkg:               elif type -p sudo >/dev/null; then
+makepkg:                       cmd=(sudo "${cmd[@]}")
+makerepropkg:[[ -n ${SUDO_USER:-} ]] && chroot=$SUDO_USER
+makerepropkg:            sudo pacman -Swdd --noconfirm --logfile /dev/null "${p}" || exit 1
+makerepropkg:IFS=: read -r _ _ _ _ _ HOME _ < <(getent passwd "${SUDO_USER:-$USER}")
+makerepropkg:install -d -o "${SUDO_UID:-$UID}" -g "$(id -g "${SUDO_UID:-$UID}")" "${namespace}/build/${BUILDDIR}"
+#+END_SRC
+
+* Keeping sudo Off
+
+Tell pacman to ignore installing =sudo= by editing =/etc/pacman.conf=.
+
+#+BEGIN_SRC
+# Pacman won't upgrade packages listed in IgnorePkg and members of IgnoreGroup
+IgnorePkg   = sudo
+#IgnoreGroup =
+#+END_SRC
+
+* References
+
+- [[github][fudo git repository]]
+- [[CVE-2021-3156][CVE-2021-3156: sudo security hole which allows privilege escalation.]]
+- [[archbuilds][Building in a clean chroot]]
+- [[devtools][Source for devtools]]
