@@ -46,6 +46,9 @@
 ;; :tiny    can be omitted.   If so, the article's full text gets displayed on the all-articles view. (most people don't want this.)
 
 
+;; Replacing sudo with doas (on Arch Linux)
+(post :id "fudo_intro" :date "20231124"
+      :title "Replacing sudo with doas (on Arch Linux)" :tag "linux unix sudo fudo")
 
 ;; Farewell to a Childhood Hero
 (post :id "mitnick" :date "20230719"
