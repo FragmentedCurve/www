@@ -17,7 +17,7 @@
 	  <ul class="pure-menu-list">
 	    <li class="pure-menu-item"><a href="index.html" class="pure-menu-link"><img alt src="static/img/Action_GoHome.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('tag-bar')" class="pure-menu-link"><img alt src="static/img/App_Magnify.svg"></a></li>
-	    <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link"><img alt src="static/img/App_Finance.svg"></a></li>
+	    <!-- <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link"><img alt src="static/img/App_Finance.svg"></a></li> -->
 	    <li class="pure-menu-item"><a onclick="toggleBar('contact-bar')" class="pure-menu-link"><img alt src="static/img/App_Mail_None.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('guide-bar')" class="pure-menu-link"><img alt src="static/img/Alert_Idea.svg"></a></li>
 	    <li class="pure-menu-item"><a href="rss.xml" class="pure-menu-link"><img alt src="static/img/File_RSS_Feed.svg"></a></li>
@@ -36,6 +36,7 @@
 	  </window-box>
 	</window>
 
+	<!--
 	<window id="donate-bar" style="display:none">
 	  <titlebar>
 	    Donations
@@ -44,28 +45,13 @@
 	  <window-box>
 	    <div class="flex vstack">
 	      <div class="frame">
-		<h1><img alt src="static/img/xmr.svg"> Monero</h1>
-		<mono>48ytRrWEvk5GzkxtLHDr6na5qm6oqbYRqKkspeaa4ypHcY4SFMDw474eSYKJXfUAQSAHLF3GoTKzqKccUYDQPSrg9RboArW</mono>
-	      </div>
-
-	      <div class="frame">
-		<h1><img alt src="static/img/btc.svg"> Bitcoin</h1>
-		<mono>bc1qemzsdmtnlgxm9z6hghmg835dzqxq6f3zw0dyah</mono>
-	      </div>
-<!--
-	      <div class="frame">
-		<h1><img alt src="static/img/kofi.svg"> Kofi</h1>
-		Coming soon
-	      </div>
-
-	      <div class="frame">
 		<h1><img alt src="static/img/patreon.svg"> Patreon</h1>
-		Coming soon
+		<mono>Maybe Coming Soon...</mono>
 	      </div>
--->
 	    </div>
 	  </window-box>
 	</window>
+	-->
 
 	<window id="contact-bar" style="display:none">
 	  <titlebar>
