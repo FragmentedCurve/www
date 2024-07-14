@@ -85,7 +85,7 @@
 
 ;; Over the Wire: Behemoth
 (post :id "behemoth" :date "20220517"
-      :title "Over the Wire: Behemoth" :tag "hacking")
+      :title "Over the Wire: Behemoth" :tag "security")
 
 ;; Reposting "The Unintentional Invention of Meat"
 ;;(post :id "meat" :date "20111105"
