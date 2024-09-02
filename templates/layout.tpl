@@ -17,7 +17,7 @@
 	  <ul class="pure-menu-list">
 	    <li class="pure-menu-item"><a href="index.html" class="pure-menu-link" title="Home"><img alt src="static/icons/home.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('tag-bar')" class="pure-menu-link" title="Tags"><img alt src="static/icons/tags.svg"></a></li>
-	    <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link" title="Donate"><img alt src="static/icons/donate.svg"></a></li>
+	    <!-- <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link" title="Donate"><img alt src="static/icons/donate.svg"></a></li> -->
 	    <li class="pure-menu-item"><a onclick="toggleBar('contact-bar')" class="pure-menu-link" title="Contact"><img alt src="static/icons/contact.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('social-bar')" class="pure-menu-link" title="Links"><img alt src="static/icons/socials.svg"></a></li>
 	    <li class="pure-menu-item"><a onclick="toggleBar('guide-bar')" class="pure-menu-link" title="Site Guide"><img alt src="static/icons/guide.svg"></a></li>
