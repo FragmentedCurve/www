@@ -33,7 +33,7 @@ while.
 
 #+CAPTION: Sourced from [[https://goo.gl/maps/VShvCZLab6D4xs6T7][Google Maps]]
 #+NAME: fig:dunkin
-[[file:static/img/dunkin.png]]
+[[file:static/img/20221016_i_met_a_man_today/dunkin.png]]
 
 One day, he stood outside Dunkin' Donuts. With a bag of two doughnuts,
 I walked out the door heading straight for my bike. The grease slowly
