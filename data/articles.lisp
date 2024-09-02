@@ -52,11 +52,11 @@
 ;      :title "Farewell to a Childhood Hero" :tag "kevin mitnick")
 
 ;; Nesticle: Part 1
-(post :id "nesticle_1" :date "20230528"
+(post :id "20230528_nesticle_1" :date "20230528"
       :title "Porting NESticle for Fun and Profit: Part 1" :tag "nes emulation")
 
 ;; ChatGPT Can't Do Basic Math
-(post :id "chatgpt_math" :date "20230524"
+(post :id "20230524_chatgpt_math" :date "20230524"
       :title "ChatGPT Can't Do Basic Math" :tag "chatgpt math")
 
 ;; Wishlist: 2022
@@ -76,15 +76,15 @@
 ;;      :title "Summer Flowers Under Autumn Leaves" :tag "fiction short")
 
 ;; Nesticle: Part 0
-(post :id "nesticle_0" :date "20220924"
+(post :id "20220924_nesticle_0" :date "20220924"
       :title "Porting NESticle for Fun and Profit: Part 0" :tag "nes emulation")
 
 ;; Using Age to Publicly Post Sensitive Data
-(post :id "public_data" :date "20220611"
+(post :id "20220611_public_data" :date "20220611"
       :title "Using Age to Publicly Post Sensitive Data" :tag "unix linux gpg age cryptography")
 
 ;; Over the Wire: Behemoth
-(post :id "behemoth" :date "20220517"
+(post :id "20220517_behemoth" :date "20220517"
       :title "Over the Wire: Behemoth" :tag "security")
 
 ;; Reposting "The Unintentional Invention of Meat"

@@ -1,7 +1,7 @@
 #+TITLE: ChatGPT Can't Do Basic Math
 #+AUTHOR: Paco Pascal
 
-#+LINK: chatgpt file:static/img/chatgpt_inrchrpz.png
+#+LINK: chatgpt file:static/img/20230524_chatgpt_math/chatgpt_inrchrpz.png
 
 ChatGPT's math abilities are equivalent to most people. 🤷‍♂️
 

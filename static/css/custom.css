@@ -139,19 +139,19 @@ pre.src::before, pre.src-termio::before, pre.src-input::before, pre.src-output::
 }
 
 pre.src::before {
-    content: url(../img/File_SourceCode.png) "  Code";
+    content: url(../icons/sourcecode.png) "  Code";
 }
 
 pre.src-termio::before {
-    content: url(../img/App_Terminal.png) "  Terminal IO";
+    content: url(../icons/terminal.png) "  Terminal IO";
 }
 
 pre.src-input::before {
-    content: url(../img/Prefs_Keyboard.png) "  Terminal Input";
+    content: url(../icons/keyboard.png) "  Terminal Input";
 }
 
 pre.src-output::before {
-    content: url(../img/Misc_ClassicMacintosh.png) "  Terminal Output";
+    content: url(../icons/macintosh.png) "  Terminal Output";
 }
 
 code {

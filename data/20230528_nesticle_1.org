@@ -7,8 +7,8 @@
 #+LINK: acme         http://acme.cat-v.org/
 #+LINK: plan9port    https://9fans.github.io/plan9port/
 
-#+LINK: compiled     file:static/img/nes1_compiled.gif
-#+LINK: exportvol    file:static/img/nes1_exportvol.gif
+#+LINK: compiled     file:static/img/20230528_nesticle_1/nes1_compiled.gif
+#+LINK: exportvol    file:static/img/20230528_nesticle_1/nes1_exportvol.gif
 
 * What's going on? Where are the posts?
 

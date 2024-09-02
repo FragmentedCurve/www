@@ -7,7 +7,7 @@
     <title>%%Title%%</title>
     <link rel="stylesheet" type="text/css" href="static/css/style.css" media="screen" />
     <link rel="alternate" type="application/rss+xml" title="%%Title%% RSS Feed" href="rss.xml" />
-    <link rel="icon" type="image/x-icon" href="static/img/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="static/icons/favicon.ico" />
   </head>
 
   <body>
@@ -15,12 +15,13 @@
       <header>
 	<nav class="pure-menu-horizontal">
 	  <ul class="pure-menu-list">
-	    <li class="pure-menu-item"><a href="index.html" class="pure-menu-link"><img alt src="static/img/Action_GoHome.svg"></a></li>
-	    <li class="pure-menu-item"><a onclick="toggleBar('tag-bar')" class="pure-menu-link"><img alt src="static/img/App_Magnify.svg"></a></li>
-	    <!-- <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link"><img alt src="static/img/App_Finance.svg"></a></li> -->
-	    <li class="pure-menu-item"><a onclick="toggleBar('contact-bar')" class="pure-menu-link"><img alt src="static/img/App_Mail_None.svg"></a></li>
-	    <li class="pure-menu-item"><a onclick="toggleBar('guide-bar')" class="pure-menu-link"><img alt src="static/img/Alert_Idea.svg"></a></li>
-	    <li class="pure-menu-item"><a href="rss.xml" class="pure-menu-link"><img alt src="static/img/File_RSS_Feed.svg"></a></li>
+	    <li class="pure-menu-item"><a href="index.html" class="pure-menu-link" title="Home"><img alt src="static/icons/home.svg"></a></li>
+	    <li class="pure-menu-item"><a onclick="toggleBar('tag-bar')" class="pure-menu-link" title="Tags"><img alt src="static/icons/tags.svg"></a></li>
+	    <li class="pure-menu-item"><a onclick="toggleBar('donate-bar')"  class="pure-menu-link" title="Donate"><img alt src="static/icons/donate.svg"></a></li>
+	    <li class="pure-menu-item"><a onclick="toggleBar('contact-bar')" class="pure-menu-link" title="Contact"><img alt src="static/icons/contact.svg"></a></li>
+	    <li class="pure-menu-item"><a onclick="toggleBar('social-bar')" class="pure-menu-link" title="Links"><img alt src="static/icons/socials.svg"></a></li>
+	    <li class="pure-menu-item"><a onclick="toggleBar('guide-bar')" class="pure-menu-link" title="Site Guide"><img alt src="static/icons/guide.svg"></a></li>
+	    <li class="pure-menu-item"><a href="rss.xml" class="pure-menu-link" title="RSS Feed"><img alt src="static/icons/rss.svg"></a></li>
 	  </ul>
 	</nav>
       </header>
@@ -36,7 +37,6 @@
 	  </window-box>
 	</window>
 
-	<!--
 	<window id="donate-bar" style="display:none">
 	  <titlebar>
 	    Donations
@@ -45,13 +45,12 @@
 	  <window-box>
 	    <div class="flex vstack">
 	      <div class="frame">
-		<h1><img alt src="static/img/patreon.svg"> Patreon</h1>
+		<h1><img alt src="static/icons/patreon.svg"> Patreon</h1>
 		<mono>Maybe Coming Soon...</mono>
 	      </div>
 	    </div>
 	  </window-box>
 	</window>
-	-->
 
 	<window id="contact-bar" style="display:none">
 	  <titlebar>
@@ -77,6 +76,23 @@
 	  </window-box>
 	</window>
 
+	<window id="social-bar" style="display:none">
+	  <titlebar>
+	    Where to Find Me
+	  </titlebar>
+
+	  <window-box>
+	    <div class="flex">
+		<ul class="pure-menu-horizontal pure-menu-list">
+		  <li class="pure-menu-item"><a class="pure-menu-link" target="_blank" href="https://github.com/FragmentedCurve"><img src="static/icons/github.svg"></a></li>
+		  <li class="pure-menu-item"><a class="pure-menu-link" target="_blank" href="https://gitlab.com/FragmentedCurve"><img src="static/icons/gitlab.svg"></a></li>
+		  <li class="pure-menu-item"><a class="pure-menu-link" target="_blank" href="https://archive.org/details/@ppascal"><img src="static/icons/internetarchive.svg"></a></li>
+		  <li class="pure-menu-item"><a class="pure-menu-link" target="_blank" href="https://www.librarything.com/catalog.php?view=ChocolatefooBars&shelf=list&sort=shelfread"><img src="static/icons/librarything.svg"></a></li>
+		</ul>
+	    </div>
+	  </window-box>
+	</window>
+	
 	<window id="guide-bar" style="display:none">
 	  <titlebar>
 	    Guide
@@ -84,25 +100,18 @@
 
 	  <window-box>
 	    <div class="flex vstack">
-<!--
-	      <div class="frame">
-		<h1>About</h1>
-
-		<img src="static/img/profile.jpg" style="width: 40%; min-width: 100px; float: left; padding: 1em">
-	      </div>
--->
 	      <div class="frame">
 		<h1>Format Guide</h1>
 
 		<h2>Navigation</h2>
 
 		<div class="flex hstack --center --sp6">
-		  <p style="text-align: center;"><img src="static/img/Action_GoHome.svg"><br>Go home to the full index.</p>
-		  <p style="text-align: center;"><img src="static/img/App_Magnify.svg"><br>List all site tags.</p>
-		  <p style="text-align: center;"><img src="static/img/App_Finance.svg"><br>Donations.</p>
-		  <p style="text-align: center;"><img src="static/img/App_Mail_None.svg"><br>Send me a message.</p>
-		  <p style="text-align: center;"><img src="static/img/Alert_Idea.svg"><br>Show this guide.</p>
-		  <p style="text-align: center;"><img src="static/img/File_RSS_Feed.svg"><br>RSS Feed.</p>
+		  <p style="text-align: center;"><img src="static/icons/home.svg"><br>Go home to the full index.</p>
+		  <p style="text-align: center;"><img src="static/icons/tags.svg"><br>List all site tags.</p>
+		  <p style="text-align: center;"><img src="static/icons/donate.svg"><br>Donations.</p>
+		  <p style="text-align: center;"><img src="static/icons/contact.svg"><br>Send me a message.</p>
+		  <p style="text-align: center;"><img src="static/icons/guide.svg"><br>Show this guide.</p>
+		  <p style="text-align: center;"><img src="static/icons/rss.svg"><br>RSS Feed.</p>
 		</div>
 
 		<h2>Text</h2>
@@ -148,7 +157,7 @@
       </main>
 
       <footer>
-	<a href="#"><img alt src="static/img/Action_GoUp.svg"></a>
+	<a href="#"><img alt src="static/icons/goup.svg"></a>
       </footer>
 
     </div><!-- #wrapper -->
@@ -159,10 +168,12 @@
 
     <script src="static/js/code.js"></script>
 
+    <!--
     <script src="https://stormy-shelf-78876.herokuapp.com/js/chck.js"></script>
     <script>
       chck.config.api.uri = 'https://stormy-shelf-78876.herokuapp.com/';
       chck.page.refresh();
     </script>
+    -->
   </body>
 </html>
