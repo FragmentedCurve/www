@@ -1,8 +1,8 @@
-.if exists(config.mk)
-.include "config.mk"
-.else
-.include "config.mk.def"
+.if !exists("./config.mk")
+!= cp config.mk.def config.mk
 .endif
+
+.include "./config.mk"
 
 all: dirs html
 
