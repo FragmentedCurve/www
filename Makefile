@@ -1,4 +1,4 @@
-.if !exists("./config.mk")
+.if !exists(./config.mk)
 != cp config.mk.def config.mk
 .endif
 
