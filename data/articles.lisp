@@ -34,7 +34,7 @@
 
 ;; Define your articles and their display-order on the website below.
 ;; Display Order is 'lifo', i.e. the top entry in this list gets displayed as the topmost entry.
-;; 
+;;
 ;; An Example Of A Minimal Definition:
 ;; (post :id "4" :date "2015-12-31" :title "Happy new year" :tag "news")
 
@@ -48,8 +48,8 @@
 
 
 ;; Farewell to a Childhood Hero
-;;(post :id "20230719_mitnick" :date "20230719"
-;;      :title "Farewell to a Childhood Hero" :tag "kevin mitnick")
+(post :id "20230719_mitnick" :date "20230719"
+      :title "Farewell to a Childhood Hero" :tag "kevin mitnick")
 
 ;; Nesticle: Part 1
 (post :id "20230528_nesticle_1" :date "20230528"
@@ -64,24 +64,24 @@
 ;;      :title "Wish List: 2022" :tag "wishlist")
 
 ;; I Met a Man Today
-;;(post :id "20221016_i_met_a_man_today" :date "20221016"
-;;      :title "I Met a Man Today" :tag "fiction short")
+(post :id "20221016_i_met_a_man_today" :date "20221016"
+      :title "I Met a Man Today" :tag "fiction short")
 
 ;; I Want a Beard
 ;;(post :id "20130928_i_want_a_beard" :date "20130928"
 ;;      :title "I Want a Beard" :tag "fiction short")
 
 ;; Summer Flowers Under Autumn Leaves
-;;(post :id "20150508_summer_flowers_under_autumn_leaves" :date "20150508"
-;;      :title "Summer Flowers Under Autumn Leaves" :tag "fiction short")
+(post :id "20150508_summer_flowers_under_autumn_leaves" :date "20150508"
+      :title "Summer Flowers Under Autumn Leaves" :tag "fiction short")
 
 ;; Nesticle: Part 0
 (post :id "20220924_nesticle_0" :date "20220924"
       :title "Porting NESticle for Fun and Profit: Part 0" :tag "nes emulation")
 
 ;; Using Age to Publicly Post Sensitive Data
-;;(post :id "20220611_public_data" :date "20220611"
-;;      :title "Using Age to Publicly Post Sensitive Data" :tag "unix linux gpg age cryptography")
+(post :id "20220611_public_data" :date "20220611"
+      :title "Using Age to Publicly Post Sensitive Data" :tag "unix linux gpg age cryptography")
 
 ;; Over the Wire: Behemoth
 (post :id "20220517_behemoth" :date "20220517"
