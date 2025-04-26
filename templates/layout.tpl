@@ -92,13 +92,22 @@
 	    </div>
 	  </window-box>
 	</window>
-	
+
 	<window id="guide-bar" style="display:none">
 	  <titlebar>
 	    Guide
 	  </titlebar>
 
 	  <window-box>
+	    <div class="frame">
+	      <h1>About</h1>
+
+	      <img src="static/img/profile.jpg" style="width: 40%; min-width: 100px; float: left; padding: 1em">
+	      <p>
+		My background is in math and compsci. I post a varity of non-work related content here.
+	      </p>
+	    </div>
+
 	    <div class="flex vstack">
 	      <div class="frame">
 		<h1>Format Guide</h1>
