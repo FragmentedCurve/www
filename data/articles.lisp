@@ -92,8 +92,8 @@
       :title "Over the Wire: Behemoth" :tag "security")
 
 ;; Reposting "The Unintentional Invention of Meat"
-;;(post :id "20111105_meat" :date "20111105"
-;;      :title "The Unintentional Invention of Meat: A Story From Calais Hobbes" :tag "fiction")
+(post :id "20111105_meat" :date "20111105"
+      :title "The Unintentional Invention of Meat: A Story From Calais Hobbes" :tag "fiction")
 
 ;; First Post
 ;;(post :id "20220516_first" :date "20220516"
