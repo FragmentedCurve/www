@@ -47,6 +47,10 @@
 
 
 
+;; I Almost Bought a Pipe Today
+(post :id "20140901_i_almost_bought_a_pipe_today" :date "20140901"
+      :title "I Almost Bought a Pipe Today" :tag "fiction short")
+
 ;; Farewell to a Childhood Hero
 (post :id "20230719_mitnick" :date "20230719"
       :title "Farewell to a Childhood Hero" :tag "kevin mitnick")
