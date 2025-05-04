@@ -48,7 +48,7 @@
 
 
 ;; I Almost Bought a Pipe Today
-(post :id "20140901_i_almost_bought_a_pipe_today" :date "20140901"
+(post :id "20250426_i_almost_bought_a_pipe_today" :date "20250426"
       :title "I Almost Bought a Pipe Today" :tag "fiction short")
 
 ;; Farewell to a Childhood Hero
@@ -72,11 +72,11 @@
       :title "I Met a Man Today" :tag "fiction short")
 
 ;; I Want a Beard
-;;(post :id "20130928_i_want_a_beard" :date "20130928"
-;;      :title "I Want a Beard" :tag "fiction short")
+(post :id "20221003_i_want_a_beard" :date "20221003"
+      :title "I Want a Beard" :tag "biographical fiction short")
 
 ;; Summer Flowers Under Autumn Leaves
-(post :id "20150508_summer_flowers_under_autumn_leaves" :date "20150508"
+(post :id "20221003_summer_flowers_under_autumn_leaves" :date "20221003"
       :title "Summer Flowers Under Autumn Leaves" :tag "fiction short")
 
 ;; Nesticle: Part 0
@@ -92,7 +92,7 @@
       :title "Over the Wire: Behemoth" :tag "security")
 
 ;; Reposting "The Unintentional Invention of Meat"
-(post :id "20111105_meat" :date "20111105"
+(post :id "20221105_meat" :date "20221105"
       :title "The Unintentional Invention of Meat: A Story From Calais Hobbes" :tag "fiction")
 
 ;; First Post
